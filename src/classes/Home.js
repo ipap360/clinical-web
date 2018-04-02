@@ -8,7 +8,7 @@ import api from '../common/api';
 
 // register dataaction - url
 api.register('EVENTS', {
-  url: 'http://rest.learncode.academy/api/learncode/friends'
+  url: 'http://rest.learncode.academy/api/learncode/{xxx}'
 });
 
 class Home extends Component {
@@ -39,7 +39,9 @@ const mapStateToProps = (state, { match }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadData: (...args) => {
-      dispatch(api.fetch("EVENTS", {}, (state, action) => {
+      dispatch(api.fetch("EVENTS", {
+        "xxx": "friends"
+      }, (state, action) => {
         return Object.assign({}, {
           ...state,
           events: action.payload
