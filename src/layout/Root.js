@@ -13,9 +13,9 @@ const Root = ({ store }) => (
     <Router>
       <Container>
         <Header />
-        <Divider section />
+        {/* <Divider section /> */}
         <Content />
-        <Divider section />
+        {/* <Divider section /> */}
         <Footer />
       </Container>
     </Router>

@@ -2,8 +2,8 @@ import React from 'react';
 // import FilterLink from './FilterLink';
 
 const Footer = () => (
-    <div style={{padding: '0 0 20px'}}>
-      Footer {(new Date()).getFullYear()}
+    <div style={{margin: '1rem 0'}}>
+      Company Name {(new Date()).getFullYear()}
     </div>
 );
 
