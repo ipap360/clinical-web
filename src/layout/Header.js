@@ -6,7 +6,9 @@ import { withRouter } from 'react-router';
 
 class Header extends Component {
   render() {
+    
     console.log(this);
+    console.log(document.cookie);
     // const { pathname } = this.props.location;
     // const { params } = this.props.match;
 

@@ -39,7 +39,7 @@ const mapStateToProps = (state, { match }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadData: (...args) => {
-      dispatch(api.fetch("EVENTS", {
+      dispatch(api.request("EVENTS", {
         "xxx": "friends"
       }, (state, action) => {
         return Object.assign({}, {

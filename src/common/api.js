@@ -51,7 +51,7 @@ const api = {
         return _.partial(axios.get, resolvedURL + '?' + api.params(newDATA), opts); 
     }
   },
-  fetch: (action, args, reducer, options) => {
+  request: (action, args, reducer, options) => {
     const opts = Object.assign({}, {
       "startType": 'START',
       "errorType": 'ERROR',
@@ -73,13 +73,12 @@ const api = {
 
     return (dispatch, getState) => {
       try {
-        const _fetch = api.build(action, args);
-        // console.log(_fetch);
+        const _req = api.build(action, args);
         dispatch({
           type: opts.startType,
           reducer: opts.startReducer,
         });
-        _fetch('EVENTS').then((response) => {
+        _req('EVENTS').then((response) => {
           dispatch({
             type: action,
             reducer: (state, action) => {
