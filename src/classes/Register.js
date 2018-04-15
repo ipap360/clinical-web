@@ -7,14 +7,10 @@ import { } from 'semantic-ui-react';
 import api from '../common/api';
 
 // register dataaction - url
-api.register('WHOAMI', {
-  url: '/whoami'
-});
-
-class Home extends Component {
+class Register extends Component {
   componentDidMount() {
-    const { loadData } = this.props;
-    loadData();
+    // const { loadData } = this.props;
+    // loadData();
   }
 
   componentWillUnmount() {
@@ -38,22 +34,12 @@ const mapStateToProps = (state, { match }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadData: (...args) => {
-      dispatch(api.request("WHOAMI", {}, (state, action) => {
-        return Object.assign({}, {
-          ...state,
-          events: action.payload
-        });
-        // console.log(response);
-      }));
-      // console.log(args);
-    }
   }
 }
 
-Home = withRouter(connect(
+Register = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home));
+)(Register));
 
-export default Home;
+export default Register;

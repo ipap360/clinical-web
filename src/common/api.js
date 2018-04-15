@@ -70,7 +70,6 @@ const api = {
         });
       },
     }, options);
-
     return (dispatch, getState) => {
       try {
         const _req = api.build(action, args);
@@ -90,6 +89,7 @@ const api = {
           dispatch({
             type: opts.errorType,
             reducer: (state, action) => {
+              console.log(state, action);
               return opts.errorReducer.apply(this, [Object.assign(state, {
                 isFetching: false,
                 isErrorMsg: '',
