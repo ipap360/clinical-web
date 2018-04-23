@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
-
 import { withRouter } from 'react-router';
 
 class Header extends Component {
@@ -13,7 +12,9 @@ class Header extends Component {
     // const { params } = this.props.match;
 
     return (
-      <div />
+      <div>
+        
+      </div>
     )
   }
 }

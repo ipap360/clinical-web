@@ -16,7 +16,7 @@ const t = function (text, ...args) {
     if (!l10n || !l10n[text] || sourceLang === targetLang) {
         if (!l10n) {
             // console.warn(`We have no translation for "${targetLang}"`);
-        } else if (!l10n[text]) {
+        } else if (!l10n[text] && sourceLang !== targetLang) {
             console.warn(`Translation of "${text}" is missing in "${targetLang}"`);
         }
 

@@ -7,8 +7,8 @@ import { } from 'semantic-ui-react';
 
 class Profile extends Component {
   componentDidMount() {
-    const { loadData } = this.props;
-    loadData();
+    // const { loadData } = this.props;
+    // loadData();
   }
 
   componentWillUnmount() {

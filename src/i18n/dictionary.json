@@ -3,6 +3,7 @@
     "el-GR": {
         "Email": "Email",
         "Password": "Κωδικός Πρόσβασης",
-        "Login": "Είσοδος"
+        "Login": "Είσοδος",
+        "Sign Up": "Εγγραφή"
     }
 }
