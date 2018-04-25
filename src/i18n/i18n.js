@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import {sprintf} from 'sprintf-js';
 import dictionary from './dictionary.json';
-import locale2 from 'locale2';
+import Cookies from 'js-cookie';
+// import * as Cookies from 'js-cookie';
 
 // https://github.com/alexei/sprintf.js
 // sprintf usage
@@ -10,7 +11,7 @@ import locale2 from 'locale2';
 const t = function (text, ...args) {
 
     const sourceLang = "en-US";
-    const targetLang = locale2;
+    const targetLang = Cookies.get('lang') || sourceLang;
     
     const l10n = dictionary[targetLang];
     if (!l10n || !l10n[text] || sourceLang === targetLang) {

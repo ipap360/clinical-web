@@ -1,11 +1,14 @@
 import _ from 'lodash';
 import axios from 'axios';
+import t from '../i18n/i18n';
 
 var ReqRegistry = {};
+
 const resetState = {
     isFetching: false,
     isErrorMsg: '',
 }
+
 const api = {
     register: (action, { url, method, ...opts }) => {
         url = url || '';
@@ -106,5 +109,45 @@ const api = {
         };
     }
 };
+
+const delay = (ms) =>
+    new Promise(resolve => setTimeout(resolve, ms));
+
+const method = (obj) => {
+    return _.partial(axios[obj.method], obj.url);
+}
+
+const fetch = () => delay(3000).then(() => {
+    return {
+        // 'submit': '',
+        'buttons': {
+            onSubmit: {
+                url: '/mplampla/',
+                method: 'post',
+                content: 'Sign Up',
+            }
+        },
+        'sync': '',
+        'fields': {
+            'email': {
+                name: 'email',
+                value: '',
+                type: 'text',
+                placeholder: t('Email'),
+                maxLength: '255',
+                sync: true,
+                error: ''
+            },
+            'password': {
+                name: 'password',
+                value: '',
+                type: 'password',
+                placeholder: t('Password'),
+                maxLength: '255',
+                sync: true
+            }
+        }
+    };
+});
 
 export default api;

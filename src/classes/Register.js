@@ -4,120 +4,31 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { } from 'semantic-ui-react';
 import api from '../common/api';
-import { Button, Checkbox, Form, Input, Image, Message } from 'semantic-ui-react';
+import { Button, Checkbox, Form, Input, Image, Message, Dimmer, Loader } from 'semantic-ui-react';
 import t from '../i18n/i18n';
 import axios from 'axios';
-
-const delay = (ms) =>
-    new Promise(resolve => setTimeout(resolve, ms));
-
-const method = (obj) => {
-    return _.partial(axios[obj.method], obj.url);
-}
-
-const fetch = () => delay(3000).then(() => {
-    return {
-        // 'submit': '',
-        'actions': {
-            onSubmit: {
-                url: '/mplampla/',
-                method: 'post',
-                content: 'Sign Up'
-            }
-        },
-        'sync': '',
-        'fields': {
-            'email': {
-                name: 'email',
-                value: '',
-                type: 'text',
-                placeholder: t('Email'),
-                // onChange: handleChange,
-                maxLength: '255',
-                sync: true
-            },
-            'password': {
-                name: 'password',
-                value: '',
-                type: 'password',
-                placeholder: t('Password'),
-                // onChange: handleChange,
-                maxLength: '255',
-                sync: true
-            },
-            // {
-            //     // type: 'submit',
-            //     content: t('Sign Up'),
-            //     onClick: (() => {
-            //         const { doRegister } = this.props;
-            //         doRegister(this.state);
-            //     }).bind(this)
-            // }
-        }
-    };
-});
-
-const toJS = (comp, form) => {
-    let f = Object.assign({}, form);
-    _.each(f.actions, (v, k) => {
-        v.onClick = (event) => {
-            console.log(event);
-            const req = method(v);
-            req(comp.state).then((response) => {
-                
-            }).catch((error) => {
-                console.log(error);
-            })
-            // this.props.dispatch(method(v)(this.state.form));
-        }
-    });
-    
-    _.each(f.fields, (v, k) => {
-        v.onChange = (event) => {
-            const target = event.target;
-            const name = target.name;
-            comp.setState({
-                ...comp.state,
-                form: {
-                    ...comp.state.form,
-                    fields: {
-                        ...comp.state.form.fields,
-                        [name]: {
-                            ...comp.state.form.fields[name], 
-                            value: target.value
-                        }
-                    }
-                }
-            });
-        }
-    });
-
-    return f;
-}
 
 // register dataaction - url
 class Register extends Component {
     constructor(props) {
         super(props);
 
+        // initial form state
         this.state = {
-            "form": {
-                "fields": {},
-                "actions": {},
-                "sync": ""
-            }
+            "isLoading": true,
+            "fields": {},
+            "buttons": {},
+            "sync": ""
         }
 
         fetch().then((response) => {
+            console.log(response);
             // const fields = _.map(response.fields, (o) => o.name);
+            // const jsstate = toJS(this, response);
+            // console.log(jsstate);
 
-            console.log(toJS(this, response));
-
-            this.setState({
-                // form: toJS(this, response),
-            });
+            // this.setState(jsstate);
 
         });
 
@@ -140,9 +51,20 @@ class Register extends Component {
     }
 
     render() {
+
         console.log(this.state);
-        const { email, password } = this.state.form.fields;
-        const { onSubmit } = this.state.form.actions;
+
+        if (this.state.isLoading === true) {
+            return (
+            <Dimmer active inverted>
+                <Loader inverted content={t("Loading")} />
+              </Dimmer>
+            );
+        }
+
+        const { email, password } = this.state.fields;
+        const { onSubmit } = this.state.buttons;
+        
         return (
             <div>
                 <div style={{

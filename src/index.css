@@ -3,3 +3,10 @@
     padding-top: 1px;
 }
 
+.ui.hidden {
+    display: none;
+}
+
+.ui.stripe {
+    padding: 8em 0em;
+}

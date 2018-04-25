@@ -1,0 +1,35 @@
+.ui.segment.main-portal-content {
+    min-height: 350px;
+    padding: 1em 0em;
+    border-radius: 0;
+}
+
+.ui.segment.main-portal-content h1.ui.header {
+    font-size: 2em;
+    font-weight: normal;
+    margin-bottom: 0;
+    margin-top: 1.5em;
+}
+
+.ui.segment.main-portal-content h2.ui.header {
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-bottom: 0.75em;
+    margin-top: 0.5em;
+}
+
+@media only screen and (min-width: 768px) {
+    .ui.segment.main-portal-content {
+        min-height: 700px;
+    }
+
+    .ui.segment.main-portal-content h1.ui.header {
+        font-size: 4em;
+        margin-top: 3em;
+    }    
+
+    .ui.segment.main-portal-content h2.ui.header {
+        font-size: 1.7em;
+        margin-bottom: 1.5em;
+    }    
+}

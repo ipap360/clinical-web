@@ -12,6 +12,10 @@ import loginPhoto from '../resources/login-photo.jpg';
 // register dataaction - url
 class Login extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         const { loadData } = this.props;
         loadData();
