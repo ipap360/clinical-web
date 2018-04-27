@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Segment, Dimmer, Loader, Button } from 'semantic-ui-react';
+import { Segment, Dimmer, Loader, Button, Icon, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import MenuItem from './MenuItem';
 import t from '../../i18n/i18n';
+import Login from './Login';
 // import axios from 'axios';
 
 class SessionMenu extends Component {
@@ -17,25 +18,26 @@ class SessionMenu extends Component {
         if (name == null) {
             return (
                 <Fragment>
-                    <Button as={Link} to='/login' name='login' inverted>
-                        {t("Login")}
-                    </Button>
-                    <Button as={Link} to='/register' name='register' inverted>
+                    <Popup
+                        trigger={<Button inverted content={t("Login")} />}
+                        content={<Login />}
+                        on='click'
+                    />
+                    <Button as={Link} to='/register' name='register' inverted icon>
                         {t("Sign Up")}
-                    </Button>                    
+                    </Button>
                 </Fragment>
             );
         }
 
         return (
-            <Fragment>
-                <Link to='/app/profile' name='profile'>
+            <Button.Group>
+                <Button basic inverted as={Link} to='/app' name='app'>
+                    <Icon name='user' />
                     {name}
-                </Link>
-                <Button as={Link} to='/app' name='app'>
-                    {t("Enter")}
                 </Button>
-            </Fragment>
+                <Button basic inverted name='menu' icon='dropdown' />
+            </Button.Group>
         );
     }
 }

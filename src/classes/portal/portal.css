@@ -1,3 +1,9 @@
+.ui.segment.registration {
+    min-height: calc(100vh - 400px);
+    display: flex;
+    align-items: center;
+}
+
 .ui.segment.main-portal-content {
     min-height: 350px;
     padding: 1em 0em;

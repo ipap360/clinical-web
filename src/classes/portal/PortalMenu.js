@@ -24,7 +24,7 @@ class PortalMenu extends Component {
                 {
                     name: 'contact',
                     path: '/contact',
-                    label: t('Contact')
+                    label: t('Contact Us')
                 }
             ]
         }

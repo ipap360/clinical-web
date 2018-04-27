@@ -110,7 +110,7 @@ const api = {
     }
 };
 
-const delay = (ms) =>
+export const delay = (ms) =>
     new Promise(resolve => setTimeout(resolve, ms));
 
 const method = (obj) => {

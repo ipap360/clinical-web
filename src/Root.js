@@ -1,14 +1,16 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { combineReducers } from 'redux';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import configureStore from './configureStore';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import defaultLogger from 'redux-logger';
+import thunk from 'redux-thunk';
+import { reducer as formReducer } from 'redux-form';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Portal, { portalReducer } from './classes/Portal';
-import Login from './classes/Login';
-import Register from './classes/Register';
 import App, { appReducer } from './classes/App';
+import LoaderPage from './classes/LoaderPage';
 
 import Cookies from 'js-cookie';
 import locale2 from 'locale2';
@@ -78,8 +80,8 @@ const rootReducer = (state = {
                 whoamiLoading: true,
                 name: null
             };
+        case "LOGIN_OK":
         case "WHOAMI_OK":
-            Cookies.get('lang')
             return {
                 whoamiLoading: false,
                 ...action.payload
@@ -96,29 +98,30 @@ const rootReducer = (state = {
 
 const Root = () => {
 
-    const store = configureStore(
+    const middlewares = [thunk];
+    if (process.env.NODE_ENV !== 'production') {
+        middlewares.push(defaultLogger);
+    }
+
+    const store = createStore(
         combineReducers({
+            form: formReducer,
             root: rootReducer,
             portal: portalReducer,
             app: appReducer
-        }));
+        }),
+        applyMiddleware(...middlewares));
 
-    store.dispatch({
-        type: 'LANGUAGE_INIT',
-        payload: Cookies.get('lang')
-    });
     store.dispatch(whoami());
-
 
     return (
         <Provider store={store}>
             <Router>
-                <div>
-                    <Route path="/" exact component={Portal} />
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/register" exact component={Register} />
+                <Switch>
                     <Route path="/app" component={App} />
-                </div>
+                    <Route path="/loader" component={LoaderPage} />
+                    <Route path="/" component={Portal} />
+                </Switch>
             </Router>
         </Provider>
     );
