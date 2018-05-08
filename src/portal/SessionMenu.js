@@ -2,10 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { Segment, Dimmer, Loader, Button, Icon, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import MenuItem from './MenuItem';
-import t from '../../i18n/i18n';
+import t from 'i18n';
 import Login from './Login';
-// import axios from 'axios';
+
 
 class SessionMenu extends Component {
     render() {

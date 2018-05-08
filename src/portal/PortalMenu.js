@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
 import MenuItem from './MenuItem';
-import t from '../../i18n/i18n';
+import t from 'i18n';
 
 class PortalMenu extends Component {
     constructor(props) {

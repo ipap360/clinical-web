@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import {Segment, Container, Grid, Header, List} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
     <Segment inverted vertical style={{ padding: '5em 0em' }}>
@@ -9,18 +10,18 @@ const Footer = () => (
                     <Grid.Column width={3}>
                         <Header inverted as='h4' content='About' />
                         <List link inverted>
-                            <List.Item as='Link' to='/'>Sitemap</List.Item>
-                            <List.Item as='Link' to='/'>Blog</List.Item>
-                            <List.Item as='Link' to='/contact'>Contact Us</List.Item>
+                            <List.Item as={Link} to='/sitemap'>Sitemap</List.Item>
+                            <List.Item as={Link} to='/blog'>Blog</List.Item>
+                            <List.Item as={Link} to='/contact'>Contact Us</List.Item>
                         </List>
                     </Grid.Column>
                     <Grid.Column width={3}>
                         <Header inverted as='h4' content='Services' />
                         <List link inverted>
-                            <List.Item as='Link' to='/faq'>FAQ</List.Item>
-                            <List.Item as='Link' to='/'>DNA FAQ</List.Item>
-                            <List.Item as='Link' to='/'>How To Access</List.Item>
-                            <List.Item as='Link' to='/'>Favorite X-Men</List.Item>
+                            <List.Item as={Link} to='/faq'>FAQ</List.Item>
+                            <List.Item as={Link} to='/'>DNA FAQ</List.Item>
+                            <List.Item as={Link} to='/'>How To Access</List.Item>
+                            <List.Item as={Link} to='/'>Favorite X-Men</List.Item>
                         </List>
                     </Grid.Column>
                     <Grid.Column width={7}>

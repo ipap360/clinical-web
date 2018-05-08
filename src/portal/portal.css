@@ -1,7 +1,15 @@
 .ui.segment.registration {
-    min-height: calc(100vh - 400px);
+    min-height: calc(100vh - 200px);
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.ui.registration .terms {
+    margin: 10px 0;
+    color: #555;
+    font-size: 13px;
 }
 
 .ui.segment.main-portal-content {
@@ -24,6 +32,13 @@
     margin-top: 0.5em;
 }
 
+@media only screen and (max-width: 767px) {
+    .ui.segment.registration {
+        background-position: -200px center !important;
+        background-color: #ebeae8 !important;
+    }
+}
+
 @media only screen and (min-width: 768px) {
     .ui.segment.main-portal-content {
         min-height: 700px;
@@ -37,5 +52,8 @@
     .ui.segment.main-portal-content h2.ui.header {
         font-size: 1.7em;
         margin-bottom: 1.5em;
-    }    
+    }
+
+
+
 }

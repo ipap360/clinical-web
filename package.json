@@ -19,15 +19,19 @@
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0",
     "sprintf-js": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env NODE_PATH=src/ react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.4"
   }
 }

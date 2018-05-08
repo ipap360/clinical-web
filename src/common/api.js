@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import axios from 'axios';
-import t from '../i18n/i18n';
+import t from 'i18n';
 
 var ReqRegistry = {};
 
