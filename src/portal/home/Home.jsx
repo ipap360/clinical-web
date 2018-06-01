@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
-import { Visibility, Segment, Container, Grid, Header, List, Button, Icon, Image, Divider } from 'semantic-ui-react';
+import { Visibility, Segment, Container, Grid, Header, Button, Icon, Image, Divider } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { BackgroundSegment } from 'components';
 import homePhoto from 'resources/home.jpeg';
 
 const Home = ({ onBottomPassed, onBottomPassedReverse, ...custom }) => {
-
-    console.log(onBottomPassed, onBottomPassedReverse, custom);
-
     return (
         <Fragment>
             <Visibility once={false} onBottomPassed={onBottomPassed} onBottomPassedReverse={onBottomPassedReverse}>
@@ -91,7 +89,7 @@ const Home = ({ onBottomPassed, onBottomPassedReverse, ...custom }) => {
                         horizontal
                         style={{ margin: '3em 0em', textTransform: 'uppercase' }}
                     >
-                        <a href='#'>Case Studies</a>
+                        <Link to='/case-studies'>Case Studies</Link>
                     </Divider>
 
                     <Header as='h3' style={{ fontSize: '2em' }}>Did We Tell You About Our Bananas?</Header>

@@ -9,19 +9,14 @@ const onSubmit = (action) => (values, dispatch) => new Promise((resolve, reject)
         resolve,
         reject
     });
-}).catch((error) => {
+}).catch(({data: {message, ...more}, status, statusText}) => {
     throw new SubmissionError({
-        _error: error.message || "",
-        ...error
+        _error: message || statusText,
+        ...more
     });
 });
 
 const FormButton = ({ action, form: { anyTouched, handleSubmit, pristine, reset, submitting, error }, noError, ...custom }) => {
-
-    console.log("anyTouched", anyTouched);
-
-    console.log("error", error);
-
     return (
         <div>
             <Button
@@ -30,7 +25,7 @@ const FormButton = ({ action, form: { anyTouched, handleSubmit, pristine, reset,
                 disabled={submitting}
                 {...custom}
             />
-            <Message error content={error} visible={error != undefined && !noError} />
+            <Message error content={error} visible={error != undefined && !noError && !submitting} />
         </div>
     );
 }

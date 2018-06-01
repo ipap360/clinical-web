@@ -5,23 +5,36 @@ import { connect } from 'react-redux';
 import t from 'i18n';
 import Login from './Login';
 
-
 class SessionMenu extends Component {
     render() {
-        const { loading, name } = this.props;
+        const { loading, name, login, openLogin, closeLogin, namespace } = this.props;
 
         if (loading) {
             return (<Loader size='tiny' inverted active={!!loading} inline style={{ alignSelf: 'center' }} />);
         }
 
+        let popup;
+        if (namespace == 'header') {
+            popup = (<Popup
+                trigger={<Button inverted content={t("Login")} />}
+                content={<Login />}
+                on='click'
+                open={login}
+                onClose={closeLogin}
+                onOpen={openLogin}
+            />)
+        } else {
+            popup = (<Popup
+                trigger={<Button inverted content={t("Login")} />}
+                content={<Login />}
+                on='click'
+            />)
+        }
+
         if (name == null) {
             return (
                 <Fragment>
-                    <Popup
-                        trigger={<Button inverted content={t("Login")} />}
-                        content={<Login />}
-                        on='click'
-                    />
+                    {popup}
                     <Button as={Link} to='/register' name='register' inverted icon>
                         {t("Sign Up")}
                     </Button>
@@ -44,8 +57,24 @@ class SessionMenu extends Component {
 const mapStateToProps = (state) => {
     return {
         loading: !!state.root.whoamiLoading,
-        name: state.root.name
+        name: state.root.name,
+        login: state.root.login
     };
 };
 
-export default connect(mapStateToProps)(SessionMenu);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        openLogin: () => {
+            dispatch({
+                type: "OPEN_LOGIN"
+            });
+        },
+        closeLogin: () => {
+            dispatch({
+                type: "CLOSE_LOGIN"
+            });
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SessionMenu);

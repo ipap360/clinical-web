@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import {sprintf} from 'sprintf-js';
 import dictionary from './dictionary.json';
 import Cookies from 'js-cookie';

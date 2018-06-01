@@ -1,36 +1,51 @@
-import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 // import { browserHistory  } from 'react-router';
 // import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import defaultLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { reducer as formReducer } from 'redux-form';
+
 import sagas from './sagas';
 import { appReducer } from 'app/AppStore';
 import { portalReducer } from 'portal/Portal';
 
-const rootInitialState = {
+const state0 = {
     whoamiLoading: false,
-    name: null
+    name: null,
+    login: false
 };
 
-const rootReducer = (state = rootInitialState, action) => {
+const rootReducer = (state = state0, action) => {
     switch (action.type) {
         case "CLIENT_IDENTIFICATION_REQUESTED":
             return {
+                ...state,
                 whoamiLoading: true,
                 name: null
             };
         case "CLIENT_IDENTIFIED":
             return {
+                ...state,
                 whoamiLoading: false,
                 ...action.payload
             };
         case "CLIENT_IDENTIFICATION_FAILED":
             return {
+                ...state,
                 whoamiLoading: false,
                 name: null
             };
+        case "OPEN_LOGIN":
+            return {
+                ...state,
+                login: true
+            };
+        case "CLOSE_LOGIN":
+            return {
+                ...state,
+                login: false
+            };        
         default:
             return state;
     }
@@ -43,6 +58,8 @@ if (process.env.NODE_ENV !== 'production') {
     middlewares.push(defaultLogger);
 }
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
     combineReducers({
         form: formReducer,
@@ -51,7 +68,9 @@ const store = createStore(
         app: appReducer,
         // routing: routerReducer
     }),
-    applyMiddleware(...middlewares)
+    composeEnhancers(
+        applyMiddleware(...middlewares)
+    )
 );
 
 saga.run(sagas);

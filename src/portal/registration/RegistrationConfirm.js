@@ -5,8 +5,9 @@ import { Loader, Dimmer, Button, Segment } from 'semantic-ui-react';
 // import { withRouter } from 'react-router';
 import t from 'i18n';
 import { ActionLoader } from 'components';
+import LoginButton from 'portal/LoginButton';
 
-class Confirm extends Component {
+class RegistrationConfirm extends Component {
 
     constructor(props) {
         super(props);
@@ -14,13 +15,13 @@ class Confirm extends Component {
 
         props.dispatch({
             type: "CONFIRM_REGISTRATION_INITIALIZED",
-            confirmation: params.confirmation
+            payload: params.key
         });
     }
 
     render() {
         return (
-            <Segment size='big' padded='very' style={{ minHeight: '400px', border: 'none' }}>
+            <Segment basic className='registration' size='huge' textAlign='center' padded='very' >
                 <ActionLoader {...this.props} />
             </Segment>
         );
@@ -33,30 +34,29 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps)(Confirm);
+export default connect(mapStateToProps)(RegistrationConfirm);
 
-const confirmState = {
+const state0 = {
     loading: false,
     message: "",
     type: "",
     nav: ""
 }
 
-export const confirmReducer = (state = confirmState, action) => {
+export const regConfirmReducer = (state = state0, action) => {
     switch (action.type) {
         case "CONFIRM_REGISTRATION_INITIALIZED":
             return {
                 loading: true,
                 message: t("Your registration is being confirmed"),
-                type: "",
                 nav: ""
             };
         case "CONFIRM_REGISTRATION_COMPLETED":
             return {
                 loading: false,
-                message: t("Your registration has been successfully confirmed!"),
+                message: action.payload.message,
                 type: "success",
-                nav: (<Link to='/login'>Login</Link>)
+                nav: (<LoginButton />)
             };
         case "CONFIRM_REGISTRATION_FAILED":
             return {

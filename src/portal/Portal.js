@@ -13,9 +13,9 @@ import PortalMenu from './PortalMenu';
 import Header from './Header';
 import Footer from './Footer';
 
-import Confirm, { confirmReducer } from './Confirm';
-import Register from './Register';
-import Home from './Home';
+import RegistrationConfirm, { regConfirmReducer } from './registration/RegistrationConfirm';
+import Registration, { registrationReducer } from './registration/Registration';
+import Home from './home/Home';
 
 import './portal.css';
 // import portalPhoto from '../resources/gloves.jpg';
@@ -33,12 +33,10 @@ class Portal extends Component {
     }
 
     hasScrolledEnough() {
-        console.log("hasScrolledEnough")
         this.setState({ ...this.state, hasScrolledEnough: true });
     }
 
     hasNotScrolledEnough() {
-        console.log("hasNotScrolledEnough")
         this.setState({ ...this.state, hasScrolledEnough: false });
     }
 
@@ -67,12 +65,12 @@ class Portal extends Component {
                     <Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handlePusherClick.bind(this)} style={{ minHeight: '100vh' }}>
                         <Header burgerHandler={this.handleBurgerClick.bind(this)} />
                         <Switch>
-                            <Route path="/register/:confirmation" component={Confirm} />
-                            <Route path="/register" component={Register} />
+                            <Route path="/register/:key" component={RegistrationConfirm} />
+                            <Route path="/register" component={Registration} />
                             <Route path="/" render={(props) => (
-                                <Home 
-                                    onBottomPassed={this.hasScrolledEnough.bind(this)} 
-                                    onBottomPassedReverse={this.hasNotScrolledEnough.bind(this)} 
+                                <Home
+                                    onBottomPassed={this.hasScrolledEnough.bind(this)}
+                                    onBottomPassedReverse={this.hasNotScrolledEnough.bind(this)}
                                 />
                             )} />
                         </Switch>
@@ -92,23 +90,7 @@ const mapStateToProps = (state, { match }) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // setScrollPos: (position) => {
-        //     dispatch({
-        //         "type": 'PAGESCROLL',
-        //         "reducer": (state, action) => {
-        //             console.log(state, action);
-        //             return state;
-        //         }
-        //     });
-        // },
-        // loadData: (...args) => {
-        //   dispatch(api.request("WHOAMI", {}, (state, action) => {
-        //     return Object.assign({}, {
-        //       ...state,
-        //       events: action.payload
-        //     });
-        //   }));
-        // }
+
     }
 }
 
@@ -125,7 +107,8 @@ const layoutState = {
 }
 
 export const portalReducer = combineReducers({
-    "confirm": confirmReducer,
+    "confirm": regConfirmReducer,
+    "registration": registrationReducer,
     "layout": (state = layoutState, action) => {
         switch (action.type) {
             default:

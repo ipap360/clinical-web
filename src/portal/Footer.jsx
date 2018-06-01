@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {Segment, Container, Grid, Header, List} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 

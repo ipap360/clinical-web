@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PortalMenu from './PortalMenu';
 import SessionMenu from './SessionMenu';
 import { Responsive, Menu, Container } from 'semantic-ui-react';
@@ -9,7 +9,7 @@ const FixedMenu = ({ isVisible }) => (
             <Container>
                 <PortalMenu />
                 <Menu.Menu position='right'>
-                    <SessionMenu />
+                    <SessionMenu namespace='fixed'/>
                 </Menu.Menu>
             </Container>
         </Menu>

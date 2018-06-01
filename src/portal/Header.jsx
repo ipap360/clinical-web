@@ -7,12 +7,12 @@ const Header = ({ burgerHandler }) => (
     <Segment inverted basic attached='top' className='borderless'>
         <Container>
             <Menu inverted pointing secondary size='large'>
-                <Responsive as={Menu.Item} {...Responsive.onlyMobile} onClick={burgerHandler}>
+                <Responsive as={Menu.Item} maxWidth='767' onClick={burgerHandler}>
                     <Icon name='sidebar' />
                 </Responsive>
                 <Responsive as={PortalMenu} minWidth='768' />
                 <Menu.Menu position='right' style={{ alignItems: 'center' }}>
-                    <SessionMenu />
+                    <SessionMenu namespace='header' />
                 </Menu.Menu>
             </Menu>
         </Container>
