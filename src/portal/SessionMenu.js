@@ -1,13 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import { Segment, Dimmer, Loader, Button, Icon, Popup } from 'semantic-ui-react';
+import { Segment, Dimmer, Loader, Button, Icon, Popup, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+// import { withRouter } from 'react-router';
+
 import t from 'i18n';
 import Login from './Login';
 
 class SessionMenu extends Component {
+
+    // toURL() {
+    //     this.props.history.push(path);
+    // }
+
     render() {
-        const { loading, name, login, openLogin, closeLogin, namespace } = this.props;
+        const { loading, name, login, logout, openLogin, closeLogin, namespace } = this.props;
 
         if (loading) {
             return (<Loader size='tiny' inverted active={!!loading} inline style={{ alignSelf: 'center' }} />);
@@ -42,14 +49,22 @@ class SessionMenu extends Component {
             );
         }
 
+        const css = ['icon']
+        if (namespace === 'header') {
+            css.push('inverted');
+        } else {
+            css.push('borderless');
+        }
+
         return (
-            <Button.Group>
-                <Button basic inverted as={Link} to='/app' name='app'>
-                    <Icon name='user' />
-                    {name}
-                </Button>
-                <Button basic inverted name='menu' icon='dropdown' />
-            </Button.Group>
+            <Dropdown icon='user' labeled text={name} floating button basic className={css.join(" ")}>
+                <Dropdown.Menu>
+                    <Dropdown.Item text={t("Home")} as={Link} to='/app' />
+                    <Dropdown.Item text={t("Profile")} as={Link} to='/app/profile' />
+                    <Dropdown.Divider />
+                    <Dropdown.Item text={t("Sign out")} onClick={logout} />
+                </Dropdown.Menu>
+            </Dropdown>
         );
     }
 }
@@ -62,7 +77,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ...args) => {
     return {
         openLogin: () => {
             dispatch({
@@ -72,6 +87,11 @@ const mapDispatchToProps = (dispatch) => {
         closeLogin: () => {
             dispatch({
                 type: "CLOSE_LOGIN"
+            });
+        },
+        logout: () => {
+            dispatch({
+                type: "PURGE_TOKENS"
             });
         }
     }

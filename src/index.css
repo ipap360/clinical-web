@@ -11,6 +11,12 @@
     padding: 8em 0em;
 }
 
+.ui.menu .ui.button {
+    line-height: initial;
+}
+
 .ui.borderless {
     border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }

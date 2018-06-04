@@ -12,35 +12,73 @@ axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
-let tokenRenewalQueue = [], tokenFailureQueue = [];
+let sessionRenewalQueue = [], sessionFailureQueue = [];
 
-const awaitTokenRenewal = (cb) => {
-    tokenRenewalQueue.push(cb);
+const awaitSessionRenewal = (cb) => {
+    sessionRenewalQueue.push(cb);
 }
 
-const awaitTokenFailure = (cb) => {
-    tokenFailureQueue.push(cb);
+const awaitSessionFailure = (cb) => {
+    sessionFailureQueue.push(cb);
 }
 
-const onTokenRenewed = () => {
-    tokenFailureQueue = [];
-    tokenRenewalQueue.map(cb => cb());
-    tokenRenewalQueue = [];
+const onSessionRenewed = () => {
+    sessionFailureQueue = [];
+    sessionRenewalQueue.map(cb => cb());
+    sessionRenewalQueue = [];
 }
 
-const onTokenRenewalFailed = () => {
-    tokenRenewalQueue = [];
-    tokenFailureQueue.map(cb => cb());
-    tokenFailureQueue = [];
+const onTokenRenewalFailed = (e2) => {
+    sessionRenewalQueue = [];
+    sessionFailureQueue.map(cb => cb(e2));
+    sessionFailureQueue = [];
 }
 
 // global
-const STATUS_NOT_AUTHORIZED = 401;
+const STATUS = {
+    BAD_REQUEST: 400,
+    NOT_AUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404
+};
 
-// api specific
-const TOKEN_EXPIRED = 490;
-const TOKEN_NOT_FOUND = 491;
-const INSUFFICIENT_PERMISSIONS = 492;
+const CODE = {
+    AUTH: {
+        FAILED: -100,
+        EXPIRED: -101
+    }
+}
+
+const normalizeError = (error) => {
+    const { response, config } = error;
+    if (response) {
+        const { status, data, statusText } = response;
+        if (_.isObject(data)) {
+            return {
+                status,
+                statusText,
+                data
+            };
+        }
+        if (statusText) {
+            return {
+                status,
+                statusText,
+                data: {
+                    message: statusText
+                }
+            };
+        }
+    }
+    const message = error.message || error;
+    return {
+        status: -1,
+        statusText: message,
+        data: {
+            message
+        }
+    };
+}
 
 axios.interceptors.response.use(function (response) {
     const { data, status, statusText } = response;
@@ -50,63 +88,38 @@ axios.interceptors.response.use(function (response) {
     if (response) {
         const { status, data, statusText } = response;
         // handle unauthorized && access token expired
-        if (status === STATUS_NOT_AUTHORIZED && data && data.code === TOKEN_EXPIRED) {
-            if (tokenRenewalQueue.length === 0) {
-                postTokensRefresh().then(() => {
-                    onTokenRenewed();
-                }).catch(() => {
-                    onTokenRenewalFailed();
+        if (status === STATUS.NOT_AUTHORIZED && data && data.code === CODE.AUTH.EXPIRED) {
+            if (sessionRenewalQueue.length === 0) {
+                refreshSession().then(() => {
+                    onSessionRenewed();
+                }).catch((e2) => {
+                    onTokenRenewalFailed(e2);
                 });
             }
             return new Promise((resolve, reject) => {
-                awaitTokenRenewal(() => {
+                awaitSessionRenewal(() => {
                     resolve(axios(config));
                 });
-                awaitTokenFailure(()=> {
-                    reject(axios(config));
+                awaitSessionFailure((e2) => {
+                    reject(normalizeError(e2));
                 });
-            });
-        }
-
-        if (_.isObject(data)) {
-            return Promise.reject({
-                status,
-                statusText,
-                data
-            });
-        }
-
-        if (statusText) {
-            return Promise.reject({
-                status,
-                statusText,
-                data: {
-                    message: statusText
-                }
             });
         }
     }
 
-    const message = error.message || error;
-    return Promise.reject({
-        status: -1,
-        statusText: message,
-        data: {
-            message
-        }
-    });
+    return Promise.reject(normalizeError(error));
 
 });
 
 // extend login using previous tokens (used only in this file)
-const postTokensRefresh = () => axios.post("/tokens/refresh");
+const refreshSession = () => axios.post("/sessions/refresh");
 
 // check whether I have a valid token or if I am visiting as a guest
-export const getWhoami = () => axios.get("/users/_self");
+export const getSession = () => axios.get("/sessions");
 
 // login using username & password
-export const postTokens = ({ username, password }) => {
-    return axios.post("/tokens?clientType=web", {
+export const newSession = ({ username, password }) => {
+    return axios.post("/sessions", {
         username: username || '',
         password: password || '',
     });
@@ -124,12 +137,12 @@ export const postRegistrations = ({ email, password }) => {
 }
 
 // confirm registration
-export const postUsers = ({payload}) => {
+export const postUsers = ({ payload }) => {
     return axios.post("/registrations/confirm", {
         payload
     });
 }
 
 export const getCalendar = () => {
-    
+
 }

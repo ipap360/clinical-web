@@ -5,7 +5,7 @@ import t from 'i18n';
 import { Button } from 'semantic-ui-react';
 
 const LoginButton = ({ onClick }) => (
-    <Button onClick content={t("Login")} />
+    <Button onClick={onClick} content={t("Login")} />
 );
 
 const mapDispatchToProps = (dispatch) => {

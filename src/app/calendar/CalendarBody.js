@@ -38,4 +38,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CalendarBody));;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CalendarBody));

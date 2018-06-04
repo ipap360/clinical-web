@@ -23,7 +23,7 @@ const Login = (props) => {
             <Form.Field>
                 <FormTextInput name='password' type="password" icon='lock' iconPosition='left' placeholder={passTxt} />
             </Form.Field>
-            <FormButton action='REFRESH_TOKEN_REQUESTED' fluid primary size="large" {...btn}>
+            <FormButton action='SESSION_CREATION_REQUESTED' fluid primary size="large" {...btn}>
                 {loginTxt}
             </FormButton>
             <div style={{

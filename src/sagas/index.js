@@ -2,36 +2,33 @@
 import { fork, call, put, all, takeEvery } from 'redux-saga/effects';
 import * as api from 'api';
 
-function* getWhoami() {
+function* getSession() {
     try {
-        yield put({ type: "CLIENT_IDENTIFICATION_REQUESTED"});
-        const data = yield call(api.getWhoami);
-        yield put({ type: "CLIENT_IDENTIFIED", payload: data.data });
-        // yield call(resolve);
+        yield put({ type: "SESSION_DETAILS_REQUESTED"});
+        const data = yield call(api.getSession);
+        yield put({ type: "SESSION_DETAILS_OK", payload: data.data });    
     } catch (e) {
-        // console.log(e);
-        yield put({ type: "CLIENT_IDENTIFICATION_FAILED", payload: e.data });
-        // yield call(reject, e.message);
+        yield put({ type: "SESSION_DETAILS_FAILED", payload: e.data });
     }
 }
 
 function* initStoreListener() {
-    yield takeEvery("STORE_INITIALIZED", getWhoami);
+    yield takeEvery("STORE_INITIALIZED", getSession);
 }
 
-function* acquireRefreshToken({ payload, resolve, reject }) {
+function* newSession({ payload, resolve, reject }) {
     try {
         const data = yield call(api.postTokens, payload);
-        yield put({ type: "REFRESH_TOKEN_ACQUIRED", payload: data.data });
+        yield put({ type: "SESSION_CREATED", payload: data.data });
         yield call(resolve);
     } catch (e) {
-        yield put({ type: "REFRESH_TOKEN_ACQUISITION_FAILED", payload: e.data });
+        yield put({ type: "SESSION_CREATION_FAILED", payload: e.data });
         yield call(reject, e);
     }
 }
 
 function* requestTokenListener() {
-    yield takeEvery("REFRESH_TOKEN_REQUESTED", acquireRefreshToken);
+    yield takeEvery("SESSION_CREATION_REQUESTED", newSession);
 }
 
 function* signUp({ payload, resolve, reject }) {
