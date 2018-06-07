@@ -14,7 +14,7 @@ class RegistrationConfirm extends Component {
         const { match: { params } } = props;
 
         props.dispatch({
-            type: "CONFIRM_REGISTRATION_INITIALIZED",
+            type: "SIGNUP_CONFIRM",
             payload: params.key
         });
     }

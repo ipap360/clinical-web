@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { combineReducers } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Visibility, Sidebar, Segment, Menu, Grid, Button, Container, Divider, List, Image, Icon } from 'semantic-ui-react';
 
 import FixedMenu from './FixedMenu';
@@ -22,14 +22,11 @@ import './portal.css';
 
 class Portal extends Component {
     constructor(props) {
-
         super(props);
-
         this.state = {
             hasScrolledEnough: false,
             sidebarOpened: false
         };
-
     }
 
     hasScrolledEnough() {
@@ -51,9 +48,13 @@ class Portal extends Component {
     }
 
     render() {
-
         const isHidden = true;
         const { hasScrolledEnough, sidebarOpened } = this.state;
+        const { isLoggedIn, pathname } = this.props;
+
+        if (isLoggedIn && pathname === "/") {
+            return <Redirect to="/app"/>;
+        }
 
         return (
             <Fragment>
@@ -82,9 +83,11 @@ class Portal extends Component {
     }
 }
 
-const mapStateToProps = (state, { match }) => {
-    return {
+const mapStateToProps = (state, {location: {pathname}}) => {
 
+    return {
+        isLoggedIn: state.root.name !== null,
+        pathname
     };
 };
 

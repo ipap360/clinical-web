@@ -8,6 +8,7 @@ import t from 'i18n';
 class PortalMenu extends Component {
     constructor(props) {
         super(props);
+        // console.log(this.props);
         const { pathname } = this.props.location;
         this.state = {
             items: [

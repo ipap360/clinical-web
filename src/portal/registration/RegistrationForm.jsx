@@ -41,7 +41,7 @@ const RegistrationForm = (props) => {
                         {termsTxt}
                     </Navigation>
                 </div>
-                <FormButton fluid positive size="large" action="SIGNUP_REQUESTED" {...btn} >
+                <FormButton fluid positive size="large" action="SIGNUP" {...btn} >
                     {registerTxt}
                 </FormButton>
             </Form>

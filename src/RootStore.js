@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import { reducer as formReducer } from 'redux-form';
 
 import sagas from './sagas';
+import { async } from 'actions';
 import { appReducer } from 'app/AppStore';
 import { portalReducer } from 'portal/Portal';
 
@@ -16,21 +17,38 @@ const state0 = {
     login: false
 };
 
+const START = (name) => name + "_REQUESTED";
+const OK = (name) => name + "_SUCCEEDED";
+const FAIL = (name) => name + "_FAILED";
+
 const rootReducer = (state = state0, action) => {
+    console.log(action.type);
     switch (action.type) {
-        case "CLIENT_IDENTIFICATION_REQUESTED":
+        case START("ENTER"):
             return {
                 ...state,
                 whoamiLoading: true,
                 name: null
             };
-        case "CLIENT_IDENTIFIED":
+        case OK("ENTER"):
             return {
                 ...state,
                 whoamiLoading: false,
                 ...action.payload
             };
-        case "CLIENT_IDENTIFICATION_FAILED":
+        case FAIL("ENTER"):
+            return {
+                ...state,
+                whoamiLoading: false,
+                name: null
+            };
+        case OK("LOGIN"):
+            return {
+                ...state,
+                whoamiLoading: false,
+                ...action.payload.details
+            };
+        case OK("LOGOUT"):
             return {
                 ...state,
                 whoamiLoading: false,
@@ -51,6 +69,29 @@ const rootReducer = (state = state0, action) => {
     }
 };
 
+const buttonsReducer = (state = {}, action) => {
+
+    const start = async.map((e) => START(e.name)).indexOf(action.type);
+    const ok = async.map((e) => OK(e.name)).indexOf(action.type);
+    const failed = async.map((e) => FAIL(e.name)).indexOf(action.type);
+
+    const name = action.type.split("_").pop();
+
+    if (start) {
+        return {
+            ...state,
+            [name]: true
+        }
+    } else if (ok || failed) {
+        return {
+            ...state,
+            [name]: false
+        }
+    }
+
+    return state;
+}
+
 const saga = createSagaMiddleware();
 
 const middlewares = [saga, thunk];
@@ -63,6 +104,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     combineReducers({
         form: formReducer,
+        buttons: buttonsReducer,
         root: rootReducer,
         portal: portalReducer,
         app: appReducer,

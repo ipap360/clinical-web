@@ -2,7 +2,9 @@
     "en-US": {},
     "el-GR": {
         "Home": "Αρχική",
+        "Profile": "Προφίλ",
         "Services": "Υπηρεσίες",
+        "Sign out": "Αποσύνδεση",
         "Contact Us": "Επικοινωνία",
         "Email": "Email",
         "Password": "Κωδικός Πρόσβασης",

@@ -5,13 +5,16 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Portal from 'portal/Portal';
 import App from 'app/App';
 
-// , history
 const Root = ({store}) => (
     <Provider store={store}>
         <Router>
             <Switch>
                 <Route path="/app" component={App} />
                 <Route path="/" component={Portal} />
+                {/* <Route path="/" render={() => {
+                    const state = store.getState();
+                    return (state.root.name === null) ? <Portal /> : <App />;
+                }} /> */}
             </Switch>
         </Router>
     </Provider>

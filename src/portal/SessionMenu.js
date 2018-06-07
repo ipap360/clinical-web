@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Segment, Dimmer, Loader, Button, Icon, Popup, Dropdown } from 'semantic-ui-react';
+import {ActionButton} from 'components';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import { withRouter } from 'react-router';
@@ -20,7 +21,7 @@ class SessionMenu extends Component {
             return (<Loader size='tiny' inverted active={!!loading} inline style={{ alignSelf: 'center' }} />);
         }
 
-        let popup;
+        let popup = null;
         if (namespace == 'header') {
             popup = (<Popup
                 trigger={<Button inverted content={t("Login")} />}
@@ -31,11 +32,11 @@ class SessionMenu extends Component {
                 onOpen={openLogin}
             />)
         } else {
-            popup = (<Popup
-                trigger={<Button inverted content={t("Login")} />}
-                content={<Login />}
-                on='click'
-            />)
+            // popup = (<Popup
+            //     trigger={<Button inverted content={t("Login")} />}
+            //     content={<Login />}
+            //     on='click'
+            // />)
         }
 
         if (name == null) {
@@ -62,7 +63,7 @@ class SessionMenu extends Component {
                     <Dropdown.Item text={t("Home")} as={Link} to='/app' />
                     <Dropdown.Item text={t("Profile")} as={Link} to='/app/profile' />
                     <Dropdown.Divider />
-                    <Dropdown.Item text={t("Sign out")} onClick={logout} />
+                    <Dropdown.Item as={ActionButton} action='LOGOUT' text={t("Sign out")} />
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -91,7 +92,7 @@ const mapDispatchToProps = (dispatch, ...args) => {
         },
         logout: () => {
             dispatch({
-                type: "PURGE_TOKENS"
+                type: "LOGOUT"
             });
         }
     }

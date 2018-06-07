@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Message } from 'semantic-ui-react';
 
-
-
 import t from 'i18n';
 import { BackgroundSegment } from 'components';
 

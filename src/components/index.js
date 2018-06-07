@@ -5,6 +5,7 @@ import FormTextInput from './forms/FormTextInput';
 import Navigation from './Navigation';
 import RichText from './RichText';
 import BackgroundSegment from './BackgroundSegment';
+import ActionButton from './ActionButton';
 import ActionLoader from './ActionLoader';
 
 // export named
@@ -13,6 +14,7 @@ export {
     FormButton,
     FormTextInput,    
     RichText,
+    ActionButton,
     ActionLoader,
     Navigation,
     BackgroundSegment
