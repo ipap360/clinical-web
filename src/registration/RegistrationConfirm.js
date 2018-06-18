@@ -11,12 +11,14 @@ class RegistrationConfirm extends Component {
 
     constructor(props) {
         super(props);
-        const { match: { params } } = props;
+        const { match: { params }, history } = props;
 
         props.dispatch({
             type: "SIGNUP_CONFIRM",
             payload: params.key
         });
+
+        console.log(history);
     }
 
     render() {
@@ -27,6 +29,7 @@ class RegistrationConfirm extends Component {
         );
     };
 }
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -43,16 +46,18 @@ const state0 = {
     nav: ""
 }
 
-export const regConfirmReducer = (state = state0, action) => {
+export const reducer = (state = state0, action) => {
     switch (action.type) {
         case "CONFIRM_REGISTRATION_INITIALIZED":
             return {
+                ...state,
                 loading: true,
                 message: t("Your registration is being confirmed"),
                 nav: ""
             };
         case "CONFIRM_REGISTRATION_COMPLETED":
             return {
+                ...state,
                 loading: false,
                 message: action.payload.message,
                 type: "success",
@@ -60,6 +65,7 @@ export const regConfirmReducer = (state = state0, action) => {
             };
         case "CONFIRM_REGISTRATION_FAILED":
             return {
+                ...state,
                 loading: false,
                 message: action.payload.message,
                 type: "error",

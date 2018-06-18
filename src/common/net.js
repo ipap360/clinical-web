@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-export const STATUS = {
+export const HTTP_STATUS = {
     BAD_REQUEST: 400,
     NOT_AUTHORIZED: 401,
     FORBIDDEN: 403,
@@ -16,7 +16,7 @@ export const CODE = {
 }
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8081/api/v1',
+    baseURL: process.env.REACT_APP_BASE_URL,
     withCredentials: true,
     headers: {
         common: {
@@ -26,30 +26,30 @@ const instance = axios.create({
     }
 });
 
-let sessionRenewalQueue = [], sessionFailureQueue = [];
+// let sessionRenewalQueue = [], sessionFailureQueue = [];
 
-const awaitSessionRenewal = (cb) => {
-    sessionRenewalQueue.push(cb);
-}
+// const awaitSessionRenewal = (cb) => {
+//     sessionRenewalQueue.push(cb);
+// }
 
-const awaitSessionFailure = (cb) => {
-    sessionFailureQueue.push(cb);
-}
+// const awaitSessionFailure = (cb) => {
+//     sessionFailureQueue.push(cb);
+// }
 
-const onSessionRenewed = () => {
-    sessionFailureQueue = [];
-    sessionRenewalQueue.map(cb => cb());
-    sessionRenewalQueue = [];
-}
+// const onSessionRenewed = () => {
+//     sessionFailureQueue = [];
+//     sessionRenewalQueue.map(cb => cb());
+//     sessionRenewalQueue = [];
+// }
 
-const onTokenRenewalFailed = (e2) => {
-    sessionRenewalQueue = [];
-    sessionFailureQueue.map(cb => cb(e2));
-    sessionFailureQueue = [];
-}
+// const onTokenRenewalFailed = (e2) => {
+//     sessionRenewalQueue = [];
+//     sessionFailureQueue.map(cb => cb(e2));
+//     sessionFailureQueue = [];
+// }
 
 const normalizeError = (error) => {
-    const { response, config } = error;
+    const { response } = error;
     if (response) {
         const { status, data, statusText } = response;
         if (_.isObject(data)) {
@@ -87,22 +87,22 @@ instance.interceptors.response.use(function (response) {
     if (response) {
         const { status, data, statusText } = response;
         // handle unauthorized && access token expired
-        if (status === STATUS.NOT_AUTHORIZED && data && data.code === CODE.AUTH.EXPIRED) {
-            if (sessionRenewalQueue.length === 0) {
-                instance.post("/sessions/refresh").then(() => {
-                    onSessionRenewed();
-                }).catch((e2) => {
-                    onTokenRenewalFailed(e2);
-                });
-            }
-            return new Promise((resolve, reject) => {
-                awaitSessionRenewal(() => {
-                    resolve(axios(config));
-                });
-                awaitSessionFailure((e2) => {
-                    reject(normalizeError(e2));
-                });
-            });
+        if (status === HTTP_STATUS.NOT_AUTHORIZED && data && data.code === CODE.AUTH.EXPIRED) {
+            // if (sessionRenewalQueue.length === 0) {
+            //     instance.post(process.env.REACT_APP_REFRESH_PATH).then(() => {
+            //         onSessionRenewed();
+            //     }).catch((e2) => {
+            //         onTokenRenewalFailed(e2);
+            //     });
+            // }
+            // return new Promise((resolve, reject) => {
+            //     awaitSessionRenewal(() => {
+            //         resolve(axios(config));
+            //     });
+            //     awaitSessionFailure((e2) => {
+            //         reject(normalizeError(e2));
+            //     });
+            // });
         }
     }
 
@@ -110,4 +110,4 @@ instance.interceptors.response.use(function (response) {
 
 });
 
-export const net = instance;
+export default instance;

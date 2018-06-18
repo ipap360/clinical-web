@@ -1,9 +1,13 @@
 import React from 'react';
-import { Header, Container, Checkbox, Form } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Header, Container, Form } from 'semantic-ui-react';
 import t from 'i18n';
-import { connectForm, FormButton, FormTextInput, Navigation } from 'components';
+import { reduxForm } from 'redux-form';
+import { FormButton, FormTextInput, Navigation } from 'components';
+import { TERMS } from 'common/paths';
+import { SIGNUP } from 'common/actions';
 
-const RegistrationForm = (props) => {
+const RegistrationForm = ({ handleSubmit, locale, timezone, callbackURL, ...props }) => {
 
     const emailTxt = t("Email");
     const passTxt = t("Password");
@@ -14,7 +18,7 @@ const RegistrationForm = (props) => {
     const agreementTxt = t("By clicking Sign Up, you agree to our");
     const termsTxt = t("Terms");
 
-    const btn = { form: props };
+    console.log(props);
 
     return (
         <Container>
@@ -32,16 +36,16 @@ const RegistrationForm = (props) => {
                 <Form.Field>
                     <FormTextInput name='password' type="password" icon='lock' iconPosition='left' placeholder={passTxt} />
                 </Form.Field>
+                <input type='hidden' name='locale' value={locale} />
+                <input type='hidden' name='timezone' value={timezone} />
+                <input type='hidden' name='url' value={callbackURL} />
                 <div className='terms'>
-                    <span>
-                        {agreementTxt}
-                        &nbsp;
-                            </span>
-                    <Navigation to='/terms'>
+                    <span>{agreementTxt}&nbsp;</span>
+                    <Navigation to={TERMS}>
                         {termsTxt}
                     </Navigation>
                 </div>
-                <FormButton fluid positive size="large" action="SIGNUP" {...btn} >
+                <FormButton onClick={handleSubmit} fluid positive size="large">
                     {registerTxt}
                 </FormButton>
             </Form>
@@ -49,4 +53,13 @@ const RegistrationForm = (props) => {
     );
 }
 
-export default connectForm({ form: 'registration' })(RegistrationForm);
+const getSession = (state) => state.session || {};
+const getTimezone = (session) => session.timezone;
+const getLocale = (session) => session.locale;
+
+const mapS2P = (state) => ({
+    timezone: getTimezone(getSession(state)),
+    locale: getLocale(getSession(state))
+});
+
+export default reduxForm({ form: SIGNUP })(connect(mapS2P)(RegistrationForm));

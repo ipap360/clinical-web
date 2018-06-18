@@ -20,3 +20,25 @@
     border-radius: 0 !important;
     box-shadow: none !important;
 }
+
+.login-page, .registration-page {
+    min-height: calc(100vh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registration-page .terms {
+    margin: 10px 0;
+    color: #555;
+    font-size: 13px;
+}
+
+.login-page > div, .registration-page > div {
+    padding: 40px 60px;
+    background: rgba(255, 255, 255, 0.7);
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

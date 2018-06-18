@@ -4,17 +4,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { } from 'semantic-ui-react';
-// import api from '../common/api';
-
-// register dataaction - url
-// api.register('WHOAMI', {
-//   url: '/whoami'
-// });
 
 class Home extends Component {
+    
   componentDidMount() {
-    // const { loadData } = this.props;
-    // loadData();
+
   }
 
   componentWillUnmount() {
@@ -24,7 +18,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-
+          Hello Boss
       </div>
     );
   }

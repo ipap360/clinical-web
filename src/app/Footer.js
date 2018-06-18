@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer = () => (
     <div style={{margin: '1rem 0', textAlign: 'center'}}>
-      Company Name {(new Date()).getFullYear()}
+       {(new Date()).getFullYear()}
     </div>
 );
 

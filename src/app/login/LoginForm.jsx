@@ -1,19 +1,21 @@
 import React from 'react';
 
-import { Button, Checkbox, Form, Input, Image, Message } from 'semantic-ui-react';
+import { reduxForm } from 'redux-form';
+
+import { Form } from 'semantic-ui-react';
 
 import t from 'i18n';
-import { connectForm, FormTextInput, FormButton, Navigation } from 'components';
+import { FormTextInput, FormButton, Navigation } from 'components';
 
-const Login = (props) => {
+import { RECOVER_PWD_INIT } from 'common/paths';
+import { LOGIN } from 'common/actions';
 
-    // i18n
+const LoginForm = ({ handleSubmit }) => {
+
     const emailTxt = t("Email");
     const passTxt = t("Password");
-    const loginTxt = t("Login");
-    const forgotTxt = t("Forgot your password?");
-
-    const btn = { form: props };
+    const loginTxt = t("Log In");
+    const forgotTxt = t("Did you forget your email or password?");
 
     return (
         <Form size='large'>
@@ -23,7 +25,7 @@ const Login = (props) => {
             <Form.Field>
                 <FormTextInput name='password' type="password" icon='lock' iconPosition='left' placeholder={passTxt} />
             </Form.Field>
-            <FormButton action='LOGIN' fluid primary size="large" {...btn}>
+            <FormButton onClick={handleSubmit} fluid primary size="large">
                 {loginTxt}
             </FormButton>
             <div style={{
@@ -31,12 +33,12 @@ const Login = (props) => {
                 fontSize: '12px',
                 textAlign: 'right'
             }}>
-                <Navigation to='/recover/init'>
-                    {t("Forgotten credentials?")}
+                <Navigation to={RECOVER_PWD_INIT}>
+                    {forgotTxt}
                 </Navigation>
             </div>
         </Form>
     );
-}
+};
 
-export default connectForm({ form: 'login' })(Login);
+export default reduxForm({ form: LOGIN })(LoginForm);

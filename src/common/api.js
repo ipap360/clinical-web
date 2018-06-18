@@ -1,153 +1,74 @@
-import _ from 'lodash';
-import axios from 'axios';
-import t from 'i18n';
+// export api in a semantic way
+// !! any (schema) change to the backend should affect only this file
+import net from './net';
+import { toQueryParams } from './utils';
 
-var ReqRegistry = {};
-
-const resetState = {
-    isFetching: false,
-    isErrorMsg: '',
+export const AUTH = {
+    FAILED: -100,
+    EXPIRED: -101
 }
 
-const api = {
-    register: (action, { url, method, ...opts }) => {
-        url = url || '';
-        method = method || 'get';
-        ReqRegistry[action] = Object.assign({}, { url, method, ...opts });
-        return api;
-    },
-    resolveURL: (url, data) => {
-        const regex = /\{[^{}]+\}/g;
+export const AUTH_EXPIRED = -101;
 
-        var resolvedURL = url;
-        var newDATA = Object.assign({}, { ...data });
+// check whether I have a valid token or if I am visiting as a guest
+export const getSession = () =>
+    net.get("/sessions");
 
-        let vars = url.match(regex) || [];
-        vars.forEach((match, i) => {
-            const key = match.substring(1, match.length - 1);
-            if (data.hasOwnProperty(key)) {
-                resolvedURL = resolvedURL.replace(new RegExp(match, "g"), data[key]);
-                delete newDATA[key];
-            }
-        });
+// login using username & password
+export const newSession = ({ username, password }) =>
+    net.post("/sessions", {
+        username: username || '',
+        password: password || '',
+    });
 
-        return { resolvedURL, newDATA };
-    },
-    params: (data) => {
-        return Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
-    },
-    build: (action, data) => {
-        const { method, url, ...opts } = ReqRegistry[action];
-        if (!url) throw "Action not registered!";
-        const { resolvedURL, newDATA } = api.resolveURL(url, data);
-        switch (method.toLowerCase()) {
-            case 'post':
-            case 'put':
-            case 'patch':
-                return _.partial(axios[method], resolvedURL, newDATA, opts);
-            case 'head':
-            case 'options':
-            case 'delete':
-                return _.partial(axios[method], resolvedURL, opts);
-            default:
-                // get
-                return _.partial(axios.get, resolvedURL + '?' + api.params(newDATA), opts);
-        }
-    },
-    request: (action, args, reducer, options) => {
-        const opts = Object.assign({}, {
-            "startType": 'START',
-            "errorType": 'ERROR',
-            "startReducer": (state, action) => {
-                return Object.assign({}, {
-                    ...state,
-                    ...resetState,
-                    isFetching: true
-                });
-            },
-            "errorReducer": (state, action) => {
-                return Object.assign({}, {
-                    ...state,
-                    ...resetState,
-                    isErrorMsg: action.payload || ''
-                });
-            },
-        }, options);
-        return (dispatch, getState) => {
-            try {
-                const _req = api.build(action, args);
-                dispatch({
-                    type: opts.startType,
-                    reducer: opts.startReducer,
-                });
-                _req('EVENTS').then((response) => {
-                    dispatch({
-                        type: action,
-                        reducer: (state, action) => {
-                            return (_.isFunction(reducer)) ? reducer.apply(this, [Object.assign({ ...state, ...resetState }), action]) : null;
-                        },
-                        payload: response.data
-                    });
-                }).catch((error) => {
-                    dispatch({
-                        type: opts.errorType,
-                        reducer: (state, action) => {
-                            console.log(state, action);
-                            return opts.errorReducer.apply(this, [Object.assign(state, {
-                                isFetching: false,
-                                isErrorMsg: '',
-                            }),
-                                action,
-                            ]);
-                        },
-                        payload: error
-                    });
-                });
-            } catch (e) {
-                console.error(e);
-            }
-        };
-    }
-};
+// check whether I have a valid token or if I am visiting as a guest
+export const refreshSession = () =>
+    net.post("/sessions/refresh");
 
-export const delay = (ms) =>
-    new Promise(resolve => setTimeout(resolve, ms));
+// check whether I have a valid token or if I am visiting as a guest
+export const expireSession = () =>
+    net.post("/sessions/expire");
 
-const method = (obj) => {
-    return _.partial(axios[obj.method], obj.url);
-}
+// create registration
+export const newRegistration = ({ email, password, locale, timezone, url }) =>
+    net.post("/registrations", {
+        email,
+        password,
+        locale,
+        timezone,
+        url
+    });
 
-const fetch = () => delay(3000).then(() => {
-    return {
-        // 'submit': '',
-        'buttons': {
-            onSubmit: {
-                url: '/mplampla/',
-                method: 'post',
-                content: 'Sign Up',
-            }
-        },
-        'sync': '',
-        'fields': {
-            'email': {
-                name: 'email',
-                value: '',
-                type: 'text',
-                placeholder: t('Email'),
-                maxLength: '255',
-                sync: true,
-                error: ''
-            },
-            'password': {
-                name: 'password',
-                value: '',
-                type: 'password',
-                placeholder: t('Password'),
-                maxLength: '255',
-                sync: true
-            }
-        }
-    };
-});
+// confirm registration
+export const confirmRegistrations = ({ token }) =>
+    net.post("/registrations/confirm", {
+        token
+    });
 
-export default api;
+export const getCalendars = () =>
+    net.get("/calendars/");
+
+export const getCalendar = ({ id, ...data }) =>
+    net.get("/calendar/" + id + toQueryParams(data));
+
+export const getCalendarEvent = (id) =>
+    net.get("/calendar-events/" + id);
+export const saveCalendarEvent = ({ id, ...data }) =>
+    net.post("/calendar-events/" + id, data);
+export const deleteCalendarEvent = (id) =>
+    net.post("/calendar-events/" + id + "/remove");
+
+export const postponeCalendarEvent = ({ id, ...data }) =>
+    net.post("/calendar-events/" + id + "/postpone", data);
+
+export const copyCalendarEvent = ({ id, ...data }) =>
+    net.post("/calendar-events/" + id + "/copy", data);
+
+export const getPersons = () =>
+    net.get("/persons");
+export const getPerson = (id) =>
+    net.get("/persons/" + id);
+export const savePerson = (data) =>
+    net.post("/persons", data);
+export const deletePerson = (id) =>
+    net.post("/persons/" + id + "/remove");

@@ -1,22 +1,33 @@
 import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import Footer from './Footer';
 
+import Login from './login';
 import Home from './home';
 import Profile from './profile';
-import Settings from './settings';
+// import Settings from './settings';
 
-const App = () => (
-    <Fragment>
-        <Header />
-        {/* <Route path="/app/events/:eventId" exact component={EditEvent} /> */}
-        <Route exact path="/app/" component={Home} />
-        <Route exact path="/app/profile" component={Profile} />
-        <Route exact path="/app/settings" component={Settings} />
-        <Footer />
-    </Fragment>
-);
+import {ActionLoader} from 'components';
 
-export default App;
+export default (props) => {
+
+    // console.log(props);
+    const { isSignedIn } = props;
+
+    if (!isSignedIn) return <Login />;
+
+    return (
+        <Fragment>
+            <Header />
+            <Switch>
+                <Route path="/calendar-event/:id" component={Profile} />
+                <Route path="/calendar-event/add" component={Profile} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/" component={Home} />
+            </Switch>
+            <Footer />
+        </Fragment>
+    )
+};

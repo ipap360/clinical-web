@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Message } from 'semantic-ui-react';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
+
+import { connect } from 'react-redux';
+import { SubmissionError, FormName, getFormError, isSubmitting } from 'redux-form';
+
 
 const onSubmit = (action) => (values, dispatch) => new Promise((resolve, reject) => {
     dispatch({
@@ -9,25 +12,37 @@ const onSubmit = (action) => (values, dispatch) => new Promise((resolve, reject)
         resolve,
         reject
     });
-}).catch(({data: {message, ...more}, status, statusText}) => {
+}).catch(({ data: { message, ...more }, status, statusText }) => {
     throw new SubmissionError({
         _error: message || statusText,
         ...more
     });
 });
 
-const FormButton = ({ action, form: { anyTouched, handleSubmit, pristine, reset, submitting, error }, noError, ...custom }) => {
+// , form: { anyTouched, handleSubmit, pristine, reset, submitting, error }
+const FormButton = ({ onClick, form, submitting, error, noMessage, ...custom }) => {
     return (
         <div>
             <Button
-                onClick={handleSubmit(onSubmit(action))}
+                // onClick={() => submit(form)}
+                onClick={onClick(onSubmit(form))}
                 loading={submitting}
                 disabled={submitting}
                 {...custom}
             />
-            <Message error content={error} visible={error != undefined && !noError && !submitting} />
+            {(!noMessage) ? <Message error content={error} visible={error != undefined && !submitting} /> : null}
         </div>
     );
 }
 
-export default FormButton;
+const mapS2P = (state, { form }) => {
+    // console.log(state, form);
+    return {
+        error: getFormError(form)(state),
+        submitting: isSubmitting(form)(state),
+    }
+}
+
+const ConnectedButton = connect(mapS2P)(FormButton);
+
+export default (props) => (<FormName children={({ form }) => (<ConnectedButton form={form} {...props} />)} />);
