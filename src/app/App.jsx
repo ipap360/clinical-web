@@ -9,7 +9,7 @@ import Home from './home';
 import Profile from './profile';
 // import Settings from './settings';
 
-import {ActionLoader} from 'components';
+// import {ActionLoader} from 'components';
 
 export default (props) => {
 

@@ -20,10 +20,10 @@ const LoginForm = ({ handleSubmit }) => {
     return (
         <Form size='large'>
             <Form.Field>
-                <FormTextInput name='username' icon='user' iconPosition='left' placeholder={emailTxt} />
+                <FormTextInput name='username' autoComplete="username" icon='user' iconPosition='left' placeholder={emailTxt} />
             </Form.Field>
             <Form.Field>
-                <FormTextInput name='password' type="password" icon='lock' iconPosition='left' placeholder={passTxt} />
+                <FormTextInput name='password' autoComplete="current-password" type="password" icon='lock' iconPosition='left' placeholder={passTxt} />
             </Form.Field>
             <FormButton onClick={handleSubmit} fluid primary size="large">
                 {loginTxt}

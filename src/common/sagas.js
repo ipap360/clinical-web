@@ -1,4 +1,4 @@
-import { fork, call, put, all, take, join, takeEvery } from 'redux-saga/effects';
+import { fork, call, put, all, take, join, takeEvery, spawn } from 'redux-saga/effects';
 import action, * as actions from './actions';
 import * as api from './api';
 import * as session from './session';
@@ -19,30 +19,40 @@ const { ok, fail, fin, ...act } = actions;
 
 const REAUTH_ACTION = "REFRESH_AUTHENTICATION";
 
-function* reauth() {
-    try {
-        yield call(api.refreshSession);
-    } catch (e) {
-        yield e;
-    }
-}
+
+// function* auth () {
+//     try {
+//         yield call();
+//     } catch (e) {
+//         // console.log(e);
+//         yield e;
+//     }
+// }
+
+// function* reauth() {
+//     yield* auth();
+// }
 
 function* onReAuth() {
     let task;
     while (true) {
-        const susp = yield take(REAUTH_ACTION);
-        console.log(task);
+        const msg = yield take(REAUTH_ACTION);
         if (!task) {
-            task = yield fork(reauth);
+            task = yield fork(api.refreshSession);
         }
-        const data = yield join(task);
-        console.log(data);
-
-        yield fork(asyncSaga, susp.name, susp.fn, {
-            payload: susp.payload,
-            resolve: susp.resolve,
-            reject: susp.reject
-        })
+        const response = yield join(task);
+        const { name, fn, payload, resolve, reject } = msg.payload;
+        if (response.status === 200) {
+            yield fork(asyncSaga, name, fn, {
+                payload,
+                resolve,
+                reject
+            });
+        } else {
+            yield put(action(fail(name), response.data));
+            if (reject) yield call(reject, response);
+            yield put(action(fin(name)));
+        }
     }
 }
 
@@ -53,6 +63,8 @@ export function* asyncSaga(name, fn, { payload, resolve, reject }) {
         if (resolve) yield call(resolve);
         yield put(action(fin(name)));
     } catch (e) {
+        // console.log(e);
+        // console.log(api.AUTH_EXPIRED);
         if (e.data && e.data.code === api.AUTH_EXPIRED) {
             yield put(action(REAUTH_ACTION, {
                 name,
@@ -62,6 +74,7 @@ export function* asyncSaga(name, fn, { payload, resolve, reject }) {
                 reject
             }));
         } else {
+            // console.log("here");
             yield put(action(fail(name), e.data));
             if (reject) yield call(reject, e);
             yield put(action(fin(name)));
@@ -83,12 +96,14 @@ function* asyncEvery(name, fn) {
 
 function* onInit() {
     yield take(act.STORE_INIT);
+    yield session.setLanguage();
     yield put(action(act.WHOAMI));
 }
 
 function* onSessionOk() {
     while (true) {
         const { payload } = yield take(ok(act.WHOAMI));
+        yield session.set(payload);
         yield console.log(payload);
     }
 }
@@ -104,7 +119,7 @@ function* onSessionFail() {
 function* onLoginOk() {
     while (true) {
         const { payload } = yield take(ok(act.LOGIN));
-        console.log(payload);
+        yield session.set(payload);
         yield put(action(act.SESSION_UPDATED, session.get()));
     }
 }

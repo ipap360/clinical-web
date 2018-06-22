@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { SubmissionError, FormName, getFormError, isSubmitting } from 'redux-form';
 
 
-const onSubmit = (action) => (values, dispatch) => new Promise((resolve, reject) => {
+const submit = (form) => (values, dispatch) => new Promise((resolve, reject) => {
     dispatch({
-        type: action,
+        type: form,
         payload: values,
         resolve,
         reject
@@ -20,17 +20,16 @@ const onSubmit = (action) => (values, dispatch) => new Promise((resolve, reject)
 });
 
 // , form: { anyTouched, handleSubmit, pristine, reset, submitting, error }
-const FormButton = ({ onClick, form, submitting, error, noMessage, ...custom }) => {
+const FormButton = ({ onClick, form, submitting, error, noMessage, button }) => {
     return (
         <div>
             <Button
-                // onClick={() => submit(form)}
-                onClick={onClick(onSubmit(form))}
+                onClick={onClick(submit(form))}
                 loading={submitting}
                 disabled={submitting}
-                {...custom}
+                {...button}
             />
-            {(!noMessage) ? <Message error content={error} visible={error != undefined && !submitting} /> : null}
+            {(!noMessage) ? <Message error content={error} visible={error !== undefined && !submitting} /> : null}
         </div>
     );
 }
@@ -45,4 +44,4 @@ const mapS2P = (state, { form }) => {
 
 const ConnectedButton = connect(mapS2P)(FormButton);
 
-export default (props) => (<FormName children={({ form }) => (<ConnectedButton form={form} {...props} />)} />);
+export default ({onClick, ...props}) => (<FormName children={({ form }) => (<ConnectedButton form={form} onClick={onClick} button={{...props}} />)} />);

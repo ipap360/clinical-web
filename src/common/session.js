@@ -3,21 +3,22 @@ import Cookies from 'js-cookie';
 import locale2 from 'locale2';
 import { base64 } from './utils';
 
-const SESSION_COOKIE_NAME = 'ssinfo';
+const SESSION_COOKIE_NAME = 'presence';
 const LANG_COOKIE_NAME = 'lang';
 const XSRF_COOKIE = "XSRF-TOKEN";
 
 // these are set by the server and are defined only for logout
-const ACCESS_TOKEN_COOKIE_NAME = "p1z3a6";
-const REFRESH_TOKEN_COOKIE_NAME = "p0k3";
+// const ACCESS_TOKEN_COOKIE_NAME = "p1z3a6";
+const REFRESH_TOKEN_COOKIE_NAME = "iu2w";
 
 // default session details based on client's system settings
 export const session0 = {
-    id: "",
+    uuid: "",
     language: locale2,
     locale: locale2,
     name: null,
-    timezone: moment.tz.guess()
+    timezone: moment.tz.guess(),
+    expiresAt: null
 };
 
 export const get = () => {
@@ -35,8 +36,9 @@ export const get = () => {
 };
 
 export const set = (obj) => {
+    const expires = (obj.expiresAt) ? new Date(obj.expiresAt) : 0;
     Cookies.set(SESSION_COOKIE_NAME, base64.encode(JSON.stringify(obj)), {
-        expires: 7
+        expires
     });
     const lang = obj.language || locale2;
     Cookies.set(LANG_COOKIE_NAME, lang);
@@ -45,10 +47,9 @@ export const set = (obj) => {
 export const clear = () => {
     Cookies.remove(SESSION_COOKIE_NAME);
     Cookies.remove(XSRF_COOKIE);
-    Cookies.remove(ACCESS_TOKEN_COOKIE_NAME);
     Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
 }
 
-export const setLanguage = (lang) => {
-    Cookies.set(LANG_COOKIE_NAME, lang);
+export const setLanguage = (lang = Cookies.get(LANG_COOKIE_NAME)) => {
+    Cookies.set(LANG_COOKIE_NAME, lang || locale2);
 }

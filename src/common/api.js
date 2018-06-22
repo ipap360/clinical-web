@@ -1,6 +1,7 @@
 // export api in a semantic way
 // !! any (schema) change to the backend should affect only this file
 import net from './net';
+import * as session from './session';
 import { toQueryParams } from './utils';
 
 export const AUTH = {
@@ -11,8 +12,11 @@ export const AUTH = {
 export const AUTH_EXPIRED = -101;
 
 // check whether I have a valid token or if I am visiting as a guest
-export const getSession = () =>
-    net.get("/sessions");
+export const getSession = () => {
+    const { uuid } = session.get();
+    return net.get("/sessions?uuid=" + uuid);
+}
+
 
 // login using username & password
 export const newSession = ({ username, password }) =>
@@ -22,8 +26,17 @@ export const newSession = ({ username, password }) =>
     });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const refreshSession = () =>
-    net.post("/sessions/refresh");
+export const refreshSession = () => {
+    const { uuid } = session.get();
+    return net.post("/sessions/refresh", {
+        uuid
+    }).then(response => {
+        return response;
+    }).catch(e => {
+        return e;
+    });
+}
+
 
 // check whether I have a valid token or if I am visiting as a guest
 export const expireSession = () =>
@@ -53,8 +66,10 @@ export const getCalendar = ({ id, ...data }) =>
 
 export const getCalendarEvent = (id) =>
     net.get("/calendar-events/" + id);
+
 export const saveCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id, data);
+
 export const deleteCalendarEvent = (id) =>
     net.post("/calendar-events/" + id + "/remove");
 
@@ -66,9 +81,12 @@ export const copyCalendarEvent = ({ id, ...data }) =>
 
 export const getPersons = () =>
     net.get("/persons");
+
 export const getPerson = (id) =>
     net.get("/persons/" + id);
+
 export const savePerson = (data) =>
     net.post("/persons", data);
+
 export const deletePerson = (id) =>
     net.post("/persons/" + id + "/remove");

@@ -11,7 +11,7 @@ import action, * as act from 'common/actions';
 
 const { ok, fail, SIGNUP, SIGNUP_CONFIRM } = act;
 
-const mapStateToProps = (state, arg2) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         ...state.registration
     };
@@ -46,7 +46,7 @@ export const reducer = (state = state0, { type, payload }) => {
             return {
                 ...state,
                 status: STATUS.CONFIRM,
-                message: t("Your registration is being confirmed")
+                message: t("Your request is being processed...")
             }
         case ok(SIGNUP_CONFIRM):
             return {

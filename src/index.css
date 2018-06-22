@@ -21,8 +21,11 @@
     box-shadow: none !important;
 }
 
-.login-page, .registration-page {
+.full-page {
     min-height: calc(100vh);
+}
+
+.login-page, .registration-page {
     display: flex;
     justify-content: center;
     align-items: center;

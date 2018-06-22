@@ -14,7 +14,7 @@ const Login = () => {
     const signupTxt = t("Sign Up");
 
     return (
-        <BackgroundSegment basic className='login-page' url={loginPhoto}>
+        <BackgroundSegment basic className='full-page login-page' url={loginPhoto}>
             <div>
                 <LoginForm />
                 <div>

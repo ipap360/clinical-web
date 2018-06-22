@@ -7,8 +7,8 @@ import Cookies from 'js-cookie';
 // https://github.com/alexei/sprintf.js
 // sprintf usage
 // 1. plain: sprintf('%s %s a %s', 'Polly', 'wants', 'cracker') 
-// 2. ordered: sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants')    
-const t = function (text, ...args) {
+// 2. ordered: sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants')   
+export default function (text, ...args) {
 
     const sourceLang = "en-US";
     const targetLang = Cookies.get('lang') || sourceLang;
@@ -26,5 +26,3 @@ const t = function (text, ...args) {
     
     return sprintf(l10n[text], ...args);
 };
-
-export default t;
