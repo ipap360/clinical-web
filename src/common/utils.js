@@ -43,3 +43,38 @@ export const toQueryParams = (json = {}) => {
             encodeURIComponent(json[key]);
     }).join('&');
 }
+
+export const date = {
+    midnight: function (d) {
+        let da = new Date(d);
+        da.setUTCHours(0);
+        da.setUTCMinutes(0);
+        da.setUTCSeconds(0);
+        da.setUTCMilliseconds(0);
+        return da;
+    }
+}
+
+export const data = {
+    genders: [
+        {
+            value: "MALE",
+            label: "Male"
+        },
+        {
+            value: "FEMALE",
+            label: "Female"
+        },
+        {
+            value: "UNKNOWN",
+            label: "Unknown"
+        }
+    ],
+    range2array: (start, end, step = 1) => {
+        let arr = [];
+        for (let i = start; i <= end; i = i + step) {
+            arr.push(i);
+        }
+        return arr;
+    }
+}

@@ -2,6 +2,7 @@ import { reduxForm } from 'redux-form';
 
 import FormButton from './forms/FormButton';
 import FormTextInput from './forms/FormTextInput';
+import FormTextArea from './forms/FormTextArea';
 // import FormHiddenInput from './forms/FormHiddenInput';
 import Navigation from './Navigation';
 import RichText from './RichText';
@@ -17,6 +18,7 @@ export {
     reduxForm as connectForm,
     FormButton,
     FormTextInput,    
+    FormTextArea,    
     // FormHiddenInput,    
     RichText,
     ActionButton,

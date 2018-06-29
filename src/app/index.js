@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
 
 import App from './App';
-
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 import { connect } from 'react-redux';
+import action, { LOGOUT } from 'common/actions';
+
+import { reducer as calendarEvent } from './calendarEvent';
+
 // import { withRouter } from 'react-router';
 // import { LOGIN } from 'common/actions';
 
 const getIsSignedIn = (session) => session.name !== null;
 
+const logout = () => action(LOGOUT);
+
 const mapS2P = (state) => ({
     isSignedIn: getIsSignedIn(state.session),
+    name: state.session.name,
 });
-
-const mapD2P = (dispatch, ...args) => {
-    // console.log(dispatch, args, this);
-    return {
-
-    }
-}
 
 class AppContainer extends Component {
     render() {
@@ -26,11 +25,6 @@ class AppContainer extends Component {
     }
 }
 
-export default connect(mapS2P, mapD2P)(AppContainer);
+export default connect(mapS2P, { logout })(AppContainer);
 
-export const reducer = (state = {}, action) => {
-
-    // probable just combines
-
-    return state;
-}
+export const reducer = combineReducers({ calendarEvent });

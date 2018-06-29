@@ -1,4 +1,4 @@
-// import _ from 'lodash';
+import _ from 'lodash';
 import {sprintf} from 'sprintf-js';
 import dictionary from './dictionary.json';
 import Cookies from 'js-cookie';
@@ -24,5 +24,6 @@ export default function (text, ...args) {
         return sprintf(text, ...args);
     }
     
-    return sprintf(l10n[text], ...args);
+    const t = l10n[text];
+    return (_.isArray(t)) ? t[args[0]] : sprintf(t, ...args);
 };

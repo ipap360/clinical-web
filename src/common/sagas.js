@@ -2,7 +2,7 @@ import { fork, call, put, all, take, join, takeEvery, spawn } from 'redux-saga/e
 import action, * as actions from './actions';
 import * as api from './api';
 import * as session from './session';
-// import { log } from './utils';
+import history from './history';
 
 const { ok, fail, fin, ...act } = actions;
 
@@ -19,25 +19,14 @@ const { ok, fail, fin, ...act } = actions;
 
 const REAUTH_ACTION = "REFRESH_AUTHENTICATION";
 
-
-// function* auth () {
-//     try {
-//         yield call();
-//     } catch (e) {
-//         // console.log(e);
-//         yield e;
-//     }
-// }
-
-// function* reauth() {
-//     yield* auth();
-// }
+const sessionUpdated = (session) => action(act.SESSION_UPDATED, session);
 
 function* onReAuth() {
     let task;
     while (true) {
         const msg = yield take(REAUTH_ACTION);
-        if (!task) {
+        // console.log(task);
+        if (task === undefined || !task.isRunning()) {
             task = yield fork(api.refreshSession);
         }
         const response = yield join(task);
@@ -90,10 +79,6 @@ function* asyncEvery(name, fn) {
     yield takeEvery(name, asyncSaga.bind(null, name, fn));
 }
 
-// function* callEvery(name, fn) {
-//     yield takeEvery(name, callSaga.bind(null, fn));
-// }
-
 function* onInit() {
     yield take(act.STORE_INIT);
     yield session.setLanguage();
@@ -104,7 +89,7 @@ function* onSessionOk() {
     while (true) {
         const { payload } = yield take(ok(act.WHOAMI));
         yield session.set(payload);
-        yield console.log(payload);
+        yield put(sessionUpdated(session.get()));
     }
 }
 
@@ -112,7 +97,7 @@ function* onSessionFail() {
     while (true) {
         yield take(fail(act.WHOAMI));
         yield session.clear();
-        yield put(action(act.SESSION_UPDATED, session.get()));
+        yield put(sessionUpdated(session.get()));
     }
 }
 
@@ -120,38 +105,46 @@ function* onLoginOk() {
     while (true) {
         const { payload } = yield take(ok(act.LOGIN));
         yield session.set(payload);
-        yield put(action(act.SESSION_UPDATED, session.get()));
+        yield put(sessionUpdated(session.get()));
     }
 }
 
+function* onLogout() {
+    while (true) {
+        yield take(fin(act.LOGOUT));
+        yield session.clear();
+        yield call(history.push, "/");
+        yield put(sessionUpdated(session.get()));
+    }
+}
 
-const sagas = [
-    [asyncEvery, act.SIGNUP, api.newRegistration],
-    [asyncEvery, act.SIGNUP_CONFIRM, api.confirmRegistrations],
-    [asyncEvery, act.LOGIN, api.newSession],
-    [asyncEvery, act.LOGOUT, api.expireSession],
-    [asyncEvery, act.WHOAMI, api.getSession],
-    // [callEvery, ok(act.LOGOUT), (...args) => {
-    //     log.debug(this, args);
-    //     session.clear();
-    // }],
-    // [callEvery, fail(act.LOGOUT), (...args) => {
-    //     session.clear();
-    //     log.debug(this, args);
-    // }],
-    // [callEvery, act.STORE_INIT, () => {
-    //     console.log("call whoami?");
-    //     put(action(act.WHOAMI))
-    // }]
-].map((e) => (e[0].bind(this, e[1], e[2])()));
+function* onPersonCreated() {
+    // should run only when we are creating a new event
+    while(true) {
+        const { payload } = yield take(ok(act.INSERT_PERSON));
+        yield console.log(payload);
+        yield put(action(act.SELECT_PERSON, payload));
+    }
+}
+
+const asyncSagas = [
+    [act.SIGNUP, api.newRegistration],
+    [act.SIGNUP_CONFIRM, api.confirmRegistrations],
+    [act.LOGIN, api.newSession],
+    [act.LOGOUT, api.expireSession],
+    [act.WHOAMI, api.getSession],
+    [act.PERSON, api.savePerson],
+].map((e) => (asyncEvery.bind(this, e[0], e[1])()));
 
 export default function* () {
     yield all([
-        ...sagas,
+        ...asyncSagas,
         onReAuth(),
         onInit(),
         onSessionOk(),
         onSessionFail(),
         onLoginOk(),
+        onLogout(),
+        onPersonCreated()
     ]);
 }

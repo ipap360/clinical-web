@@ -39,8 +39,12 @@ export const refreshSession = () => {
 
 
 // check whether I have a valid token or if I am visiting as a guest
-export const expireSession = () =>
-    net.post("/sessions/expire");
+export const expireSession = () => {
+    const { uuid } = session.get();
+    return net.post("/sessions/expire", {
+        uuid
+    });
+}
 
 // create registration
 export const newRegistration = ({ email, password, locale, timezone, url }) =>
@@ -79,8 +83,9 @@ export const postponeCalendarEvent = ({ id, ...data }) =>
 export const copyCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id + "/copy", data);
 
-export const getPersons = () =>
-    net.get("/persons");
+export const getPersons = ({ ...params }) =>
+    net.get("/persons" + toQueryParams(params));
+
 
 export const getPerson = (id) =>
     net.get("/persons/" + id);
