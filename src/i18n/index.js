@@ -1,29 +1,50 @@
-import _ from 'lodash';
-import {sprintf} from 'sprintf-js';
-import dictionary from './dictionary.json';
-import Cookies from 'js-cookie';
-// import * as Cookies from 'js-cookie';
+import React from 'react';
+import i18n from "i18next";
+import { I18nextProvider } from "react-i18next";
+import dictionary from "./dictionary.json";
 
-// https://github.com/alexei/sprintf.js
-// sprintf usage
-// 1. plain: sprintf('%s %s a %s', 'Polly', 'wants', 'cracker') 
-// 2. ordered: sprintf('%2$s %3$s a %1$s', 'cracker', 'Polly', 'wants')   
-export default function (text, ...args) {
+// import LanguageDetector from "i18next-browser-languagedetector";
+// .use(LanguageDetector)
 
-    const sourceLang = "en-US";
-    const targetLang = Cookies.get('lang') || sourceLang;
-    
-    const l10n = dictionary[targetLang];
-    if (!l10n || !l10n[text] || sourceLang === targetLang) {
-        if (!l10n) {
-            // console.warn(`We have no translation for "${targetLang}"`);
-        } else if (!l10n[text] && sourceLang !== targetLang) {
-            console.warn(`Translation of "${text}" is missing in "${targetLang}"`);
-        }
+const BASE_NS = "base";
 
-        return sprintf(text, ...args);
+let resources = {};
+for (let lang in dictionary) {
+    resources[lang] = { [BASE_NS]: { ...dictionary[lang] } }
+}
+
+console.log(resources);
+
+i18n.init({
+    // initial language?
+    lng: 'en-US',
+    // we init with preloaded resources
+    resources: resources,
+
+    // key is the fallback
+    fallbackLng: false,
+
+    // debug if development
+    debug: process.env.NODE_ENV !== 'production',
+
+    // have a common namespace used around the full app
+    ns: [BASE_NS],
+    defaultNS: BASE_NS,
+
+    keySeparator: false, // we use content as keys
+
+    interpolation: {
+        escapeValue: false, // not needed for react!!
+        formatSeparator: ","
+    },
+
+    react: {
+        wait: true
     }
-    
-    const t = l10n[text];
-    return (_.isArray(t)) ? t[args[0]] : sprintf(t, ...args);
-};
+});
+
+export default (Component) => (props) => (
+    <I18nextProvider i18n={i18n}>
+        <Component {...props} />
+    </I18nextProvider>
+);
