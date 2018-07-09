@@ -7,14 +7,10 @@ import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
-import withI18n from './i18n';
-import withStore from './store';
-import View from './view';
-
-const Root = withI18n(withStore(View));
+import App from './app';
 
 render(
-    <Root />,
+    <App />,
     document.getElementById('root')
 );
 

@@ -1,30 +1,20 @@
-import React, { Component } from 'react'
+import ReactForce from '../common';
 
-import App from './App';
-import { combineReducers } from 'redux';
-import { connect } from 'react-redux';
-import action, { LOGOUT } from 'common/actions';
+import translations from './i18n';
+import theme from './theme';
+import App from './modules';
+import state from './initialState';
 
-import { reducer as calendarEvent } from './calendarEvent';
+export const APP_NAME = "MedCalendar";
 
-// import { withRouter } from 'react-router';
-// import { LOGIN } from 'common/actions';
+console.log(process);
 
-const getIsSignedIn = (session) => session.name !== null;
+export const { 
+    withForce, 
+    reducerRegistry, 
+    connect2store, 
+    runSaga, 
+    history
+} = ReactForce(APP_NAME, state, theme, translations);
 
-const logout = () => action(LOGOUT);
-
-const mapS2P = (state) => ({
-    isSignedIn: getIsSignedIn(state.session),
-    name: state.session.name,
-});
-
-class AppContainer extends Component {
-    render() {
-        return (<App {...this.props} />)
-    }
-}
-
-export default connect(mapS2P, { logout })(AppContainer);
-
-export const reducer = combineReducers({ calendarEvent });
+export default withForce(App);
