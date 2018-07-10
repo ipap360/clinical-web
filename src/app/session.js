@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'moment/locale/el';
 import Cookies from 'js-cookie';
 import locale2 from 'locale2';
-import { base64 } from '../common';
+import { base64 } from './utils';
 
 const SESSION_COOKIE_NAME = 'presence';
 const LANG_COOKIE_NAME = 'lang';

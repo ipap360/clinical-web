@@ -1,9 +1,9 @@
 import SignupConfirm from './SignupConfirm';
 
-import { connect2store, reducerRegistry, runSaga } from '../../force';
-import { createAction, setOK, setFail, createActionName, takeEvery } from '../../../common';
+import { createAction, setOK, setFail, createActionName } from '../../helpers';
 import { apiSaga } from '../../sagas';
 import { confirmRegistrations } from '../../api';
+import { registerReducer, registerSagas, connect2store } from '../../../common';
 
 export const MODULE_NAME = 'signupConfirm';
 
@@ -50,19 +50,19 @@ const reducer = (state = state0, { type, payload }) => {
     }
 }
 
-reducerRegistry.register(MODULE_NAME, reducer);
+registerReducer(MODULE_NAME, reducer);
 
-const s2p = (state) => ({...state[MODULE_NAME]});
+// sagas
+function* signupConfirmListener({ takeEvery }) {
+    yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, SIGNUP_CONFIRM, confirmRegistrations, ))
+}
+
+registerSagas(signupConfirmListener);
+
+const s2p = (state) => ({ ...state[MODULE_NAME] });
 const d2p = {
     confirmSignup
 };
 
-export default connect2store({s2p, d2p})(SignupConfirm);
+export default connect2store({ s2p, d2p })(SignupConfirm);
 
-// sagas
-
-function* signupConfirmListener () {
-    yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, SIGNUP_CONFIRM, confirmRegistrations, ))
-}
-
-runSaga(signupConfirmListener);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Link } from '../../../components';
-import { date } from '../../../common';
+import { date } from '../../utils';
 
 import { NEW_CALENDAR_EVENT } from '../paths';
 import Main from '../Main';

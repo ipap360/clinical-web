@@ -1,10 +1,13 @@
 import Main from './Main';
 
-import { runSaga, history, connect2store, reducerRegistry } from '../../force';
-import { setFin, createActionName, createAction, take, call, put, takeEvery, setOK } from '../../../common';
+// import { runSaga, history, connect2store, reducerRegistry } from '../../force';
+// import { setFin, createActionName, createAction, take, call, put, takeEvery, setOK } from '../../../common';
 import * as session from '../../session';
 import { expireSession } from '../../api';
 import { apiSaga, SESSION_UPDATED, sessionUpdated } from '../../sagas';
+import { createActionName, setFin, createAction } from '../../helpers';
+import { registerReducer, connect2store, registerSagas } from '../../../common';
+import history from '../../history';
 
 // name
 export const MODULE_NAME = 'main';
@@ -18,8 +21,8 @@ export const LOGOUT_FINISHED = setFin(LOGOUT);
 export const logout = createAction(LOGOUT);
 
 // initial state
-const state0 = { 
-    ...session.get(), 
+const state0 = {
+    ...session.get(),
     // loading: false 
 };
 
@@ -36,7 +39,7 @@ const reducer = (state = state0, { type, payload }) => {
     }
 }
 
-reducerRegistry.register(MODULE_NAME, reducer);
+registerReducer(MODULE_NAME, reducer);
 
 // selectors
 export const getIsSignedIn = (state) => state[MODULE_NAME].isSignedIn;
@@ -51,14 +54,12 @@ const d2p = { logout };
 export default connect2store({ s2p, d2p })(Main);
 
 // sagas
-function* logoutListener() {
+function* logoutListener({ takeEvery }) {
     const { uuid } = session.get();
     yield takeEvery(LOGOUT, apiSaga.bind(null, expireSession, uuid));
 }
 
-runSaga(logoutListener);
-
-function* onLogout() {
+function* onLogout({ take, call, put }) {
     while (true) {
         yield take(LOGOUT_FINISHED);
         yield session.clear();
@@ -67,7 +68,7 @@ function* onLogout() {
     }
 }
 
-runSaga(onLogout);
+registerSagas(logoutListener, onLogout);
 
 // fix
 // function* onSessionFail() {

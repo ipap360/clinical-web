@@ -23,6 +23,16 @@ import {
     SETTINGS 
 } from './paths';
 
+console.log(Home);
+console.log(Login);
+console.log(NewCalendarEvent);
+console.log(EditCalendarEvent);
+console.log(Signup);
+console.log(SignupEmail);
+console.log(SignupConfirm);
+console.log(Profile);
+console.log(Settings);
+
 export default () => (
     <Router>
         <Switch>

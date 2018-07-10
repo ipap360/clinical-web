@@ -1,9 +1,6 @@
-// import reducerRegistry from '../../store/reducerRegistry';
-// import { createActionName, createAction } from '../../store/helpers';
-// import connect from '../../store/connect';
 import NewCalendarEvent from './NewCalendarEvent';
-import { reducerRegistry, connect2store } from '../../force';
-import { createActionName, createAction } from '../../../common';
+import { registerReducer, connect2store } from '../../../common';
+import { createActionName, createAction } from '../../helpers';
 
 // module name
 export const MODULE_NAME = 'newCalendarEvent';
@@ -58,7 +55,7 @@ const reducer = (state = state0, { type, payload }) => {
     }
 }
 
-reducerRegistry.register(MODULE_NAME, reducer);
+registerReducer(MODULE_NAME, reducer);
 
 const getState = (state) => state[MODULE_NAME];
 

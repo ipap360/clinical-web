@@ -1,0 +1,65 @@
+
+const INIT_ERROR = "React Force has not been initialized";
+
+class ReactForce {
+
+    constructor() {
+
+        this._name = null;
+        this._state = null;
+        this._theme = null;
+        this._resources = null;
+        this._sagas = null;
+
+        this._init = false;
+
+        this._emitChange = null;
+        this._reducers = {};
+
+    }
+
+    init(name = DEFAULT_NAME, options = {}) {
+
+        const { state = {}, theme = {}, resources = [], sagas = [] } = options;
+
+        this._name = name;
+        this._state = state;
+        this._theme = theme;
+        this._resources = resources;
+        this._sagas = sagas;
+
+        this._init = true;
+    }
+
+    checkInit() {
+        if (this._init == false) {
+            throw INIT_ERROR;
+        }
+    }
+
+    getName() {
+        this.checkInit();
+        return this._name;
+    }
+
+    runSaga(saga) {
+        this.checkInit();
+        this._runSaga(saga);
+    }
+
+    register(name, reducer) {
+        this.checkInit();
+
+        this._reducers = { ...this._reducers, [name]: reducer };
+        if (this._emitChange) {
+            this._emitChange(this.getReducers());
+        }
+    }
+
+    setChangeListener(listener) {
+        this._emitChange = listener;
+    }
+    
+}
+
+export default new ReactForce();

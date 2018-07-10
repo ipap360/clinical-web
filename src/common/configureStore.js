@@ -1,3 +1,5 @@
+import React from 'react';
+import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 
 // import { browserHistory  } from 'react-router';
@@ -8,6 +10,7 @@ import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
 import reducerRegistry from './reducerRegistry';
+import sagaManager from './sagaManager';
 
 const combine = (state0, reducers) => {
     const reducerNames = Object.keys(reducers);
@@ -21,7 +24,7 @@ const combine = (state0, reducers) => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default (state0) => {
+export default (name, state0) => {
 
     const reducer = combine(state0, reducerRegistry.getReducers());
 
@@ -44,10 +47,15 @@ export default (state0) => {
         store.replaceReducer(combine(state0, reducers));
     });
 
-    // saga.run(sagas);
+    sagaManager.init(saga.run);
 
-    return {
-        store,
-        runSaga: saga.run
-    };
+    store.dispatch({ type: name });
+
+    return (Component) => (props) => (
+        <Provider store={store}>
+            <Component {...props} />
+        </Provider>
+    );
 }
+
+// export const history = syncHistoryWithStore(browserHistory, store);

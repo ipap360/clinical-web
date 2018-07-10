@@ -1,7 +1,7 @@
 // export api in a semantic way
 // !! any (schema) change to the backend should affect only this file
 import axios from 'axios';
-import { toQueryParams, isObject } from '../common';
+import { toQueryParams, isObject } from './utils';
 
 export const HTTP_STATUS = {
     BAD_REQUEST: 400,

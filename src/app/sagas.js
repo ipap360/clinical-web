@@ -1,11 +1,11 @@
 import { fork, call, put, all, take, join, takeEvery, spawn } from 'redux-saga/effects';
-import name from './name';
-import { runSaga } from './force';
+import { registerSagas } from '../common';
 import { getSession, refreshSession } from './api';
 import * as session from './session';
+import { APP_NAME } from './constants';
 
 // import { history, actions } from '../store';
-import { setOK, setFail, setFin, createActionName, createAction } from '../common';
+import { setOK, setFail, setFin, createActionName, createAction } from './helpers';
 
 // action names
 export const FETCH_SESSION = createActionName("FETCH_SESSION");
@@ -20,21 +20,15 @@ export const sessionUpdated = createAction(SESSION_UPDATED);
 
 // sagas
 function* onInit() {
-    yield take(name);
+    yield take(APP_NAME);
     yield session.setLanguage();
     yield put(fetchSession());
 }
 
-console.log(runSaga);
-
-runSaga(onInit);
-
 function* fetchSessionListener() {
     const { uuid } = session.get();
-    yield takeEvery(FETCH_SESSION, apiSaga.bind(null, getSession, uuid));
+    yield takeEvery(FETCH_SESSION, apiSaga.bind(null, FETCH_SESSION, getSession, uuid));
 }
-
-runSaga(fetchSessionListener);
 
 function* onSessionOk() {
     while (true) {
@@ -43,8 +37,6 @@ function* onSessionOk() {
         yield put(sessionUpdated(session.get()));
     }
 }
-
-runSaga(onSessionOk);
 
 function* onReAuth() {
     let task;
@@ -62,11 +54,14 @@ function* onReAuth() {
     }
 }
 
-runSaga(onReAuth);
+registerSagas(onInit, fetchSessionListener, onSessionOk, onReAuth)
 
 export function* apiSaga(...args) {
 
-    const { name, fn, data: { payload, resolve, reject } } = args;
+    console.log(args);
+
+    const [ name, fn, data = {}] = args;
+    const { payload, resolve, reject } = data;
 
     const ok = setOK(name);
     const fin = setFin(name);
@@ -78,7 +73,7 @@ export function* apiSaga(...args) {
         if (e.reAuth) {
             yield put({
                 type: REFRESH_SESSION,
-                payload: apiSaga.bind(...args)
+                payload: apiSaga.bind(null, ...args)
             });
         } else if (e.reLogin) {
             yield session.clear();
@@ -93,26 +88,4 @@ export function* apiSaga(...args) {
 export function* errorSaga(name, reject, e) {
     yield put({ type: setFail(name), payload: e.data });
     if (reject) yield call(reject, e);
-}
-
-// const asyncSagas = [
-//     [act.SIGNUP, api.newRegistration],
-//     [act.SIGNUP_CONFIRM, api.confirmRegistrations],
-//     // [act.LOGIN, api.newSession],
-//     // [act.LOGOUT, api.expireSession],
-//     // [act.WHOAMI, api.getSession],
-//     // [act.PERSON, api.savePerson],
-// ].map((e) => (asyncEvery.bind(this, e[0], e[1])()));
-
-export default function* () {
-    yield all([
-        // ...asyncSagas,
-        // onReAuth(),
-        // onInit(),
-        // onSessionOk(),
-        // onSessionFail(),
-        // onLoginOk(),
-        // onLogout(),
-        // onPersonCreated()
-    ]);
 }

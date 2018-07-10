@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import APP_NAME from '.';
+import { APP_NAME } from './constants';
 
 const statuses = {
     ok: "OK",
@@ -74,7 +74,7 @@ export const setActionStatus = (fullname, status) => {
     return arr.join("/");
 }
 
-export const setOK = (name) => setActionStatus(name, {status: 'ok'});
-export const setFail = (name) => setActionStatus(name, {status: 'fail'});
-export const setFin = (name) => setActionStatus(name, {status: 'fin'});
-export const setChg = (name) => setActionStatus(name, {status: 'chg'});
+export const setOK = (name) => setActionStatus(name, 'ok');
+export const setFail = (name) => setActionStatus(name, 'fail');
+export const setFin = (name) => setActionStatus(name, 'fin');
+export const setChg = (name) => setActionStatus(name, 'chg');

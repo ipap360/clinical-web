@@ -1,11 +1,11 @@
 import React from 'react';
 import i18n from "i18next";
-import { I18nextProvider, translate as i18translate } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 
 // import LanguageDetector from "i18next-browser-languagedetector";
 // .use(LanguageDetector)
-
-export default (name, resources) => (Component) => (props) => {
+const DEFAULT_NS = "global";
+export default (resources) => (Component) => (props) => {
 
     i18n.init({
         // initial language?
@@ -20,8 +20,8 @@ export default (name, resources) => (Component) => (props) => {
         debug: process.env.NODE_ENV !== 'production',
     
         // have a common namespace used around the full app
-        // ns: [name],
-        defaultNS: name,
+        ns: [],
+        defaultNS: DEFAULT_NS,
     
         keySeparator: false, // we use content as keys
     
@@ -33,6 +33,7 @@ export default (name, resources) => (Component) => (props) => {
         react: {
             wait: true
         }
+
     });
 
     return (
@@ -42,4 +43,4 @@ export default (name, resources) => (Component) => (props) => {
     );
 }
 
-export const translate = (name) => i18translate((props) => (props.namespaces) ? [name, ...props.namespaces] : [name]);
+// export const translate = (name) => i18translate((props) => (props.namespaces) ? [name, ...props.namespaces] : [name]);

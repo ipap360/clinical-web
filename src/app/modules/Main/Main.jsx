@@ -10,6 +10,8 @@ export default (props) => {
 
     const { children, isSignedIn } = props;
 
+    console.log(children);
+
     if (!isSignedIn) return <Login />;
 
     return (

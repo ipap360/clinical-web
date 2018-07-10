@@ -18,7 +18,7 @@ function withForm(Component) {
             return (
                 <FormName>
                     {
-                        ({ form }) => <Component {...this.props} form={form} />
+                        ({ form }) => (<Component {...this.props} form={form} />)
                     }
                 </FormName>
             );

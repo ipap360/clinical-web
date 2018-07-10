@@ -1,2 +1,2 @@
-export { default as PageWrapper } from './PageWrapper';
+export { default as PageWrapper } from './PageWrappers';
 export { default as MainWrapper } from './MainWrapper';

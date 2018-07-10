@@ -1,10 +1,11 @@
 import SignupForm from './SignupForm';
 
-import { runSaga, connect2store, history } from '../../force';
+import { registerSagas, connect2store } from '../../../common';
 import { apiSaga } from '../../sagas';
 import { newRegistration } from '../../api';
-import { setOK, createActionName, createAction, takeEvery, take, call } from '../../../common';
+import { setOK, createActionName, createAction } from '../../helpers';
 import { SIGNUP_EMAIL } from '../paths';
+import history from '../../history';
 
 // import { getSession }
 export const MODULE_NAME = 'signupForm';
@@ -22,6 +23,21 @@ const s2p = (state, ownProps) => ({
     }
 });
 
+// sagas
+function* signupListener({ takeEvery }) {
+    yield takeEvery(SIGNUP, apiSaga.bind(null, SIGNUP, newRegistration));
+}
+
+function* onSignup({ take, call }) {
+    while (true) {
+        yield take(SIGNUP_OK);
+        yield call(history.push, SIGNUP_EMAIL);
+    }
+}
+
+registerSagas(signupListener, onSignup);
+
+// connect..
 const d2p = { signup };
 
 const getSession = (state) => state.session || {};
@@ -30,18 +46,3 @@ const getLocale = (session) => session.locale;
 
 export default connect2store({ d2p, s2p, form: MODULE_NAME })(SignupForm);
 
-// sagas
-function* signupListener() {
-    yield takeEvery(SIGNUP, apiSaga.bind(null, SIGNUP, newRegistration));
-}
-
-runSaga(signupListener);
-
-function* onSignup() {
-    while (true) {
-        yield take(SIGNUP_OK);
-        yield call(history.push, SIGNUP_EMAIL);
-    }
-}
-
-runSaga(onSignup);

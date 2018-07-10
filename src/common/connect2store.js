@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { reducer, reduxForm, SubmissionError } from 'redux-form';
+import { translate } from "react-i18next";
 
-import { translate } from './i18n';
-import reducerRegistry from './reducerRegistry';
+import registerReducer from './registerReducer';
+import { withTheme } from '@material-ui/core';
 
-reducerRegistry.register("form", reducer);
+registerReducer("form", reducer);
 
 // (action) = 
 const onSubmit = (values, dispatch, props) => new Promise((resolve, reject) => {
@@ -22,8 +23,10 @@ const onSubmit = (values, dispatch, props) => new Promise((resolve, reject) => {
     });
 });
 
-export default (name) => ({ s2p, d2p, form }) => (comp) => {
-    let ret = translate(name)(comp);
+export default (options = {}) => (comp) => {
+    const { s2p, d2p, form, i18n } = options;
+    let ret = translate(i18n)(comp);
+    ret = withTheme()(ret);
     if (form) ret = reduxForm({ form, onSubmit })(ret);
     return connect(s2p, d2p)(ret);
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { fromQueryParams } from '../../../common';
+import { fromQueryParams } from '../../utils';
 import { PageWrapper, Loader, Typography, NavButton } from '../../../components';
 import { ErrorOutline, Done } from '@material-ui/icons';
 import { CONFIRM_QUERY_PARAM } from '../Signup';

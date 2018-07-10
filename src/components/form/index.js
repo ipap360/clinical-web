@@ -7,6 +7,8 @@ export {
     FormLabel,
 } from '@material-ui/core';
 
+export { default as FormRow } from './FormRow';
+export { default as FormButtonsContainer } from './FormButtonsContainer';
 export { default as FormSubmitButton } from './FormSubmitButton';
 export { default as FormResetButton } from './FormResetButton';
 export { default as FormError } from './FormError';

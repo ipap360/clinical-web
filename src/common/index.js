@@ -1,37 +1,20 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-
-import reducerRegistry from './reducerRegistry';
 import configureStore from './configureStore';
-import history from './history';
 import withDateUtils from './dates';
 import applyTranslations from './i18n';
 import applyTheme from './theme';
-import connect from './connect';
 
-export * from 'redux-saga/effects';
+const DEFAULT_NAME = "Application";
+
 export * from './utils';
-export * from './helpers';
+export { default as registerSagas } from './registerSagas';
+export { default as registerReducer } from './registerReducer';
+export { default as connect2store } from './connect2store';
 
-export default (name, state, theme, translations) => {
+export default (name = DEFAULT_NAME, state = {}, theme = "", translations = []) => (Component) => {
 
-    const { store, runSaga } = configureStore(state);
-    store.dispatch({ type: name });
-
+    const withStore = configureStore(name, state);
     const withTheme = applyTheme(theme);
-    const withI18n = applyTranslations(name, translations);
+    const withI18n = applyTranslations(translations);
 
-    return {
-        reducerRegistry,
-        connect2store: connect(name),
-        runSaga,
-        history,
-        withForce: (Component) => (props) => withDateUtils(withTheme(withI18n((
-            <Provider store={store}>
-                <Component {...props} />
-            </Provider>
-        ))))
-    }
+    return withDateUtils(withTheme(withI18n(withStore(Component))));
 }
-
-// export const history = syncHistoryWithStore(browserHistory, store);

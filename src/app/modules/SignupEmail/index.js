@@ -1,5 +1,5 @@
 import SignupEmail from "./SignupEmail";
-import { connect2store } from "../../force";
+import { connect2store } from "../../../common";
 
 export const MODULE_NAME = "signupEmail";
 
