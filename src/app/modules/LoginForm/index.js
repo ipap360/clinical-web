@@ -1,6 +1,6 @@
 import LoginForm from './LoginForm';
 import { createActionName, setOK, takeEvery, take, put, createAction } from '../../../common';
-import { runSaga, connect2store } from '../..';
+import { runSaga, connect2store } from '../../force';
 import { newSession } from '../../api';
 import { apiSaga, sessionUpdated } from '../../sagas';
 import * as session from '../../session';
@@ -20,7 +20,7 @@ function* loginListener() {
     yield takeEvery(LOGIN, apiSaga.bind(null, LOGIN, newSession));
 }
 
-runSaga(loginListener())
+runSaga(loginListener)
 
 function* onLogin () {
     while (true) {
@@ -30,4 +30,4 @@ function* onLogin () {
     }
 }
 
-runSaga(onLogin())
+runSaga(onLogin)

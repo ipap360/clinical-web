@@ -1,5 +1,6 @@
 import { fork, call, put, all, take, join, takeEvery, spawn } from 'redux-saga/effects';
-import { APP_NAME, runSaga } from '.';
+import name from './name';
+import { runSaga } from './force';
 import { getSession, refreshSession } from './api';
 import * as session from './session';
 
@@ -19,19 +20,21 @@ export const sessionUpdated = createAction(SESSION_UPDATED);
 
 // sagas
 function* onInit() {
-    yield take(APP_NAME);
+    yield take(name);
     yield session.setLanguage();
     yield put(fetchSession());
 }
 
-runSaga(onInit());
+console.log(runSaga);
+
+runSaga(onInit);
 
 function* fetchSessionListener() {
     const { uuid } = session.get();
     yield takeEvery(FETCH_SESSION, apiSaga.bind(null, getSession, uuid));
 }
 
-runSaga(fetchSessionListener());
+runSaga(fetchSessionListener);
 
 function* onSessionOk() {
     while (true) {
@@ -41,7 +44,7 @@ function* onSessionOk() {
     }
 }
 
-runSaga(onSessionOk());
+runSaga(onSessionOk);
 
 function* onReAuth() {
     let task;
@@ -59,7 +62,7 @@ function* onReAuth() {
     }
 }
 
-runSaga(onReAuth());
+runSaga(onReAuth);
 
 export function* apiSaga(...args) {
 

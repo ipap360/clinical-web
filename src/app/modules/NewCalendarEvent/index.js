@@ -2,7 +2,7 @@
 // import { createActionName, createAction } from '../../store/helpers';
 // import connect from '../../store/connect';
 import NewCalendarEvent from './NewCalendarEvent';
-import reducerRegistry, { connect2store } from '../..';
+import { reducerRegistry, connect2store } from '../../force';
 import { createActionName, createAction } from '../../../common';
 
 // module name

@@ -1,6 +1,6 @@
 import SignupConfirm from './SignupConfirm';
 
-import { connect2store, reducerRegistry, runSaga } from '../..';
+import { connect2store, reducerRegistry, runSaga } from '../../force';
 import { createAction, setOK, setFail, createActionName, takeEvery } from '../../../common';
 import { apiSaga } from '../../sagas';
 import { confirmRegistrations } from '../../api';
@@ -65,4 +65,4 @@ function* signupConfirmListener () {
     yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, SIGNUP_CONFIRM, confirmRegistrations, ))
 }
 
-runSaga(signupConfirmListener());
+runSaga(signupConfirmListener);

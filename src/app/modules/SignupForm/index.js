@@ -1,6 +1,6 @@
 import SignupForm from './SignupForm';
 
-import { runSaga, connect2store, history } from '../..';
+import { runSaga, connect2store, history } from '../../force';
 import { apiSaga } from '../../sagas';
 import { newRegistration } from '../../api';
 import { setOK, createActionName, createAction, takeEvery, take, call } from '../../../common';
@@ -35,7 +35,7 @@ function* signupListener() {
     yield takeEvery(SIGNUP, apiSaga.bind(null, SIGNUP, newRegistration));
 }
 
-runSaga(signupListener());
+runSaga(signupListener);
 
 function* onSignup() {
     while (true) {
@@ -44,4 +44,4 @@ function* onSignup() {
     }
 }
 
-runSaga(onSignup());
+runSaga(onSignup);

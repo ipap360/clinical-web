@@ -13,7 +13,7 @@ export * from 'redux-saga/effects';
 export * from './utils';
 export * from './helpers';
 
-export default (name, state, theme, translations) => (Component) => (props) => {
+export default (name, state, theme, translations) => {
 
     const { store, runSaga } = configureStore(state);
     store.dispatch({ type: name });

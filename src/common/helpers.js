@@ -26,7 +26,9 @@ export const createAction = (type) => (payload) => ({
     payload
 });
 
-export const createActionName = (name, ns = null, { status, command }) => {
+export const createActionName = (name, ns = null, options = {}) => {
+
+    const { status, command } = options;
 
     let fullname = name;
 

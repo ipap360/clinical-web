@@ -1,6 +1,6 @@
 import Main from './Main';
 
-import { runSaga, history, connect2store, reducerRegistry } from '../..';
+import { runSaga, history, connect2store, reducerRegistry } from '../../force';
 import { setFin, createActionName, createAction, take, call, put, takeEvery, setOK } from '../../../common';
 import * as session from '../../session';
 import { expireSession } from '../../api';
@@ -56,7 +56,7 @@ function* logoutListener() {
     yield takeEvery(LOGOUT, apiSaga.bind(null, expireSession, uuid));
 }
 
-runSaga(logoutListener());
+runSaga(logoutListener);
 
 function* onLogout() {
     while (true) {
@@ -67,7 +67,7 @@ function* onLogout() {
     }
 }
 
-runSaga(onLogout());
+runSaga(onLogout);
 
 // fix
 // function* onSessionFail() {
