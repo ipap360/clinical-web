@@ -7,15 +7,9 @@ import { withTheme } from '@material-ui/core';
 
 registerReducer("form", reducer);
 
-// (action) = 
 const onSubmit = (values, dispatch, props) => new Promise((resolve, reject) => {
-    // TODO: CHECK what is 'props'!
-    console.log(props);
-    // action({
-    //     payload: values,
-    //     resolve,
-    //     reject
-    // });
+    const { submitActionCreator } = props;
+    submitActionCreator(values, { resolve, reject });
 }).catch(({ data: { message, ...more }, status, statusText }) => {
     throw new SubmissionError({
         _error: message || statusText,

@@ -23,28 +23,27 @@ import {
     SETTINGS 
 } from './paths';
 
-console.log(Home);
-console.log(Login);
-console.log(NewCalendarEvent);
-console.log(EditCalendarEvent);
-console.log(Signup);
-console.log(SignupEmail);
-console.log(SignupConfirm);
-console.log(Profile);
-console.log(Settings);
+// console.log(Home);
+// console.log(Login);
+// console.log(NewCalendarEvent);
+// console.log(EditCalendarEvent);
+// console.log(Signup);
+// console.log(SignupEmail);
+// console.log(SignupConfirm);
+// console.log(Profile);
+// console.log(Settings);
 
 export default () => (
     <Router>
         <Switch>
-            <Route path={ROOT} component={Home} />
-            <Route path={LOGIN} component={Login} />
+            <Route path={SIGNUP} component={Signup} />
             <Route path={SIGNUP_CONFIRM} component={SignupConfirm} />
             <Route path={SIGNUP_EMAIL} component={SignupEmail} />
-            <Route path={SIGNUP} component={Signup} />
             <Route path={NEW_CALENDAR_EVENT} component={NewCalendarEvent} />
             <Route path={EDIT_CALENDAR_EVENT} component={EditCalendarEvent} />
             <Route path={PROFILE} component={Profile} />
             <Route path={SETTINGS} component={Settings} />
+            <Route path={ROOT} component={Home} />
         </Switch>
     </Router>
 );

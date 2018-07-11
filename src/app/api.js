@@ -50,13 +50,10 @@ net.interceptors.response.use(function (response) {
     return Promise.reject(normalizedResponse(error));
 });
 
-
 // check whether I have a valid token or if I am visiting as a guest
-export const getSession = (uuid) => {
-    // const { uuid } = session.get();
+export const getSession = ({ uuid }) => {
     return net.get("/sessions?uuid=" + uuid);
 }
-
 
 // login using username & password
 export const newSession = ({ username, password }) =>
@@ -66,8 +63,7 @@ export const newSession = ({ username, password }) =>
     });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const refreshSession = (uuid) => {
-    // const { uuid } = session.get();
+export const refreshSession = ({uuid}) => {
     return net.post("/sessions/refresh", {
         uuid
     }).then(response => {
@@ -77,16 +73,15 @@ export const refreshSession = (uuid) => {
     });
 }
 
-
 // check whether I have a valid token or if I am visiting as a guest
-export const expireSession = (uuid) => {
-    // const { uuid } = session.get();
+export const expireSession = ({uuid}) => {
     return net.post("/sessions/expire", {
         uuid
     });
 }
 
-// create registration
+
+// sign uuuup
 export const newRegistration = ({ email, password, locale, timezone, url }) =>
     net.post("/registrations", {
         email,
@@ -125,7 +120,6 @@ export const copyCalendarEvent = ({ id, ...data }) =>
 
 export const getPersons = ({ ...params }) =>
     net.get("/persons" + toQueryParams(params));
-
 
 export const getPerson = (id) =>
     net.get("/persons/" + id);

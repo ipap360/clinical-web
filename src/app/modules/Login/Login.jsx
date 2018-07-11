@@ -4,46 +4,42 @@ import LoginForm from '../LoginForm';
 
 import { SIGNUP } from '../paths';
 
-import { PageWrapper, BackgroundImage, Link, Typography, Paper, AppBar, Divider } from '../../../components';
+import { BackgroundImage, Link, Typography, Paper, AppBar, Divider, PageImgWrapper } from '../../../components';
 import styled from 'styled-components';
+// import { PageImgWrapper } from '../../../components';
 
-const LoginContainer = styled.div`
+const Container = styled.div`
     width: 350px;
     margin: 0 auto;
 `
 
-const Spacer = styled.div`
+const Pad = styled.div`
     padding: 15px 30px;
-`;
+`
 
 export default ({ t, theme }) => {
     return (
-        <BackgroundImage src={loginPhoto} style={{
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center'
-        }}>
-            <LoginContainer>
+        <PageImgWrapper src={loginPhoto}>
+            <Container>
                 <Paper square={true}>
                     <AppBar position='static' elevation={0}>
-                        <Spacer>
+                        <Pad>
                             <Typography color='inherit' align='center' variant='title'>
                                 Log In
                             </Typography>
-                        </Spacer>
+                        </Pad>
                     </AppBar>
-                    <Spacer>
+                    <Pad>
                         <LoginForm />
-                    </Spacer>
+                    </Pad>
                     <Divider />
-                    <Spacer>
-                        <Typography>
-                            Don't have an account? <Link to={SIGNUP}>Sign Up</Link>
+                    <Pad>
+                        <Typography align="left">
+                            No account? <strong><Link to={SIGNUP}>Sign Up</Link></strong>
                         </Typography>
-                    </Spacer>
+                    </Pad>                    
                 </Paper>
-            </LoginContainer>
-        </BackgroundImage>
+            </Container>
+        </PageImgWrapper>
     );
 }

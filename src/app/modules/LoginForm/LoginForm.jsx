@@ -6,15 +6,10 @@ import {
     Link,
     Typography,
     FormRow,
-    FormError
+    FormError,
+    Spacer
 } from '../../../components';
 import { RECOVER_PWD_INIT } from '../paths';
-import styled from 'styled-components';
-
-const Spacer = styled.div`
-    height: 30px;
-    width: 100%;
-`;
 
 export default ({ t, handleSubmit }) => (
     <Form onSubmit={handleSubmit}>
@@ -29,8 +24,8 @@ export default ({ t, handleSubmit }) => (
             {t("Log In")}
         </FormSubmitButton>
         <FormError />
-        <Typography variant="caption">
-            Did you forget your email or password? <Link to={RECOVER_PWD_INIT}>Reset</Link>
+        <Typography variant="caption" align="right">
+            <Link to={RECOVER_PWD_INIT}>Forgot password?</Link>
         </Typography>
     </Form>
 );

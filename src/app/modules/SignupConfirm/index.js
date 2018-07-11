@@ -1,9 +1,9 @@
 import SignupConfirm from './SignupConfirm';
 
 import { createAction, setOK, setFail, createActionName } from '../../helpers';
-import { apiSaga } from '../../sagas';
 import { confirmRegistrations } from '../../api';
 import { registerReducer, registerSagas, connect2store } from '../../../common';
+import { apiSaga } from '../../session';
 
 export const MODULE_NAME = 'signupConfirm';
 
@@ -54,7 +54,7 @@ registerReducer(MODULE_NAME, reducer);
 
 // sagas
 function* signupConfirmListener({ takeEvery }) {
-    yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, SIGNUP_CONFIRM, confirmRegistrations, ))
+    yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, confirmRegistrations))
 }
 
 registerSagas(signupConfirmListener);

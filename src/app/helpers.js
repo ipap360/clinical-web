@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { APP_NAME } from './constants';
+import { REFRESH_SESSION } from './session';
 
 const statuses = {
     ok: "OK",
@@ -21,9 +22,10 @@ const commands = {
     mv: "MOVE",
 }
 
-export const createAction = (type) => (payload) => ({
+export const createAction = (type) => (payload, meta) => ({
     type,
-    payload
+    payload,
+    meta
 });
 
 export const createActionName = (name, ns = null, options = {}) => {

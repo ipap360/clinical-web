@@ -7,7 +7,7 @@ const sizeMap = {
     'large': 18
 }
 
-export default ({ loading, children, size, ...props }) => {
+export default ({ loading, children, size = 'medium', ...props }) => {
     return (
         <Button size={size} {...props}>
             {loading ? <CircularProgress size={sizeMap[size]} /> : children }
