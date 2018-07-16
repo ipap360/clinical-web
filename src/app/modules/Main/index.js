@@ -13,8 +13,6 @@ export const TOGGLE_SIDEBAR = createActionName("TOGGLE_SIDEBAR");
 // action creator
 export const toggleSidebar = createAction(TOGGLE_SIDEBAR);
 
-console.log(toggleSidebar);
-
 const state0 = {
     isSidebarOpen: true
 };

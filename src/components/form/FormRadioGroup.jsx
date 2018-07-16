@@ -1,23 +1,48 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { RadioGroup } from 'redux-form-material-ui';
-import { InputLabel, FormControl, FormHelperText, withStyles, FormLabel } from '@material-ui/core';
-import classNames from 'classnames';
+import { InputLabel, FormControl, FormHelperText, withStyles, FormLabel, FormGroup } from '@material-ui/core';
+// import classNames from 'classnames';
 
 const styles = theme => ({
     root: {
         alignItems: 'center'
     },
-    withShrunkLabel: {
+    mini: {
         marginTop: 8,
     },
-    withInlineLabel: {
-        
-    },
-    inlineLabel: {
+    inline: {
         marginRight: theme.spacing.unit * 3,
-    }
+    },
 })
+
+const FormRadioLabel = withStyles(styles)(({ classes, label, variant, id, children, ...props }) => {
+
+    if (!label) return children;
+
+    switch (variant) {
+        case "mini":
+            return (
+                <React.Fragment>
+                    <InputLabel htmlFor={id} {...props} shrink>
+                        {label}
+                    </InputLabel>
+                    <div className={classes.mini}>
+                        {children}
+                    </div>
+                </React.Fragment>
+            );
+        default:
+            return (
+                <FormGroup className={classes.root} row>
+                    <FormLabel className={classes.inline}>
+                        {label}
+                    </FormLabel>
+                    {children}
+                </FormGroup>
+            )
+    }
+});
 
 class FormRadioGroup extends React.Component {
 
@@ -43,15 +68,6 @@ class FormRadioGroup extends React.Component {
 
         const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
 
-        const fieldClassName = classNames(
-            classes.root,
-            {
-                [classes.withShrunkLabel]: label && shrink,
-                [classes.withInlineLabel]: label && !shrink,
-                // [classes.inline]: label && !shrink     
-            }
-        )
-
         return (
             <FormControl
                 aria-describedby={helperTextId}
@@ -61,26 +77,17 @@ class FormRadioGroup extends React.Component {
                 required={required}
                 {...other}
             >
-                {shrink && label && (
-                    <InputLabel htmlFor={id} {...InputLabelProps} shrink>
-                        {label}
-                    </InputLabel>
-                )}
-                <Field 
-                    className={fieldClassName} 
-                    id={id} 
-                    name={name} 
-                    value={value} 
-                    component={RadioGroup} 
-                    {...RadioGroupProps}
-                >
-                    {/* {!shrink && label && (
-                        <FormLabel className={classes.inlineLabel}>
-                            {label}
-                        </FormLabel>
-                    )} */}
-                    {children}
-                </Field>
+                <FormRadioLabel label={label} id={id} {...InputLabelProps}>
+                    <Field
+                        id={id}
+                        name={name}
+                        value={value}
+                        component={RadioGroup}
+                        {...RadioGroupProps}
+                    >
+                        {children}
+                    </Field>
+                </FormRadioLabel>
                 {helperText && (
                     <FormHelperText id={helperTextId} {...FormHelperTextProps}>
                         {helperText}
