@@ -1,87 +1,71 @@
 import React, { Component } from 'react';
 
-import { Link } from '../../../components';
-import { date } from '../../utils';
+import { Paper, NavButton, SmallCalendar, AddIcon } from '../../../components';
 
-import { NEW_CALENDAR_EVENT } from '../paths';
 import Main from '../Main';
+import { NEW_CALENDAR_EVENT } from '../paths';
 
-const demo = {
-    "2018-06-25": {
-        isToday: false,
-        workingDay: true,
+import CalendarHeader from './CalendarHeader';
 
-        maxCapacity: {
-            MALE: 5,
-            FEMALE: 8
-        },
-        details: {
-            day: 25,
-            month: "ΙΟΥΝ",
-            year: 2018,
-            name: "ΔΕ"
-        },
-        events: [
-            {
-                id: 1,
-                description: "CA",
-                name: "Παπαδημητρίου",
-                gender: "MALE",
-                duration: 1,
-            }
-        ]
+import { withStyles, Icon } from '@material-ui/core';
+
+const styles = theme => ({
+    calendarContent: {
+        position: 'relative',
+        marginTop: 64,
+        // height: '100%',
+        flex: '1 auto',
+        width: '100%',
+        // display: 'flex',
+        // flexDirection: 'row'
+    },
+    addBtn: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 4.5,
+        right: theme.spacing.unit * 4.5,
     }
-};
+});
 
-export default class Home extends Component {
-
-    constructor(props) {
-
-        super(props);
-
-        const today = date.midnight(new Date());
-
-        this.dates = [];
-
-        for (let i = 1; i < 8; i++) {
-            let loopdate = new Date(today);
-            loopdate.setUTCDate(today.getUTCDate() - today.getUTCDay() + i);
-            this.dates.push(loopdate);
-        }
-
-        console.log(this.dates);
-    }
+class Home extends Component {
 
     dayClick = () => {
         console.log(this)
     }
 
     render() {
-        return (
-            <Main>
-                <div className='calendar'>
-                    <div className='calendar-header'>
-                        <Link to={NEW_CALENDAR_EVENT}>Add</Link>
-                    </div>
-                    <div className='calendar-body calendar-week'>
-                        {this.dates.map((d) => (
-                            <div key={d.getTime()} className='calendar-day' onClick={this.dayClick.bind(this)}>
-                                <div className='header'>
-                                    <div className='name'>
-                                        {/* {t("ShortDays", d.getUTCDay())} */}
-                                    </div>
-                                    <div className='value' >
-                                        {d.getUTCDate()}
-                                    </div>
-                                </div>
-                                <div className='content'>
 
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+        const { classes, dates } = this.props;
+
+        const header = (<CalendarHeader dates={dates} />);
+        const sidebar = (<SmallCalendar value={new Date()} onChange={() => { }} />);
+
+        const events = [
+            {
+                name: "Β. Παπαδημητρίου",
+                description: "CA Προστάτη",
+                date: "2018-07-18",
+                duration: 1
+            }
+        ]
+
+        return (
+            <Main header={header} sidebar={sidebar}>
+                <Paper square className={classes.calendarContent}>
+                    {
+                        // dates.map(d => {
+                        //     return (
+                        //         <CalendarDayContent />
+                        //     );
+                        // })
+                    }
+                </Paper>
+                <NavButton variant="fab" className={classes.addBtn} color='secondary' to={NEW_CALENDAR_EVENT}>
+                    <Icon>add</Icon>
+                </NavButton>
             </Main>
         );
     }
 }
+
+
+export default withStyles(styles)(Home);

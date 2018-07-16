@@ -1,11 +1,12 @@
 import React from 'react';
-import { Drawer, List, Divider } from '../../../components';
+import { Drawer, Toolbar } from '../../../components';
 
-export default () => (
-    <Drawer variant="permanent">
-        {/* <div className={classes.toolbar} /> */}
-        <List>{}</List>
-        <Divider />
-        <List>{}</List>
-    </Drawer>
-);
+export default ({ className, content, variant, open, ...props }) => {
+    return (
+        <Drawer className={className} variant={variant} open={open}>
+            <Toolbar></Toolbar>
+            <Toolbar></Toolbar>
+            {content}
+        </Drawer>
+    );
+}

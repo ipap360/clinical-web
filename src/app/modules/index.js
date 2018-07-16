@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Home from './Home';
-import Login from './Login';
 import NewCalendarEvent from './NewCalendarEvent';
 import EditCalendarEvent from './EditCalendarEvent';
 import Signup from './Signup';
@@ -16,7 +15,6 @@ import {
     SIGNUP, 
     SIGNUP_EMAIL, 
     SIGNUP_CONFIRM, 
-    LOGIN, 
     NEW_CALENDAR_EVENT, 
     EDIT_CALENDAR_EVENT, 
     PROFILE, 

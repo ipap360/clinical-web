@@ -20,9 +20,9 @@ class SimpleMenu extends React.Component {
 
     render() {
         const { anchorEl, id } = this.state;
-        const { label, items = [], Component = Button } = this.props;
+        const { className, label, items = [], Component = Button } = this.props;
         return (
-            <div>
+            <div className={className}>
                 <Component
                     aria-owns={anchorEl ? id : null}
                     aria-haspopup="true"

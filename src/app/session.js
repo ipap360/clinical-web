@@ -7,7 +7,7 @@ import { base64 } from './utils';
 import { createActionName, createAction, setOK, setFin, setFail } from './helpers';
 import { APP_NAME } from './constants';
 import { getSession, newSession, refreshSession, expireSession } from './api';
-import { fork, call, put, all, take, join, takeEvery, spawn } from 'redux-saga/effects';
+import { fork, call, put, take, join } from 'redux-saga/effects';
 import { registerReducer, registerSagas } from '../common';
 import history from './history';
 
@@ -51,7 +51,7 @@ export const cookie = {
             expires
         });
         const lang = obj.language || locale2;
-        this.setLanguage(lang);
+        cookie.setLanguage(lang);
         // Cookies.set(LANG_COOKIE_NAME, lang);
     },
     clear: () => {
@@ -173,10 +173,10 @@ function* sessionListeners({ takeEvery }) {
 }
 
 export function* apiSaga(...args) {
-    console.log(args);
+    // console.log(args);
     const [fn, { type, payload, meta = {} }] = args;
-    console.log(payload);
-    console.log(meta);
+    // console.log(payload);
+    // console.log(meta);
     try {
         const data = yield call(fn, payload);
         yield* okSaga(type, meta.resolve, data);
@@ -198,14 +198,14 @@ export function* apiSaga(...args) {
 }
 
 export function* okSaga(type, resolve, data) {
-    console.log(resolve);
+    // console.log(resolve);
     const ok = setOK(type);
     yield put({ type: ok, payload: data.data });
     if (resolve) yield call(resolve);
 }
 
 export function* errorSaga(type, reject, e) {
-    console.log(reject);
+    // console.log(reject);
     yield put({ type: setFail(type), payload: e.data });
     if (reject) yield call(reject, e);
 }

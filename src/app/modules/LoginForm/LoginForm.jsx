@@ -10,6 +10,7 @@ import {
     Spacer
 } from '../../../components';
 import { RECOVER_PWD_INIT } from '../paths';
+import FormButtonsContainer from '../../../components/form/FormButtonsContainer';
 
 export default ({ t, handleSubmit }) => (
     <Form onSubmit={handleSubmit}>
@@ -19,10 +20,11 @@ export default ({ t, handleSubmit }) => (
         <FormRow>
             <FormTextField name='password' inputProps={{ autoComplete: "current-password", type: "password" }} label={t("Password")} fullWidth />
         </FormRow>
-        <Spacer />
-        <FormSubmitButton fullWidth>
-            {t("Log In")}
-        </FormSubmitButton>
+        <FormButtonsContainer>
+            <FormSubmitButton fullWidth>
+                {t("Log In")}
+            </FormSubmitButton>
+        </FormButtonsContainer>
         <FormError />
         <Typography variant="caption" align="right">
             <Link to={RECOVER_PWD_INIT}>Forgot password?</Link>

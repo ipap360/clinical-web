@@ -15,3 +15,6 @@ export { default as FormError } from './FormError';
 export { default as FormAreaField } from './FormAreaField';
 export { default as FormDateField } from './FormDateField';
 export { default as FormTextField } from './FormTextField';
+export { default as FormRadio } from './FormRadio';
+export { default as FormRadioGroup } from './FormRadioGroup';
+export { default as FormSelect } from './FormSelect';

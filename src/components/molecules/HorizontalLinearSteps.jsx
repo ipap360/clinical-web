@@ -3,7 +3,7 @@ import { Stepper, Step, StepLabel } from '../atoms';
 
 export default class HorizontalLinearSteps extends React.Component {
     render() {
-        const { steps, activeStep, ...props } = this.props;
+        const { steps = [], activeStep = 0, ...props } = this.props;
         return (
             <Stepper activeStep={activeStep} {...props}>
                 {steps.map((step, index) => {

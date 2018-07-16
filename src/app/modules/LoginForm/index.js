@@ -9,4 +9,3 @@ export const MODULE_NAME = 'loginForm';
 const d2p = { submitActionCreator: login };
 
 export default connect2store({ d2p, form: MODULE_NAME })(LoginForm);
-

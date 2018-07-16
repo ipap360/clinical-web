@@ -1,16 +1,20 @@
-import { blueGrey, pink } from '@material-ui/core/colors';
+import { teal, red } from '@material-ui/core/colors';
 
 export default {
+    overrides: {
+        MuiToolbar: {
+        }
+    },
     palette: {
         primary: {
-            light: blueGrey[300],
-            main: blueGrey[500],
-            dark: blueGrey[800],
+            light: teal[100],
+            main: teal[500],
+            dark: teal[600],
         },
         secondary: {
-            light: pink[100],
-            main: pink[300],
-            dark: pink[500],
+            light: "#ff867f",
+            main: red.A200,
+            dark: "#c50e29",
         },
     },
 };

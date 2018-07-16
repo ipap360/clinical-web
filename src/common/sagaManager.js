@@ -35,8 +35,9 @@ class SagaManager {
         if (this._runner !== null) {
             this._sagas.map(saga => {
                 if (typeof saga === 'function') {
-                    this._runner(saga.bind(null, { ...effects }));
+                    return this._runner(saga.bind(null, { ...effects }));
                 }
+                return saga;
             });
         }
     }

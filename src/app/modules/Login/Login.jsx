@@ -4,9 +4,8 @@ import LoginForm from '../LoginForm';
 
 import { SIGNUP } from '../paths';
 
-import { BackgroundImage, Link, Typography, Paper, AppBar, Divider, PageImgWrapper } from '../../../components';
+import { Link, Typography, Paper, AppBar, Divider, PageImgWrapper } from '../../../components';
 import styled from 'styled-components';
-// import { PageImgWrapper } from '../../../components';
 
 const Container = styled.div`
     width: 350px;

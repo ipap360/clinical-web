@@ -43,13 +43,17 @@ const state0 = {
 };
 
 const reducer = (state = state0, { type, payload }) => {
-    switch(type) {
+    switch (type) {
         case NEXT_STEP:
             return {
                 ...state,
                 activeStep: state.activeStep++
             }
-
+        case PREVIOUS_STEP:
+            return {
+                ...state,
+                activeStep: state.activeStep--
+            }
         default:
             return state;
     }
@@ -59,8 +63,12 @@ registerReducer(MODULE_NAME, reducer);
 
 const getState = (state) => state[MODULE_NAME];
 
+export const getActiveStep = (state) => state[MODULE_NAME].activeStep;
+export const getSteps = (state) => state[MODULE_NAME].steps;
+
 const s2p = (state) => ({
-    ...getState(state)
+    activeStep: getActiveStep(state),
+    steps: getSteps(state)
 });
 
 const m2p = () => ({
@@ -69,7 +77,7 @@ const m2p = () => ({
     complete
 });
 
-export default connect2store({s2p, m2p})(NewCalendarEvent);
+export default connect2store({ s2p, m2p })(NewCalendarEvent);
 
 
 // import React from 'react';

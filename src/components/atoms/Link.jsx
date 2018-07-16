@@ -1,6 +1,6 @@
-import React from 'react';
+// import React from 'react';
 import { Link } from 'react-router-dom';
-import { withTheme } from '@material-ui/core';
+// import { withTheme } from '@material-ui/core';
 import styled from 'styled-components';
 
 // color: ${props => props.theme ? props.theme.palette.primary.main : "inherit"}

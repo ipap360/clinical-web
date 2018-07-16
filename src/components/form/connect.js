@@ -9,7 +9,7 @@ const mapS2P = (state, { form }) => ({
 
 const mapD2P = (dispatch) => ({
     submit: (form) => () => dispatch(submit(form)),
-    reset: (form) => () => reset(form),
+    reset: (form) => () => dispatch(reset(form))
 });
 
 function withForm(Component) {

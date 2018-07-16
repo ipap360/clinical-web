@@ -6,7 +6,7 @@ import { Paper, Typography, PageWrapper } from '../../../components';
 export default ({ email }) => (
     <PageWrapper>
         <Paper>
-            <img src={photo} />
+            <img src={photo} alt=''/>
             <Typography variant='display3'>
                 Check your Email
             </Typography>

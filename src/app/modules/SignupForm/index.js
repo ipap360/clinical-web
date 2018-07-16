@@ -38,7 +38,7 @@ function* onSignup({ take, call }) {
 registerSagas(signupListener, onSignup);
 
 // connect..
-const d2p = { signup };
+const d2p = { submitActionCreator: signup };
 
 const getSession = (state) => state.session || {};
 const getTimezone = (session) => session.timezone;

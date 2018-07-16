@@ -1,9 +1,99 @@
 import React from 'react';
 import Main from '../Main';
+import { withStyles } from '@material-ui/core';
+import { Typography, Toolbar, Paper, Icon, Button, HorizontalLinearSteps } from '../../../components';
+import PersonForm from '../PersonForm';
 
-export default () => (
-    <Main></Main>
-);
+const style = theme => ({
+    root: {
+
+    },
+    paper: {
+        flex: '1 auto',
+        width: '100%',
+        padding: theme.spacing.unit * 2
+    },
+    header: {
+        flex: '1 auto',
+        position: 'relative',
+        backgroundColor: '#e4eb30',
+        // color: theme.palette.getContrastText('#e4eb30'),
+        padding: theme.spacing.unit * 2
+    },
+    stepContent: {
+        padding: theme.spacing.unit * 3
+    },
+    stepBtnContainer: {
+        padding: theme.spacing.unit * 3
+    },
+    nextBtn: {
+        // position: 'absolute',
+        marginLeft: theme.spacing.unit * 2
+        // bottom: theme.spacing.unit * 4.5,
+        // right: theme.spacing.unit * 4.5,
+    },
+    // closeBtn: {
+    //     position: 'absolute',
+    //     bottom: theme.spacing.unit * 8.5,
+    //     right: theme.spacing.unit * 4.5,
+    // }
+})
+
+class NewCalendarEvent extends React.Component {
+
+    getStepContent(activeStep) {
+        switch (activeStep) {
+            case 0:
+                return (<PersonForm />);
+            case 1:
+                return null;
+            case 2:
+                return null;
+            default:
+                return null;
+        }
+    }
+
+    render() {
+
+        const { classes, t, activeStep, steps } = this.props;
+
+        const title = "" || t("New Calendar Event");
+
+        const header = (
+            <Toolbar className={classes.header} disableGutters>
+                <Typography variant='headline'>{{ title }}</Typography>
+            </Toolbar>
+        );
+
+        const allowNext = false;
+        const allowPrevious = activeStep > 0;
+        const insertEvent = () => { };
+        const cancelInsert = () => { };
+
+        return (
+            <Main header={header}>
+                <Paper square className={classes.paper}>
+                    <HorizontalLinearSteps activeStep={activeStep} steps={steps} />
+                    <div className={classes.stepContent}>
+                        {this.getStepContent(activeStep)}
+                    </div>
+                    <div className={classes.stepBtnContainer}>
+                        <Button className={classes.closeBtn} onClick={cancelInsert} size="small" disabled={!allowPrevious}>
+                            {t("Back")}
+                        </Button>
+                        <Button variant="contained" className={classes.nextBtn} color="primary" size="large" disabled={!allowNext} onClick={insertEvent}>
+                            {t("Next")}
+                        </Button>
+                    </div>
+                </Paper>
+            </Main>
+        );
+    }
+
+}
+
+export default withStyles(style)(NewCalendarEvent);
 
 // import PropTypes from 'prop-types';
 // import { withStyles } from '@material-ui/core/styles';

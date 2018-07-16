@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { APP_NAME } from './constants';
-import { REFRESH_SESSION } from './session';
 
 const statuses = {
     ok: "OK",
