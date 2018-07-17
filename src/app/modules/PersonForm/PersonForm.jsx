@@ -7,11 +7,12 @@ import {
     FormSubmitButton,
     FormResetButton,
     FormRadioGroup,
-    FormLabel,
+    FormButtonsContainer,
     FormRadio,
+    FormError,
+    FormSelect,
 } from '../../../components';
-import FormButtonsContainer from '../../../components/form/FormButtonsContainer';
-import FormError from '../../../components/form/FormError';
+
 import { withStyles } from '@material-ui/core';
 
 
@@ -24,7 +25,7 @@ const style = theme => ({
     }
 })
 
-const PersonForm = ({ classes, t, handleSubmit, ...props }) => (
+const PersonForm = ({ classes, t, handleSubmit, birthYears, ...props }) => (
     <Form onSubmit={handleSubmit} className={classes.root}>
         <FormRow>
             <FormTextField
@@ -42,9 +43,9 @@ const PersonForm = ({ classes, t, handleSubmit, ...props }) => (
             </FormRadioGroup>
         </FormRow>
         <FormRow>
-            {/* <FormSelect>
+            <FormSelect action={birthYears} label={t("Year of birth")}>
 
-            </FormSelect> */}
+            </FormSelect>
         </FormRow>
         <FormButtonsContainer>
             <FormSubmitButton>{t("Insert")}</FormSubmitButton>

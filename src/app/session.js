@@ -201,7 +201,7 @@ export function* okSaga(type, resolve, data) {
     // console.log(resolve);
     const ok = setOK(type);
     yield put({ type: ok, payload: data.data });
-    if (resolve) yield call(resolve);
+    if (resolve) yield call(resolve, data);
 }
 
 export function* errorSaga(type, reject, e) {
