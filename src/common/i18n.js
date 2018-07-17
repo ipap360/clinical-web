@@ -17,7 +17,8 @@ export default (resources) => (Component) => (props) => {
         fallbackLng: false,
     
         // debug if development
-        debug: process.env.NODE_ENV !== 'production',
+        // debug: process.env.NODE_ENV !== 'production',
+        debug: false,
     
         // have a common namespace used around the full app
         ns: [],

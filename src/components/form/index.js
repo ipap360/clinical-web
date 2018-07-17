@@ -18,3 +18,4 @@ export { default as FormTextField } from './FormTextField';
 export { default as FormRadio } from './FormRadio';
 export { default as FormRadioGroup } from './FormRadioGroup';
 export { default as FormSelect } from './FormSelect';
+export { default as FormSelect2 } from './FormSelect2';
