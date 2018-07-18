@@ -1,4 +1,4 @@
-export { isObject, snakeCase  } from 'lodash/core';
+export { isObject, snakeCase, isFunction  } from 'lodash/core';
 // export {  } from 'lodash.snakeCase';
 
 export const base64 = {

@@ -1,23 +1,20 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { DatePicker } from 'material-ui-pickers';
-import createComponent from 'redux-form-material-ui/lib/createComponent';
-import mapError from 'redux-form-material-ui/lib/mapError';
+import { DatePicker } from '../atoms';
+
+// import createComponent from 'redux-form-material-ui/lib/createComponent';
+// import mapError from 'redux-form-material-ui/lib/mapError';
 
 // console.log(DatePicker);
 
 const DateField = ({ input: { name, onBlur, onChange, value }, label, meta, ...other }) => {
-    // console.log(name);
-    // console.log(onBlur);
-    // console.log(value);
     return (
         <DatePicker
             label={label}
-            keyboard
-            clearable
             value={value || null}
+            // onBlur={(...props) => {console.log(props)}}
             onChange={(date) => {
-                console.log(date);
+                // console.log(date);
                 onChange(date);
             }}
         />

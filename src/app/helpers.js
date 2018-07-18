@@ -21,11 +21,13 @@ const commands = {
     mv: "MOVE",
 }
 
-export const createAction = (type) => (payload, meta) => ({
-    type,
-    payload,
-    meta
-});
+export const createAction = (type) => (payload, meta) => {
+    return {
+        type,
+        payload,
+        meta
+    };
+};
 
 export const createActionName = (name, ns = null, options = {}) => {
 

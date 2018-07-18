@@ -132,7 +132,7 @@ function* onSessionOk() {
     }
 }
 
-function* onReAuth() {
+function* onRefreshSession() {
     let task;
     while (true) {
         const action = yield take(REFRESH_SESSION);
@@ -140,12 +140,16 @@ function* onReAuth() {
             const { uuid } = cookie.get();
             task = yield fork(refreshSession, { uuid });
         }
-        const response = yield join(task);
-        if (response.status === 200) {
-            yield fork(action.onSuccess);
-        } else {
-            yield fork(action.onError, response);
-        }
+        yield fork(joinTask, task, action);
+    }
+}
+
+function* joinTask(task, action) {
+    const response = yield join(task);
+    if (response.status === 200) {
+        yield fork(action.onSuccess);
+    } else {
+        yield fork(action.onError, response);
     }
 }
 
@@ -173,10 +177,8 @@ function* sessionListeners({ takeEvery }) {
 }
 
 export function* apiSaga(...args) {
-    // console.log(args);
+    console.log(args);
     const [fn, { type, payload, meta = {} }] = args;
-    // console.log(payload);
-    // console.log(meta);
     try {
         const data = yield call(fn, payload);
         yield* okSaga(type, meta.resolve, data);
@@ -185,8 +187,9 @@ export function* apiSaga(...args) {
             yield put({
                 type: REFRESH_SESSION,
                 onSuccess: apiSaga.bind(null, ...args),
-                onError: errorSaga.bind(null, type, meta)
+                onError: errorSaga.bind(null, type, meta.reject)
             });
+            return;
         } else if (e.reLogin) {
             cookie.clear();
             yield put(sessionUpdated(cookie.get()));
@@ -201,7 +204,7 @@ export function* okSaga(type, resolve, data) {
     // console.log(resolve);
     const ok = setOK(type);
     yield put({ type: ok, payload: data.data });
-    if (resolve) yield call(resolve, data.data );
+    if (resolve) yield call(resolve, data.data);
 }
 
 export function* errorSaga(type, reject, e) {
@@ -210,7 +213,7 @@ export function* errorSaga(type, reject, e) {
     if (reject) yield call(reject, e);
 }
 
-registerSagas(onInit, onReAuth, onSessionOk, onLoginOk, onAnyLogout, sessionListeners);
+registerSagas(onInit, onRefreshSession, onSessionOk, onLoginOk, onAnyLogout, sessionListeners);
 
 // fix
 // function* onSessionFail() {

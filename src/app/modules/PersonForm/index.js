@@ -4,6 +4,7 @@ import { createActionName, createAction, setOK, setFail } from '../../helpers';
 import { savePerson } from '../../api';
 import { apiSaga } from '../../session';
 import { data } from '../../utils';
+import moment from 'moment';
 
 export const MODULE_NAME = 'personForm';
 
@@ -18,25 +19,24 @@ export const newPerson = createAction(NEW_PERSON);
 export const birthYears = createAction(BIRTH_YEARS);
 
 // const state0 = {
-//     birthYearOptions: [],
-//     birthYearLoading: false
+
 // }
 
 // const reducer = (state = state0, { type, payload }) => {
 //     switch (type) {
-//         case BIRTH_YEARS_FAIL:
-//         case BIRTH_YEARS:
-//             return {
-//                 ...state,
-//                 birthYearOptions: [],
-//                 birthYearLoading: type === BIRTH_YEARS,
-//             }
-//         case BIRTH_YEARS_OK:
-//             return {
-//                 ...state,
-//                 birthYearOptions: payload,
-//                 birthYearLoading: false,
-//             }
+// case BIRTH_YEARS_FAIL:
+// case BIRTH_YEARS:
+//     return {
+//         ...state,
+//         birthYearOptions: [],
+//         birthYearLoading: type === BIRTH_YEARS,
+//     }
+// case BIRTH_YEARS_OK:
+//     return {
+//         ...state,
+//         birthYearOptions: payload,
+//         birthYearLoading: false,
+//     }
 //         default:
 //             return state
 //     }
@@ -48,6 +48,12 @@ export const birthYears = createAction(BIRTH_YEARS);
 // export const isBirthLoading = (state) => state[MODULE_NAME].birthYearLoading;
 
 const s2p = (state) => ({
+    initialValues: {
+        // name: "Bill Clinton",
+        // birthYear: "{ \"value\": \"1948\", \"label\": \"1948\" }",
+        // gender: "MALE",
+        // date1: moment()
+    }
     // birthOptions: getBirthOptions(state),
     // birthLoading: isBirthLoading(state)
 });

@@ -63,7 +63,7 @@ export const newSession = ({ username, password }) =>
     });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const refreshSession = ({uuid}) => {
+export const refreshSession = ({ uuid }) => {
     return net.post("/sessions/refresh", {
         uuid
     }).then(response => {
@@ -74,7 +74,7 @@ export const refreshSession = ({uuid}) => {
 }
 
 // check whether I have a valid token or if I am visiting as a guest
-export const expireSession = ({uuid}) => {
+export const expireSession = ({ uuid }) => {
     return net.post("/sessions/expire", {
         uuid
     });
@@ -118,14 +118,21 @@ export const postponeCalendarEvent = ({ id, ...data }) =>
 export const copyCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id + "/copy", data);
 
-export const getPersons = ({ ...params }) =>
-    net.get("/persons" + toQueryParams(params));
+export const getPersons = ({ ...params }) => {
+    return net.get("/persons" + toQueryParams(params));
+}
 
 export const getPerson = (id) =>
     net.get("/persons/" + id);
 
-export const savePerson = (data) =>
-    net.post("/persons", data);
+export const savePerson = ({ id = 0, name, birthYear, gender}) => {
+    return net.post("/persons", {
+        id,
+        name,
+        birthYear: birthYear ? JSON.parse(birthYear).value : null,
+        gender
+    });
 
+}
 export const deletePerson = (id) =>
     net.post("/persons/" + id + "/remove");

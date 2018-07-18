@@ -1,6 +1,9 @@
 import NewCalendarEvent from './NewCalendarEvent';
-import { registerReducer, connect2store } from '../../../common';
+import { registerReducer, connect2store, registerSagas } from '../../../common';
 import { createActionName, createAction } from '../../helpers';
+import { getPersons } from '../../api';
+import { apiSaga } from '../../session';
+import { NEW_PERSON_OK } from '../PersonForm';
 
 // module name
 export const MODULE_NAME = 'newCalendarEvent';
@@ -9,9 +12,20 @@ export const NEXT_STEP = createActionName("NEXT_STEP", MODULE_NAME);
 export const PREVIOUS_STEP = createActionName("PREVIOUS_STEP", MODULE_NAME);
 export const COMPLETE = createActionName("COMPLETE", MODULE_NAME);
 
+export const FETCH_PERSONS = createActionName("FETCH_PERSONS", MODULE_NAME);
+export const SET_PATIENT = createActionName("SET_PATIENT", MODULE_NAME);
+export const SET_DATE = createActionName("SET_DATE", MODULE_NAME);
+export const SET_DURATION = createActionName("SET_DURATION", MODULE_NAME);
+export const SET_DESCRIPTION = createActionName("SET_DESCRIPTION", MODULE_NAME);
+
 export const nextStep = createAction(NEXT_STEP);
 export const previousStep = createAction(PREVIOUS_STEP);
 export const complete = createAction(COMPLETE);
+export const fetchPersons = createAction(FETCH_PERSONS);
+export const setPatient = createAction(SET_PATIENT);
+export const setDate = createAction(SET_DATE);
+export const setDuration = createAction(SET_DURATION);
+export const setDescription = createAction(SET_DESCRIPTION);
 
 // initial state
 const state0 = {
@@ -30,29 +44,53 @@ const state0 = {
             label: "Event details"
         }
     ],
-    patient: {
-        selected: null,
-        options: [],
-        loading: false
-    },
-    scheduling: {
-        date: null,
-        duration: 0
-    },
+    patient: null,
+    date: null,
+    duration: 0,
     description: null
 };
 
 const reducer = (state = state0, { type, payload }) => {
+    console.log(type);
+    console.log(payload);
     switch (type) {
         case NEXT_STEP:
             return {
                 ...state,
-                activeStep: state.activeStep++
+                activeStep: state.activeStep + 1
             }
         case PREVIOUS_STEP:
             return {
                 ...state,
-                activeStep: state.activeStep--
+                activeStep: state.activeStep - 1
+            }
+        case NEW_PERSON_OK:
+            return {
+                ...state,
+                patient: JSON.stringify({
+                    value: payload.id,
+                    label: payload.name + " (" + payload.age + ")"
+                })
+            }
+        case SET_PATIENT:
+            return {
+                ...state,
+                patient: payload
+            }
+        case SET_DATE:
+            return {
+                ...state,
+                date: payload
+            }
+        case SET_DURATION:
+            return {
+                ...state,
+                duration: payload
+            }
+        case SET_DESCRIPTION:
+            return {
+                ...state,
+                description: payload
             }
         default:
             return state;
@@ -61,191 +99,67 @@ const reducer = (state = state0, { type, payload }) => {
 
 registerReducer(MODULE_NAME, reducer);
 
-const getState = (state) => state[MODULE_NAME];
+const local = (state) => state[MODULE_NAME];
 
-export const getActiveStep = (state) => state[MODULE_NAME].activeStep;
-export const getSteps = (state) => state[MODULE_NAME].steps;
+export const getActiveStep = (state) => local(state).activeStep;
+export const getSteps = (state) => local(state).steps;
+export const getPatient = (state) => local(state).patient;
+export const getDate = (state) => local(state).date;
+export const getDuration = (state) => local(state).duration;
+export const getDescription = (state) => local(state).description;
+
+export const getAllowPrevious = (state) => getActiveStep(state) > 0;
+export const getAllowNext = (state) => {
+    switch (getActiveStep(state)) {
+        case 0:
+            return getPatient(state) !== null;
+        case 1:
+            return getDate(state) !== null;
+        case 2:
+            return getDescription(state) != null;
+    }
+}
 
 const s2p = (state) => ({
     activeStep: getActiveStep(state),
-    steps: getSteps(state)
+    steps: getSteps(state),
+    allowNext: getAllowNext(state),
+    allowPrevious: getAllowPrevious(state),
+    patient: getPatient(state),
+    date: getDate(state),
+    duration: getDuration(state),
+    description: getDescription(state),
 });
 
-const m2p = () => ({
+const d2p = ({
     nextStep,
     previousStep,
-    complete
+    complete,
+    fetchPersons,
+    setPatient,
+    setDate,
+    setDuration,
+    setDescription,
 });
 
-export default connect2store({ s2p, m2p })(NewCalendarEvent);
+export default connect2store({ s2p, d2p })(NewCalendarEvent);
 
+const searchPatients = (token) => {
+    return getPersons({ q: token }).then(({ status, data }) => {
+        // console.log(response);
+        return {
+            status,
+            data: data.map(e => ({
+                value: e.id,
+                label: e.name + " (" + e.age + ")"
+            }))
+        };
+    });
+}
 
-// import React from 'react';
-// import { connect } from 'react-redux';
-// import { Header, Form, Icon, Step } from 'semantic-ui-react';
-// import t from 'i18n';
-// import { reduxForm } from 'redux-form';
-// import { FormButton, FormTextInput, FormTextArea, FormSelect, FormDatePicker } from 'components';
-// import { TERMS } from 'common/paths';
-// import { PERSON } from 'common/actions';
-// // import { ok, PERSON } from '../../common/actions';
-// import { data } from 'common/utils';
-// import * as api from 'common/api';
+// sagas
+function* listeners({ takeLatest }) {
+    yield takeLatest(FETCH_PERSONS, apiSaga.bind(null, searchPatients));
+}
 
-// import Select from 'react-select';
-// // import AsyncSelect from 'react-select/lib/Async';
-
-// const CalendarEvent = ({ page, patient, selectedDate, selectedDuration, description }) => (
-//     <div>
-//         <div>
-//             <CalendarEventCreationSteps current={page} patient={patient} selectedDate={selectedDate} />
-//         </div>
-//         <div>
-//             {page === 'patient' ? <CalendarEventPatientStep patient={patient} /> : null}
-//             {page === 'date' ? <CalendarEventDateStep selectedDate={selectedDate} selectedDuration={selectedDuration} /> : null}
-//             {page === 'details' ? <CalendarEventDetailsStep description={description} /> : null}
-//         </div>
-//     </div>
-// );
-
-// const mapS2P = (state, ownProps) => {
-//     // console.log(state, ownProps);
-//     return state.app.calendarEvent;
-// };
-
-// export default connect(mapS2P, {})(CalendarEvent);
-
-// const state0 = {
-//     page: 'patient',
-//     patient: {
-//         selected: null,
-//         options: [],
-//         loading: false
-//     },
-//     selectedDate: null,
-//     selectedDuration: 0,
-//     description: null
-// };
-
-// export const reducer = (state = state0, { type, payload }) => {
-//     return state;
-//     // switch (type) {
-//     //     case ok(INSERT_PERSON):
-//     //         { }
-//     // }
-// }
-
-// const CalendarEventCreationSteps = ({ current, patient, selectedDate }) => (
-//     <Step.Group>
-//         <Step active={current === 'patient'}>
-//             <Icon name='bed' />
-//             <Step.Content>
-//                 <Step.Title>{t("Patient")}</Step.Title>
-//                 <Step.Description>{t("Select from existing or register one now")}</Step.Description>
-//             </Step.Content>
-//         </Step>
-//         <Step active={current === 'details'} disabled={patient === null}>
-//             <Icon name='calendar alternate outline' />
-//             <Step.Content>
-//                 <Step.Title>{t("Date")}</Step.Title>
-//                 <Step.Description>{t("Check availability")}</Step.Description>
-//             </Step.Content>
-//         </Step>
-//         <Step active={current === 'details'} disabled={patient === null || selectedDate === null}>
-//             <Icon name='info' />
-//             <Step.Content>
-//                 <Step.Title>{t("Details")}</Step.Title>
-//             </Step.Content>
-//         </Step>
-//     </Step.Group>
-// );
-
-// // export default CalendarEventCreationSteps
-
-
-// // const selectOptions = inputValue =>
-// //     new Promise(resolve => {
-// //         api.getPersons({
-// //             qry: inputValue
-// //         }).then((response) => {
-// //             // parse data
-// //             resolve(response.data);
-// //         }).catch((e) => {
-// //             resolve([]);
-// //         });
-// //     });
-
-// const PersonForm = reduxForm({ form: PERSON })(({ handleSubmit, ...props }) => (
-//     <Form size='large'>
-//         <Form.Field>
-//             <label>Name</label>
-//             <FormTextInput name='name' />
-//         </Form.Field>
-//         <Form.Field>
-//             <label>Born in</label>
-//             <FormSelect name='birthYear' options={data.range2array(1910, (new Date()).getFullYear()).map(e => ({ value: e, label: e }))} />
-//         </Form.Field>
-//         <Form.Field>
-//             <label>Gender</label>
-//             <FormSelect name='gender' options={[...data.genders]} />
-//         </Form.Field>
-//         <Form.Field>
-//             <label>Date</label>
-//             <FormDatePicker name='d1' />
-//         </Form.Field>
-//         <FormButton onClick={handleSubmit} fluid positive size="large">
-//             Save
-//         </FormButton>
-//     </Form>
-// ));
-
-
-// // onInputChange={this.handleInputChange}
-
-// const CalendarEventPatientStep = ({ patient: { selected, options, loading } }) => (
-//     <div>
-//         <div>
-//             <PersonForm />
-//         </div>
-//         <div>
-//             <Select value={selected} isLoading={loading} options={options} onMenuOpen={({ ...args }) => { console.log(this, args) }} onInputChange={({ ...args }) => { console.log(this, args) }} />
-//         </div>
-//     </div>
-// );
-
-// const CalendarEventDateStep = ({ handleSubmit, ...props }) => {
-
-// }
-
-// const CalendarEventDetailsStep = ({ handleSubmit, ...props }) => {
-
-//     const descriptionTxt = "";
-//     const saveTxt = t("Create");
-
-//     return (
-//         <Form size='large'>
-//             <Form.Field>
-//                 <FormTextArea name='description' placeholder={descriptionTxt} />
-//             </Form.Field>
-//             <FormButton onClick={handleSubmit} fluid positive size="large">
-//                 {saveTxt}
-//             </FormButton>
-//         </Form>
-//     );
-// }
-
-
-
-// // const getSession = (state) => state.session || {};
-// // const getTimezone = (session) => session.timezone;
-// // const getLocale = (session) => session.locale;
-
-// // const mapS2P = (state, ownProps) => ({
-// //     initialValues: {
-// //         timezone: getTimezone(getSession(state)),
-// //         locale: getLocale(getSession(state)),
-// //         url: ownProps.callbackURL
-// //     }
-// // });
-
-// // export default connect(mapS2P)(reduxForm({form: SIGNUP })(CalendarEventForm));
+registerSagas(listeners);

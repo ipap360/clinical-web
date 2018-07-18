@@ -15,28 +15,16 @@ import {
     FormDateField,
 } from '../../../components';
 
-import { withStyles } from '@material-ui/core';
-
-
-const style = theme => ({
-    root: {
-        width: 450,
-        marginLeft: theme.spacing.unit + 2,
-        padding: theme.spacing.unit * 2,
-        borderLeft: `4px solid ${theme.palette.primary.main}`
-    }
-})
-
 const PersonForm = ({ classes, t, handleSubmit, birthYears, ...props }) => {
-    // console.log(props);
+    console.log(props);
     return (
-        <Form onSubmit={handleSubmit} className={classes.root}>
+        <Form onSubmit={handleSubmit} {...props}>
             <FormRow>
                 <FormTextField
                     name='name'
                     inputProps={{ maxLength: "255" }}
                     label={t("Name")}
-                    
+                    fullWidth
                 />
             </FormRow>
             <FormRow>
@@ -49,9 +37,9 @@ const PersonForm = ({ classes, t, handleSubmit, birthYears, ...props }) => {
             <FormRow>
                 <FormSelect name="birthYear" loadOptions={birthYears} label={t("Year of birth")} fullWidth/>
             </FormRow>
-            <FormRow>
+            {/* <FormRow>
                 <FormDateField name="date1" label={t("Date")}/>
-            </FormRow>
+            </FormRow> */}
             {/* <FormRow>
                 <FormSelect2 
                     name="birthYear2" 
@@ -70,4 +58,4 @@ const PersonForm = ({ classes, t, handleSubmit, birthYears, ...props }) => {
     );
 }
 
-export default withStyles(style)(PersonForm); 
+export default PersonForm; 

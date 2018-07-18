@@ -1,8 +1,10 @@
 import React from 'react';
 import Main from '../Main';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Divider } from '@material-ui/core';
 import { Typography, Toolbar, Paper, Icon, Button, HorizontalLinearSteps } from '../../../components';
 import PersonForm from '../PersonForm';
+import { Select3, DatePicker, TextField } from '../../../components';
+import Spacer from '../../../components/atoms/Spacer';
 
 const style = theme => ({
     root: {
@@ -32,6 +34,12 @@ const style = theme => ({
         // bottom: theme.spacing.unit * 4.5,
         // right: theme.spacing.unit * 4.5,
     },
+    stepPart: {
+        width: 450,
+        marginLeft: theme.spacing.unit + 2,
+        padding: theme.spacing.unit * 2,
+        borderLeft: `4px solid ${theme.palette.primary.main}`
+    }
     // closeBtn: {
     //     position: 'absolute',
     //     bottom: theme.spacing.unit * 8.5,
@@ -42,13 +50,42 @@ const style = theme => ({
 class NewCalendarEvent extends React.Component {
 
     getStepContent(activeStep) {
+
+        // console.log(this.props);
+
+        const { t, classes, patient, fetchPersons, setPatient, date, setDate, duration, setDuration, description, setDescription } = this.props;
+
         switch (activeStep) {
             case 0:
-                return (<PersonForm />);
+                return (
+                    <React.Fragment>
+                        <div className={classes.stepPart}>
+                            <Select3 value={patient} loadOptions={fetchPersons} label={t("Patient")} onChange={v => setPatient(v)} fullWidth />
+                        </div>
+                        <Spacer />
+                        <PersonForm className={classes.stepPart} />
+                    </React.Fragment>
+                );
             case 1:
-                return null;
+                return (
+                    <React.Fragment>
+                        <div className={classes.stepPart}>
+                            <DatePicker label={t("Date")} value={date} onChange={d => setDate(d)} fullWidth />
+                        </div>
+                        <Spacer />
+                        <div className={classes.stepPart}>
+                            <TextField value={duration} onChange={e => setDuration(e.target.value)} fullWidth type='number' />
+                        </div>
+                    </React.Fragment>
+                );
             case 2:
-                return null;
+                return (
+                    // <React.Fragment>
+                    <div className={classes.stepPart}>
+                        <TextField multiline value={description || ''} onChange={e => setDescription(e.target.value)} fullWidth />
+                    </div>
+                    // </React.Fragment>
+                );
             default:
                 return null;
         }
@@ -56,7 +93,17 @@ class NewCalendarEvent extends React.Component {
 
     render() {
 
-        const { classes, t, activeStep, steps } = this.props;
+        const {
+            classes,
+            t,
+            activeStep,
+            steps,
+            patient,
+            nextStep,
+            previousStep,
+            allowNext,
+            allowPrevious
+        } = this.props;
 
         const title = "" || t("New Calendar Event");
 
@@ -66,11 +113,6 @@ class NewCalendarEvent extends React.Component {
             </Toolbar>
         );
 
-        const allowNext = false;
-        const allowPrevious = activeStep > 0;
-        const insertEvent = () => { };
-        const cancelInsert = () => { };
-
         return (
             <Main header={header}>
                 <Paper square className={classes.paper}>
@@ -79,10 +121,10 @@ class NewCalendarEvent extends React.Component {
                         {this.getStepContent(activeStep)}
                     </div>
                     <div className={classes.stepBtnContainer}>
-                        <Button className={classes.closeBtn} onClick={cancelInsert} size="small" disabled={!allowPrevious}>
+                        <Button className={classes.closeBtn} size="small" disabled={!allowPrevious} onClick={() => previousStep()}>
                             {t("Back")}
                         </Button>
-                        <Button variant="contained" className={classes.nextBtn} color="primary" size="large" disabled={!allowNext} onClick={insertEvent}>
+                        <Button variant="contained" className={classes.nextBtn} color="primary" size="large" disabled={!allowNext} onClick={() => nextStep()}>
                             {t("Next")}
                         </Button>
                     </div>
