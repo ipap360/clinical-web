@@ -4,7 +4,7 @@ import { createActionName, createAction, setOK, setFail } from '../../helpers';
 import { savePerson } from '../../api';
 import { apiSaga } from '../../session';
 import { data } from '../../utils';
-import moment from 'moment';
+// import moment from 'moment';
 
 export const MODULE_NAME = 'personForm';
 

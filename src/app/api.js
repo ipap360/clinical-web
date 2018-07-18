@@ -125,14 +125,14 @@ export const getPersons = ({ ...params }) => {
 export const getPerson = (id) =>
     net.get("/persons/" + id);
 
-export const savePerson = ({ id = 0, name, birthYear, gender}) => {
+export const savePerson = ({ id = 0, name, birthYear, gender} ) => {
     return net.post("/persons", {
         id,
         name,
         birthYear: birthYear ? JSON.parse(birthYear).value : null,
         gender
     });
-
 }
+
 export const deletePerson = (id) =>
     net.post("/persons/" + id + "/remove");

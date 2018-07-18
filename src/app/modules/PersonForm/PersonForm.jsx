@@ -15,10 +15,10 @@ import {
     FormDateField,
 } from '../../../components';
 
-const PersonForm = ({ classes, t, handleSubmit, birthYears, ...props }) => {
+const PersonForm = ({ t, handleSubmit, className, birthYears, ...props }) => {
     console.log(props);
     return (
-        <Form onSubmit={handleSubmit} {...props}>
+        <Form onSubmit={handleSubmit} className={className}>
             <FormRow>
                 <FormTextField
                     name='name'
