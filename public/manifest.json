@@ -1,6 +1,6 @@
 {
-  "short_name": "Calendar",
-  "name": "Calendar",
+  "short_name": "mCalendar",
+  "name": "Clinic Appointments",
   "icons": [
     {
       "src": "favicon.ico",

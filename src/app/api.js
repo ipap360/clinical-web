@@ -3,14 +3,14 @@
 import axios from 'axios';
 import { toQueryParams, isObject } from './utils';
 
-export const HTTP_STATUS = {
+const HTTP_STATUS = {
     BAD_REQUEST: 400,
     NOT_AUTHORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
 };
 
-export const API_STATUS = -101;
+const API_STATUS = -101;
 
 const net = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -80,7 +80,6 @@ export const expireSession = ({ uuid }) => {
     });
 }
 
-
 // sign uuuup
 export const newRegistration = ({ email, password, locale, timezone, url }) =>
     net.post("/registrations", {
@@ -106,7 +105,7 @@ export const getCalendar = ({ id, ...data }) =>
 export const getCalendarEvent = (id) =>
     net.get("/calendar-events/" + id);
 
-export const saveCalendarEvent = ({ id, ...data }) =>
+export const upsertCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id, data);
 
 export const deleteCalendarEvent = (id) =>

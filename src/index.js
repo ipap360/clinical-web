@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 
-import 'typeface-roboto';
+// import 'typeface-roboto';
 import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';

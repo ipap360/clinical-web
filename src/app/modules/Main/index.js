@@ -40,6 +40,6 @@ const s2p = (state) => ({
     isSidebarOpen: getIsSidebarOpen(state)
 });
 
- const d2p = { toggleSidebar };
+const d2p = { toggleSidebar };
 
 export default connect2store({ s2p, d2p })(Main);

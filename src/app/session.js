@@ -21,7 +21,7 @@ const XSRF_COOKIE = "XSRF-TOKEN";
 const REFRESH_TOKEN_COOKIE_NAME = "iu2w";
 
 // default session details based on client's system settings
-export const session0 = {
+const session0 = {
     uuid: "",
     language: locale2,
     locale: locale2,
@@ -31,7 +31,7 @@ export const session0 = {
 };
 
 // cookie session storage
-export const cookie = {
+const cookie = {
     get: () => {
         let session = Cookies.get(SESSION_COOKIE_NAME);
         if (session) {
@@ -171,13 +171,26 @@ function* onAnyLogout({ take, call, put }) {
 }
 
 function* sessionListeners({ takeEvery }) {
-    yield takeEvery(LOGIN, apiSaga.bind(null, newSession));
-    yield takeEvery(FETCH_SESSION, apiSaga.bind(null, getSession));
-    yield takeEvery(LOGOUT, apiSaga.bind(null, expireSession));
+    yield takeEvery(LOGIN, apiSaga, newSession);
+    yield takeEvery(FETCH_SESSION, apiSaga, getSession);
+    yield takeEvery(LOGOUT, apiSaga, expireSession);
+}
+
+function* okSaga(type, resolve, data) {
+    // console.log(resolve);
+    const ok = setOK(type);
+    yield put({ type: ok, payload: data.data });
+    if (resolve) yield call(resolve, data.data);
+}
+
+function* errorSaga(type, reject, e) {
+    // console.log(reject);
+    yield put({ type: setFail(type), payload: e.data });
+    if (reject) yield call(reject, e);
 }
 
 export function* apiSaga(...args) {
-    console.log(args);
+    // console.log(args);
     const [fn, { type, payload, meta = {} }] = args;
     try {
         const data = yield call(fn, payload);
@@ -198,19 +211,6 @@ export function* apiSaga(...args) {
         }
     }
     yield put({ type: setFin(type) });
-}
-
-export function* okSaga(type, resolve, data) {
-    // console.log(resolve);
-    const ok = setOK(type);
-    yield put({ type: ok, payload: data.data });
-    if (resolve) yield call(resolve, data.data);
-}
-
-export function* errorSaga(type, reject, e) {
-    // console.log(reject);
-    yield put({ type: setFail(type), payload: e.data });
-    if (reject) yield call(reject, e);
 }
 
 registerSagas(onInit, onRefreshSession, onSessionOk, onLoginOk, onAnyLogout, sessionListeners);
