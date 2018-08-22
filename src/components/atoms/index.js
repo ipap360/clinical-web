@@ -17,6 +17,7 @@ export {
     CircularProgress,
     Radio,
     TextField,
+    Modal,
 } from '@material-ui/core';
 
 export {

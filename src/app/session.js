@@ -176,38 +176,35 @@ function* sessionListeners({ takeEvery }) {
     yield takeEvery(LOGOUT, apiSaga, expireSession);
 }
 
-function* okSaga(type, resolve, data) {
-    // console.log(resolve);
+function* okSaga(type, meta, data) {
     const ok = setOK(type);
-    yield put({ type: ok, payload: data.data });
-    if (resolve) yield call(resolve, data.data);
+    yield put({ type: ok, payload: data.data, meta });
+    if (meta.resolve) yield call(meta.resolve, data.data);
 }
 
-function* errorSaga(type, reject, e) {
-    // console.log(reject);
+function* errorSaga(type, meta, e) {
     yield put({ type: setFail(type), payload: e.data });
-    if (reject) yield call(reject, e);
+    if (meta.reject) yield call(meta.reject, e);
 }
 
 export function* apiSaga(...args) {
-    // console.log(args);
     const [fn, { type, payload, meta = {} }] = args;
     try {
         const data = yield call(fn, payload);
-        yield* okSaga(type, meta.resolve, data);
+        yield* okSaga(type, meta, data);
     } catch (e) {
         if (e.reAuth) {
             yield put({
                 type: REFRESH_SESSION,
                 onSuccess: apiSaga.bind(null, ...args),
-                onError: errorSaga.bind(null, type, meta.reject)
+                onError: errorSaga.bind(null, type, meta)
             });
             return;
         } else if (e.reLogin) {
             cookie.clear();
             yield put(sessionUpdated(cookie.get()));
         } else {
-            yield* errorSaga(type, meta.reject, e);
+            yield* errorSaga(type, meta, e);
         }
     }
     yield put({ type: setFin(type) });

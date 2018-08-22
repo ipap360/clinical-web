@@ -102,10 +102,13 @@ export const getCalendars = () =>
 export const getCalendar = ({ id, ...data }) =>
     net.get("/calendar/" + id + toQueryParams(data));
 
+export const getCalendarEvents = ({ ...params }) => 
+    net.get("/calendar-events" + toQueryParams(params));
+
 export const getCalendarEvent = (id) =>
     net.get("/calendar-events/" + id);
 
-export const upsertCalendarEvent = ({ id, ...data }) =>
+export const upsertCalendarEvent = ({ id = 0, ...data }) =>
     net.post("/calendar-events/" + id, data);
 
 export const deleteCalendarEvent = (id) =>

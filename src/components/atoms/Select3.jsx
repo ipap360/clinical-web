@@ -102,8 +102,8 @@ const customStyles = {
 
 class ReduxSelect extends React.Component {
     render() {
-        const { name, loadOptions, onChange, onBlur, onFocus, value, isMulti, isDisabled, ...other } = this.props;
-        console.log(value);
+        const { name, loadOptions, onChange, onBlur, onFocus, value, isMulti, isDisabled, menuPosition='absolute', ...other } = this.props;
+        console.log(menuPosition);
         return (
             <AsyncSelect
                 value={value ? JSON.parse(value) : ''}
@@ -114,6 +114,7 @@ class ReduxSelect extends React.Component {
                 }}
                 name={name}
                 isMulti={isMulti}
+                menuPosition={menuPosition}
                 styles={customStyles}
                 isClearable={true}
                 cacheOptions={true}
@@ -153,6 +154,7 @@ export default class Select3 extends React.Component {
             value,
             isMulti,
             isDisabled,
+            menuPosition,
             onChange,
             placeholder,
             InputLabelProps,
@@ -161,7 +163,7 @@ export default class Select3 extends React.Component {
             ...other
         } = this.props;
 
-        console.log(this.props);
+        // console.log(this.props);
 
         return (
             <TextField
@@ -179,6 +181,7 @@ export default class Select3 extends React.Component {
                         classes,
                         isMulti,
                         isDisabled,
+                        menuPosition,
                         // instanceId: 'react-select-chip-label',
                         id,
                         // simpleValue: true,

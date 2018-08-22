@@ -15,8 +15,8 @@ import {
     FormDateField,
 } from '../../../components';
 
-const PersonForm = ({ t, handleSubmit, className, birthYears, ...props }) => {
-    console.log(props);
+const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...props }) => {
+    console.log(modal);
     return (
         <Form onSubmit={handleSubmit} className={className}>
             <FormRow>
@@ -35,7 +35,7 @@ const PersonForm = ({ t, handleSubmit, className, birthYears, ...props }) => {
                 </FormRadioGroup>
             </FormRow>
             <FormRow>
-                <FormSelect name="birthYear" loadOptions={birthYears} label={t("Year of birth")} fullWidth/>
+                <FormSelect name="birthYear" menuPosition={(modal) ? 'fixed' : 'absolute'} loadOptions={birthYears} label={t("Year of birth")} fullWidth/>
             </FormRow>
             {/* <FormRow>
                 <FormDateField name="date1" label={t("Date")}/>

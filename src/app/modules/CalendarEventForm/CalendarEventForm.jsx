@@ -22,10 +22,10 @@ const CalendarEventForm = ({ t, handleSubmit, className, fetchPersons, ...props 
                 <FormSelect name="personId" loadOptions={fetchPersons} label={t("Patient")} fullWidth/>
             </FormRow>
             <FormRow>
-                <FormDateField name="scheduledDate" label={t("Date")}/>
+                <FormDateField name="date" label={t("Date")}/>
             </FormRow>
             <FormRow>
-                <FormRadioGroup name="scheduledDuration" fullWidth label={t("Will stay overnight")}>
+                <FormRadioGroup name="duration" fullWidth label={t("Will stay overnight")}>
                     <FormRadio value="0" label={t("No")} />
                     <FormRadio value="1" label={t("1 night")} />
                     <FormRadio value="2" label={t("2 nights")} />
