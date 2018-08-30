@@ -9,6 +9,7 @@ export default connect(({ submit, form, submitting, reset, error, ...props }) =>
         disabled={submitting}
         variant="contained"
         color="primary"
+        type="submit"
         {...props} 
     />
 ));
