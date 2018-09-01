@@ -102,16 +102,18 @@ export const getCalendars = () =>
 export const getCalendar = ({ id, ...data }) =>
     net.get("/calendar/" + id + toQueryParams(data));
 
-export const listCalendarEvents = ({ ...params }) => {
-    console.log(params);
-    return net.get("/calendar-events" + toQueryParams(params));
+export const calendarEvents = ({ from, to, calendarId, personId }) => {
+    return net.get("/calendar-events" + toQueryParams({ from, to, calendarId, personId }));
 }
-    
+
+export const roomAvailability = ({ from, to, calendarId, personId }) => {
+    return net.get("/room-availability" + toQueryParams({ from, to, calendarId, personId }));
+}
 
 export const viewCalendarEvent = (id) =>
     net.get("/calendar-events/" + id);
 
-export const upsertCalendarEvent = ({ 
+export const upsertCalendarEvent = ({
     id = 0,
     personId,
     date,
@@ -126,7 +128,7 @@ export const upsertCalendarEvent = ({
         description
     });
 }
-    
+
 
 export const deleteCalendarEvent = (id) =>
     net.post("/calendar-events/" + id + "/remove");
@@ -144,7 +146,7 @@ export const getPersons = ({ ...params }) => {
 export const getPerson = (id) =>
     net.get("/persons/" + id);
 
-export const savePerson = ({ id = 0, name, birthYear, gender} ) => {
+export const savePerson = ({ id = 0, name, birthYear, gender }) => {
     return net.post("/persons", {
         id,
         name,

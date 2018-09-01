@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, SimpleMenu, IconButton, AccountCircle, MenuIcon, Paper, Link } from '../../../components';
 import CalendarDayTitle from './CalendarDayTitle';
 import { withStyles } from '@material-ui/core';
-import moment from 'moment';
+// import moment from 'moment';
 
 const styles = (theme) => ({
     root: {
@@ -22,8 +22,8 @@ export default withStyles(styles)(({ classes, dates }) => (
                     return (
                         <CalendarDayTitle
                             key={i}
-                            text={moment.utc(d.value).format("ddd")}
-                            number={d.value.getUTCDate()}
+                            text={d.short}
+                            number={d.num}
                             availability={d.availability}
                         />
                     );

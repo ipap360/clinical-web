@@ -11,7 +11,7 @@ const SmallCalendar = styled.div`
 `
 /* eslint-disable no-unused-vars */
 export default ({ value, onChange }) => (
-    <BasePicker value={value} onChange={onChange}>
+    <BasePicker autoOk={true} value={value} onChange={onChange}>
         {
             ({
                 date,
@@ -22,11 +22,14 @@ export default ({ value, onChange }) => (
                 handleSetTodayDate,
                 handleTextFieldChange,
                 pick12hOr24hFormat,
-            }) => (
+            }) => {
+                // console.log(handleChange);
+                return (
                     <SmallCalendar>
                         <Calendar date={date} onChange={handleChange} />
                     </SmallCalendar>
                 )
+            }
         }
     </BasePicker>
 );

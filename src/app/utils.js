@@ -41,7 +41,7 @@ export const fromQueryParams = (a) => {
 
 export const toQueryParams = (json = {}) => {
     const keys = Object.keys(json);
-    return (keys.length === 0) ? '' : '?' + keys.map(function (key) {
+    return (keys.length === 0) ? '' : '?' + keys.filter(key => json[key] !== undefined).map(function (key) {
         return encodeURIComponent(key) + '=' +
             encodeURIComponent(json[key]);
     }).join('&');
