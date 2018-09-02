@@ -100,10 +100,15 @@ const customStyles = {
     })
 };
 
+
+// TODO!!!
+// https://stackoverflow.com/questions/48564764/load-options-on-the-first-open-of-the-async-drop-down-menu
+// https://codesandbox.io/s/o51yw14l59
+
 class ReduxSelect extends React.Component {
     render() {
         const { name, loadOptions, onChange, onBlur, onFocus, value, isMulti, isDisabled, menuPosition='absolute', ...other } = this.props;
-        console.log(menuPosition);
+        // console.log(menuPosition);
         return (
             <AsyncSelect
                 value={value ? JSON.parse(value) : ''}
@@ -117,7 +122,7 @@ class ReduxSelect extends React.Component {
                 menuPosition={menuPosition}
                 styles={customStyles}
                 isClearable={true}
-                cacheOptions={true}
+                cacheOptions={false}
                 defaultOptions={true}
                 placeholder=""
                 onChange={(data, meta) => {

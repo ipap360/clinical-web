@@ -7,7 +7,7 @@ import { DatePicker } from '../atoms';
 
 // console.log(DatePicker);
 
-const DateField = ({ input: { name, onBlur, onChange, value }, label, meta, ...other }) => {
+const DateField = ({ input: { name, onBlur, onChange, value }, label, meta, renderDay, disabled, ...other }) => {
     return (
         <DatePicker
             label={label}
@@ -17,6 +17,8 @@ const DateField = ({ input: { name, onBlur, onChange, value }, label, meta, ...o
                 // console.log(date);
                 onChange(date);
             }}
+            renderDay={renderDay}
+            // disabled={disabled}
         />
     )
 }

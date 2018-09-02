@@ -3,6 +3,7 @@ import TopBar from './TopBar';
 import { logout, getName } from '../../session';
 import { connect2store } from '../../../common';
 import { getCalendarDates } from '../Home';
+import { withRouter } from 'react-router';
 
 // name
 export const MODULE_NAME = 'topbar';
@@ -15,4 +16,4 @@ const s2p = (state) => ({
 
 const d2p = { logout };
 
-export default connect2store({ s2p, d2p })(TopBar);
+export default withRouter(connect2store({ s2p, d2p })(TopBar));

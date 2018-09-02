@@ -1,8 +1,7 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, SimpleMenu, IconButton, AccountCircle, MenuIcon, Paper, Link } from '../../../components';
+import { Toolbar, Paper } from '../../../components';
 import CalendarDayTitle from './CalendarDayTitle';
 import { withStyles } from '@material-ui/core';
-// import moment from 'moment';
 
 const styles = (theme) => ({
     root: {
@@ -14,17 +13,17 @@ const styles = (theme) => ({
     }
 });
 
-export default withStyles(styles)(({ classes, dates }) => (
+export default withStyles(styles)(({ classes, dates, history }) => (
     <Paper className={classes.root} square>
         <Toolbar disableGutters>
             {
                 dates.map((d, i) => {
+                    console.log(d);
                     return (
                         <CalendarDayTitle
                             key={i}
-                            text={d.short}
-                            number={d.num}
-                            availability={d.availability}
+                            history={history}
+                            d={d}
                         />
                     );
                 })

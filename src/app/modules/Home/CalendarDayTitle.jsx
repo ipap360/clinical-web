@@ -2,12 +2,14 @@ import React from 'react'
 import { withStyles } from "@material-ui/core";
 import { Typography } from '../../../components';
 import classNames from 'classnames';
+import { NEW_CALENDAR_EVENT } from '../paths';
 
 const partA = '#eaeaea';
 const partB = '#ffffff';
 
 const styles = theme => ({
     root: {
+        cursor: 'pointer',
         position: 'relative',
         flex: '1 0 76px',
         height: '128px',
@@ -19,6 +21,9 @@ const styles = theme => ({
         "&:not(:last-child)": {
             marginRight: theme.spacing.unit / 2
         },
+        "&:hover": {
+            opacity: .75
+        }
     },
     dayname: {
         position: 'absolute',
@@ -55,52 +60,32 @@ const styles = theme => ({
         width: 16,
         height: 16,
         backgroundColor: "#4caf50",
-        // fontFamily: theme.typography.fontFamily,
-        "&.limited": {
-            backgroundColor: "#ffc107"
-        },
-        "&.restricted": {
-            backgroundColor: "#ff5722"
-        },
-        "&.full": {
-            backgroundColor: "#f44336"
-        }
     }
 });
 
-// .Component-root-3146:after {
-//     position: absolute;
-//     content: " ";
-//     width: 2px;
-//     right: -2px;
-//     height: 50%;
-//     top: 50%;
-//     background: #eaeaea;
-// }
-
-export default withStyles(styles)(({ classes, text, number, availability }) => {
-    const { m = "", f = "", male, female } = availability;
+export default withStyles(styles)(({ classes, d, history }) => {
+    const { m = "", f = "", male, female } = d.availability;
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={
+            () => history.push(NEW_CALENDAR_EVENT, { date: d.iso })
+        }>
             <div className={classes.dayname}>
-                <Typography variant='subheading'>{{ text }}</Typography>
+                <Typography variant='subheading'>{d.short}</Typography>
             </div>
-            <Typography variant='display3'>{{ number }}</Typography>
+            <Typography variant='display3'>{d.num}</Typography>
             <div className={classes.availability}>
                 <div>
-                    <Typography>{male+" x"}</Typography>
-                    <i class="fas fa-male"></i>
-                    <span class={classNames(classes.indicator, m.toLowerCase())}>
+                    <Typography>{male + " x"}</Typography>
+                    <i className="fas fa-male"></i>
+                    <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
                     </span>
                 </div>
                 <div>
-                    <Typography>{female+" x"}</Typography>
-                    <i class="fas fa-female"></i>
-                    <span class={classNames(classes.indicator, f.toLowerCase())}>
+                    <Typography>{female + " x"}</Typography>
+                    <i className="fas fa-female"></i>
+                    <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
                     </span>
                 </div>
-                {/* {gender === 'MALE' && } */}
-                {/* {gender === 'FEMALE' && <i class="fas fa-female"></i>} */}
             </div>
         </div>
     );

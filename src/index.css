@@ -3,3 +3,19 @@
     padding-top: 1px;
     background-color: #FFF;
 }
+
+.day-indicator {
+    border-radius: 5px;
+}
+
+.day-indicator.warning {
+    background-color: #ffc107;
+}
+
+.day-indicator.limited {
+    background-color: #ff5722;
+}
+
+.day-indicator.full {
+    background-color: #f44336;
+}

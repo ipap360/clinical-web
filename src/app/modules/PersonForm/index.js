@@ -4,6 +4,7 @@ import { createActionName, createAction, setOK, setFail } from '../../helpers';
 import { savePerson } from '../../api';
 import { apiSaga } from '../../session';
 import { data } from '../../utils';
+
 // import moment from 'moment';
 
 export const MODULE_NAME = 'personForm';
@@ -76,12 +77,4 @@ function* personFormListeners({ takeEvery, takeLatest }) {
     yield takeLatest(BIRTH_YEARS, apiSaga.bind(null, getBirthYears));
 }
 
-function* onNewPerson({ take, call }) {
-    while (true) {
-        const payload = yield take(NEW_PERSON_OK);
-        console.log(payload);
-        // yield call(history.push, SIGNUP_EMAIL);
-    }
-}
-
-registerSagas(personFormListeners, onNewPerson);
+registerSagas(personFormListeners);

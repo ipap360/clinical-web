@@ -14,19 +14,16 @@ import {
     FormSelect,
     FormAreaField,
     FormDateField,
+    FormHelperText,
+    FormLabel,
 } from '../../../components';
+import Typography from '../../../components/atoms/Typography';
 
-class CalendarEventForm extends React.Component {
+class CopyEventForm extends React.Component {
 
     componentWillMount() {
 
         const { id, fetchAvailability, loadCalendarEvent } = this.props;
-
-        const isNew = (id === 'new' || id == '0');
-
-        if (!isNew) {
-            loadCalendarEvent(id);
-        }
 
         fetchAvailability({
             from: moment().format("YYYY-MM-DD"),
@@ -35,42 +32,18 @@ class CalendarEventForm extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-        const { submitSucceeded, onSuccess } = this.props;
-        if (submitSucceeded !== prevProps.submitSucceeded) {
-            if (typeof onSuccess === 'function') {
-                onSuccess.apply(this);
-            }
-        }
-        // console.log(prevProps);
-        // console.log(this.props);
-        // // Typical usage (don't forget to compare props):
-        // if (this.props.userID !== prevProps.userID) {
-        //     this.fetchData(this.props.userID);
-        // }
-    }
-
-    componentWillUnmount() {
-        this.props.clearCalendarEvent();
-    }
-
     render() {
 
         const {
             t,
             handleSubmit,
             className,
-            id,
-            fetchPersons,
+            person,
+            description,
             availability,
-            hasPerson,
             gender = "m",
             ...other
         } = this.props;
-
-        const isNew = (id === 'new' || id == '0');
-
-        // console.log("gender " + gender);
 
         const renderDay = (day, selectedDate, dayInCurrentMonth, dayComponent) => {
             // moment object
@@ -83,45 +56,46 @@ class CalendarEventForm extends React.Component {
 
         return (
             <Form onSubmit={handleSubmit} className={className}>
-                <FormRow>
-                    <FormSelect
-                        name="person"
-                        loadOptions={fetchPersons}
-                        label={t("Patient")}
-                        fullWidth
-                        isDisabled={!isNew}
-                    />
-                </FormRow>
+                {/* <FormRow>
+                    <div>
+                        <FormLabel>{t("Patient")}</FormLabel>
+                        <Typography>{person}</Typography>
+                    </div>
+                </FormRow> */}
                 <FormRow>
                     <FormDateField
                         name="date"
                         label={t("Date")}
                         renderDay={renderDay}
-                        disabled={!hasPerson}
+                    // disabled={!hasPerson}
                     />
                 </FormRow>
-                <FormRow>
+                {/* <FormRow>
                     <FormRadioGroup name="duration" fullWidth label={t("Night stay")}>
                         <FormRadio value="0" label={t("None")} />
                         <FormRadio value="1" label={t("One")} />
                         <FormRadio value="2" label={t("Two")} />
                         <FormRadio value="3" label={t("Three")} />
                     </FormRadioGroup>
-                </FormRow>
+                </FormRow> */}
                 <FormRow>
                     <FormAreaField
                         name='description'
                         inputProps={{ maxLength: "255" }}
                         label={t("Notes")}
+                        placeholder={description}
                         fullWidth
                     />
                 </FormRow>
+                {/* <FormRow>
+                    <FormHelperText>{t("Default")}: {description}</FormHelperText>
+                </FormRow> */}
                 <FormButtonsContainer>
                     <FormSubmitButton>
-                        {(isNew) ? t("Insert") : t("Save")}
+                        {t("Insert")}
                     </FormSubmitButton>
                     <FormResetButton>
-                        {(isNew) ? t("Reset") : t("Undo")}
+                        {t("Reset")}
                     </FormResetButton>
                 </FormButtonsContainer>
                 <FormError />
@@ -131,4 +105,4 @@ class CalendarEventForm extends React.Component {
 
 }
 
-export default CalendarEventForm; 
+export default CopyEventForm; 

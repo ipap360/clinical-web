@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import createHistory from "history/createBrowserHistory";
+
 
 import Home from './Home';
-import NewCalendarEvent from './NewCalendarEvent';
-import EditCalendarEvent from './EditCalendarEvent';
+import CalendarEventPage from './CalendarEventPage';
+// import EditCalendarEvent from './EditCalendarEvent';
 import Signup from './Signup';
 import SignupEmail from './SignupEmail';
 import SignupConfirm from './SignupConfirm';
@@ -15,7 +17,7 @@ import {
     SIGNUP, 
     SIGNUP_EMAIL, 
     SIGNUP_CONFIRM, 
-    NEW_CALENDAR_EVENT, 
+    // NEW_CALENDAR_EVENT, 
     EDIT_CALENDAR_EVENT, 
     PROFILE, 
     SETTINGS 
@@ -37,8 +39,8 @@ export default () => (
             <Route path={SIGNUP} component={Signup} />
             <Route path={SIGNUP_CONFIRM} component={SignupConfirm} />
             <Route path={SIGNUP_EMAIL} component={SignupEmail} />
-            <Route path={NEW_CALENDAR_EVENT} component={NewCalendarEvent} />
-            <Route path={EDIT_CALENDAR_EVENT} component={EditCalendarEvent} />
+            {/* <Route path={NEW_CALENDAR_EVENT} component={NewCalendarEvent} /> */}
+            <Route path={EDIT_CALENDAR_EVENT} component={CalendarEventPage} />
             <Route path={PROFILE} component={Profile} />
             <Route path={SETTINGS} component={Settings} />
             <Route path={ROOT} component={Home} />

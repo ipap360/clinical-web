@@ -2,23 +2,22 @@ import React from 'react'
 import { withStyles, Paper } from "@material-ui/core";
 import Typography from '../../../components/atoms/Typography';
 import classNames from 'classnames';
-// import { Typography } from '../../../components';
+import { EDIT_CALENDAR_EVENT } from '../paths';
 
 const styles = theme => ({
     root: {
         position: 'relative',
+        cursor: 'pointer',
         padding: '3px 6px',
         backgroundColor: theme.palette.primary.main,
         alignSelf: 'flex-start',
         minHeight: '30px',
         display: 'flex',
         alignItems: 'center',
-        // height: '
-        // display: 'flex',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // background: `linear-gradient(${partA}, ${partA} 50%, ${partB} 50%)`,
         color: theme.palette.getContrastText(theme.palette.primary.main),
+        "&:hover": {
+            opacity: 0.75
+        },
         "&:not(:last-child)": {
             // marginRight: "2px"
         },
@@ -78,14 +77,17 @@ const styles = theme => ({
     }
 });
 
-export default withStyles(styles)(({ classes, t, data }) => {
-    const { start, end, description, name, gender } = data;
+export default withStyles(styles)(({ classes, t, data, history }) => {
+    // console.log(props);
+    const { id, start, end, description, name, gender } = data;
+    const text = name + (description ? ", " + description : "");
 
     const realstart = start === 0 ? 1 : start;
     const realend = end > 8 ? 8 : end;
-    const span2 = realstart === realend || realstart === realend - 1;
+    const span2 = (realstart === realend || realstart === realend - 1) && text.length > 30;
+
     return (
-        <Paper className={
+        <Paper onClick={() => { history.push(EDIT_CALENDAR_EVENT.replace(":id", id)) }} className={
             classNames(classes.root, {
                 'is-continued': end > 8,
                 'is-carryover': start === 0,
@@ -102,7 +104,7 @@ export default withStyles(styles)(({ classes, t, data }) => {
                 variant='body1'
                 style={{ whiteSpace: (!span2) ? 'nowrap' : null }}
             >
-                {name}: {description}
+                {text}
             </Typography>
         </Paper>
     );

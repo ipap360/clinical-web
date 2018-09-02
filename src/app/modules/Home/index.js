@@ -1,10 +1,11 @@
-import { date } from '../../utils';
+// import { date } from '../../utils';
 import { registerReducer, connect2store, registerSagas } from '../../../common';
 import Home from './Home';
 import { createAction, createActionName, setOK, setFin } from '../../helpers';
 import { calendarEvents, roomAvailability } from '../../api';
 import { apiSaga } from '../../session';
 import moment from 'moment';
+// import history from '../../history';
 
 const MODULE_NAME = "calendar";
 
@@ -67,10 +68,10 @@ export const isCalendarLoading = (state) => state[MODULE_NAME].loading;
 export const getCalendarSelection = (state) => state[MODULE_NAME].selected;
 export const getCalendarDates = (state) => state[MODULE_NAME].dates.map(d => {
     const iso = d.format("YYYY-MM-DD");
-    const availability = state[MODULE_NAME].availability[iso] || {male: "", female: ""};
+    const availability = state[MODULE_NAME].availability[iso] || { male: "", female: "" };
     return {
         d,
-        iso ,
+        iso,
         num: d.format("D"),
         short: d.format("ddd"),
         availability

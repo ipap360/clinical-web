@@ -115,14 +115,20 @@ export const viewCalendarEvent = (id) =>
 
 export const upsertCalendarEvent = ({
     id = 0,
-    personId,
+    person,
     date,
     duration,
     description
 }) => {
+
+    // console.log(id);
+    // console.log(person);
     // console.log(date);
+    // console.log(duration);
+    // console.log(description);
+
     return net.post("/calendar-events/" + id, {
-        personId: personId ? JSON.parse(personId).value : null,
+        personId: person ? JSON.parse(person).value : null,
         date: date ? date.format('YYYY-MM-DD') : null,
         duration,
         description

@@ -23,6 +23,7 @@ export {
 export {
     AccountCircle,
     Menu as MenuIcon,
+    Home as HomeIcon,
     AddIcon
 } from '@material-ui/icons';
 

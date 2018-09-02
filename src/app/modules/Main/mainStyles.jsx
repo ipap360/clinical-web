@@ -29,7 +29,8 @@ export default theme => ({
     },
     sidebar: {
         "& > div": {
-            // width: drawerWidth,
+            width: drawerWidth - theme.spacing.unit,
+            padding: theme.spacing.unit * 4,
             // position: "relative",
             borderRight: "none"
         }

@@ -184,11 +184,14 @@ function* okSaga(type, meta, data) {
 
 function* errorSaga(type, meta, e) {
     yield put({ type: setFail(type), payload: e.data });
+    console.log(meta);
+    console.log(e);
     if (meta.reject) yield call(meta.reject, e);
 }
 
 export function* apiSaga(...args) {
     const [fn, { type, payload, meta = {} }] = args;
+    console.log(args);
     try {
         const data = yield call(fn, payload);
         yield* okSaga(type, meta, data);

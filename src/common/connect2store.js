@@ -9,6 +9,7 @@ registerReducer("form", reducer);
 
 const onSubmit = (values, dispatch, props) => new Promise((resolve, reject) => {
     const { submitActionCreator } = props;
+    console.log(values);
     submitActionCreator(values, { resolve, reject });
 }).catch(({ data: { message, ...more }, status, statusText }) => {
     throw new SubmissionError({
@@ -21,6 +22,6 @@ export default (options = {}) => (comp) => {
     const { s2p, d2p, form, i18n } = options;
     let ret = translate(i18n)(comp);
     ret = withTheme()(ret);
-    if (form) ret = reduxForm({ form, onSubmit })(ret);
+    if (form) ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret);
     return connect(s2p, d2p)(ret);
 };

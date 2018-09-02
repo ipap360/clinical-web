@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import { Paper, NavButton, SmallCalendar, AddIcon } from '../../../components';
+import { Paper, NavButton, SmallCalendar, Icon, IconButton, Typography, Button } from '../../../components';
 
 import Main from '../Main';
 import { NEW_CALENDAR_EVENT } from '../paths';
 
 import CalendarHeader from './CalendarHeader';
-import CalendarEvent from './CalendarEvent';
+import CalendarEventBar from './CalendarEventBar';
 
-import { withStyles, Icon } from '@material-ui/core';
-
+import { withStyles } from '@material-ui/core';
+import moment from 'moment';
 
 const styles = theme => ({
     calendarContent: {
@@ -33,24 +33,30 @@ const styles = theme => ({
         position: 'absolute',
         bottom: theme.spacing.unit * 4.5,
         right: theme.spacing.unit * 4.5,
+    },
+    topbar: {
+        display: 'flex',
+        alignItems: 'center',
+        color: theme.palette.getContrastText(theme.palette.primary.main),
+        "& > p": {
+            textAlign: 'center',
+            width: 120
+        },
+        "& > *": {
+            marginRight: 5
+        }
     }
 });
 
 class Home extends Component {
 
-    constructor(props) {
-
-        super(props);
-
+    componentWillMount() {
         this.fetch();
-
-        console.log(this.props);
-
     }
 
     fetch() {
-        const { dates } = this.props;
 
+        const { dates } = this.props;
         this.props.fetchAvailability({
             from: dates[0].iso,
             to: dates[6].iso
@@ -62,11 +68,10 @@ class Home extends Component {
         });
     }
 
-    dayClick() {
-        console.log(this)
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
+        // console.log(this.props);
+        // console.log(nextProps);
         const { dates, events } = this.props;
         const changedEvents = JSON.stringify(events) !== JSON.stringify(nextProps.events);
         const changedDates = JSON.stringify(dates) !== JSON.stringify(nextProps.dates);
@@ -82,15 +87,38 @@ class Home extends Component {
 
     render() {
 
-        const { classes, dates, selected, events, setSelectedDate } = this.props;
+        const { classes, dates, selected, events, history, setSelectedDate } = this.props;
 
-        const header = (<CalendarHeader dates={dates} />);
+        const header = (<CalendarHeader dates={dates} history={history} />);
         const sidebar = (<SmallCalendar value={selected} onChange={(d) => { setSelectedDate(d) }} />);
 
+        let m1 = dates[0].d.format("MMM");
+        let m2 = dates[6].d.format("MMM");
+
+        const y1 = dates[0].d.format("YYYY");
+        const y2 = dates[6].d.format("YYYY");
+
+        m1 = (y1 != y2) ? m1 + " " + y1 : m1;
+        m2 = (m1 != m2) ? " - " + m2 : "";
+        m2 = (y1 != y2) ? m2 + " " + y2 : m2 + " " + y1;
+
+        const topbar = (
+            <div className={classes.topbar}>
+                <Button variant="outlined" color='inherit' onClick={() => setSelectedDate(moment())}>
+                    <Typography color='inherit'>Today</Typography>
+                </Button>
+                <IconButton variant="outlined" color='inherit' onClick={() => setSelectedDate(selected.clone().subtract(1, 'w'))}>
+                    <Icon fontSize='inherit'>arrow_left</Icon>
+                </IconButton>
+                <Typography color='inherit'>
+                    {m1}{m2}
+                </Typography>
+                <IconButton variant="outlined" color='inherit' onClick={() => setSelectedDate(selected.clone().add(1, 'w'))}>
+                    <Icon fontSize='inherit'>arrow_right</Icon>
+                </IconButton>
+            </div>
+        );
         const isodates = dates.map(d => d.iso);
-        
-        console.log(isodates);
-        console.log(events);
 
         const eventsUI = events.filter(e => {
 
@@ -102,7 +130,7 @@ class Home extends Component {
 
             const checkin = isodates.indexOf(e.scheduled_date);
             const checkout = isodates.indexOf(e.scheduled_out);
-            
+
             return {
                 ...e,
                 start: checkin + 1,
@@ -111,12 +139,10 @@ class Home extends Component {
 
         });
 
-        console.log(eventsUI);
-
         return (
-            <Main header={header} sidebar={sidebar}>
+            <Main header={header} sidebar={sidebar} topbar={topbar}>
                 <Paper square className={classes.calendarContent}>
-                    {eventsUI.map((e, i) => <CalendarEvent key={i} data={e} />)}
+                    {eventsUI.map((e, i) => <CalendarEventBar key={i} data={e} history={history} />)}
                 </Paper>
                 <NavButton variant="fab" className={classes.addBtn} color='secondary' to={NEW_CALENDAR_EVENT}>
                     <Icon>add</Icon>
