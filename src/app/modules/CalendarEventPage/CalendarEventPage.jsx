@@ -1,6 +1,6 @@
 import React from 'react';
 import Main from '../Main';
-import { withStyles, Divider, AppBar } from '@material-ui/core';
+import { withStyles, Divider, AppBar, Icon } from '@material-ui/core';
 import { Typography, Toolbar, Paper, Modal, Button, HorizontalLinearSteps } from '../../../components';
 import CalendarEventForm from '../CalendarEventForm';
 import PersonForm from '../PersonForm';
@@ -133,6 +133,12 @@ class CalendarEventPage extends React.Component {
                         </Paper>
                     </Modal>
                 </div>
+                <div>
+                    <Button fullWidth onClick={() => history.go(-1)}>
+                        {/* <Icon style={{marginRight: 8}}>arrow_back_ios</Icon> */}
+                        {t("Back")}
+                    </Button>
+                </div>
             </div>
         ) : (
                 <div className={classes.sidebar}>
@@ -148,7 +154,7 @@ class CalendarEventPage extends React.Component {
                             onClose={closeModals}
                         >
                             <Paper square className={classNames(classes.modal, 'short')}>
-                            <div>
+                                <div>
                                     <AppBar position='static'>
                                         <Toolbar>
                                             <Typography variant='title' color='inherit'>Postpone</Typography>
@@ -168,7 +174,7 @@ class CalendarEventPage extends React.Component {
                         </Modal>
                     </div>
                     <div>
-                        <Button onClick={copyModal} variant='contained' fullWidth>{t("Next")}</Button>
+                        <Button onClick={copyModal} variant='contained' fullWidth>{t("Next appointment")}</Button>
                         <Modal
                             aria-labelledby="simple-modal-title"
                             aria-describedby="simple-modal-description"
@@ -194,6 +200,16 @@ class CalendarEventPage extends React.Component {
                                 </div>
                             </Paper>
                         </Modal>
+                    </div>
+                    {/* <br/> */}
+                    {/* <br/> */}
+                    {/* <br/> */}
+                    {/* <br/> */}
+                    <div>
+                        <Button fullWidth onClick={() => history.go(-1)}>
+                            {/* <Icon style={{marginRight: 8}}>arrow_back_ios</Icon> */}
+                            {t("Back")}
+                        </Button>
                     </div>
                 </div>
             );
