@@ -42,6 +42,9 @@ const styles = theme => ({
             textAlign: 'center',
             width: 120
         },
+        "& > button": {
+            fontSize: 36
+        },
         "& > *": {
             marginRight: 5
         }
@@ -104,18 +107,18 @@ class Home extends Component {
 
         const topbar = (
             <div className={classes.topbar}>
-                <Button variant="outlined" color='inherit' onClick={() => setSelectedDate(moment())}>
-                    <Typography color='inherit'>Today</Typography>
-                </Button>
                 <IconButton variant="outlined" color='inherit' onClick={() => setSelectedDate(selected.clone().subtract(1, 'w'))}>
                     <Icon fontSize='inherit'>arrow_left</Icon>
                 </IconButton>
-                <Typography color='inherit'>
+                <Typography color='inherit' variant='title'>
                     {m1}{m2}
                 </Typography>
                 <IconButton variant="outlined" color='inherit' onClick={() => setSelectedDate(selected.clone().add(1, 'w'))}>
                     <Icon fontSize='inherit'>arrow_right</Icon>
                 </IconButton>
+                <Button variant="outlined" color='inherit' onClick={() => setSelectedDate(moment())}>
+                    <Typography color='inherit'>Today</Typography>
+                </Button>                
             </div>
         );
         const isodates = dates.map(d => d.iso);
@@ -139,8 +142,9 @@ class Home extends Component {
 
         });
 
+        // sidebar={sidebar}
         return (
-            <Main header={header} sidebar={sidebar} topbar={topbar}>
+            <Main header={header} topbar={topbar}>
                 <Paper square className={classes.calendarContent}>
                     {eventsUI.map((e, i) => <CalendarEventBar key={i} data={e} history={history} />)}
                 </Paper>

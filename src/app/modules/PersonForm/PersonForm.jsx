@@ -1,4 +1,5 @@
 import React from 'react';
+import { data } from '../../utils';
 
 import {
     Form,
@@ -35,7 +36,11 @@ const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...
                 </FormRadioGroup>
             </FormRow>
             <FormRow>
-                <FormSelect name="birthYear" menuPosition={(modal) ? 'fixed' : 'absolute'} loadOptions={birthYears} label={t("Year of birth")} fullWidth/>
+                <FormSelect name="birthYear" menuPosition={(modal) ? 'fixed' : 'absolute'}
+                    options={data.range2array(1910, (new Date()).getFullYear())
+                        // .filter(y => (!token || y.toString().indexOf(token) >= 0))
+                        .map(y => ({ value: y, label: y }))}
+                    label={t("Year of birth")} fullWidth />
             </FormRow>
             {/* <FormRow>
                 <FormDateField name="date1" label={t("Date")}/>

@@ -20,7 +20,7 @@ class CalendarEventForm extends React.Component {
 
     componentWillMount() {
 
-        const { id, fetchAvailability, loadCalendarEvent } = this.props;
+        const { id, fetchAvailability, loadCalendarEvent, fetchPersons } = this.props;
 
         const isNew = (id === 'new' || id == '0');
 
@@ -32,6 +32,8 @@ class CalendarEventForm extends React.Component {
             from: moment().format("YYYY-MM-DD"),
             to: moment().add(2, 'M').format("YYYY-MM-DD")
         });
+
+        fetchPersons();
 
     }
 
@@ -63,22 +65,31 @@ class CalendarEventForm extends React.Component {
             id,
             fetchPersons,
             availability,
-            hasPerson,
-            gender = "m",
+            selectedPerson,
+            persons,
+            // gender = "m",
             ...other
         } = this.props;
 
         const isNew = (id === 'new' || id == '0');
 
-        // console.log("gender " + gender);
+        const personIds = persons.map(p => p.id);
+        const i = (selectedPerson) ? personIds.indexOf(JSON.parse(selectedPerson).value) : -1;
+        // console.log(i);
+        let gender = (i >= 0 && persons[i].gender) ? persons[i].gender.toLowerCase()[0] : "";
+       
+        const options = persons.map(p => ({
+            value: p.id,
+            label: p.name
+        }));
 
         const renderDay = (day, selectedDate, dayInCurrentMonth, dayComponent) => {
-            // moment object
             const date = day.format("YYYY-MM-DD");
-            // console.log(date);
-            const i = availability[date] || { m: "", f: "" };
-            // console.log(i);
-            return (<div className={classNames('day-indicator', i[gender].toLowerCase())}>{dayComponent}</div>);
+            const indicator = availability[date] || { m: "", f: "" };
+            const gi = indicator[gender] || "";
+            return (<div className={classNames('day-indicator', {
+                [gi.toLowerCase()] : !!gi
+            })}>{dayComponent}</div>);
         }
 
         return (
@@ -86,7 +97,7 @@ class CalendarEventForm extends React.Component {
                 <FormRow>
                     <FormSelect
                         name="person"
-                        loadOptions={fetchPersons}
+                        options={options}
                         label={t("Patient")}
                         fullWidth
                         isDisabled={!isNew}
@@ -97,7 +108,7 @@ class CalendarEventForm extends React.Component {
                         name="date"
                         label={t("Date")}
                         renderDay={renderDay}
-                        disabled={!hasPerson}
+                        disabled={!selectedPerson}
                     />
                 </FormRow>
                 <FormRow>

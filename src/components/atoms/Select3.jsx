@@ -1,5 +1,5 @@
 import React from 'react';
-import { Async as AsyncSelect, components } from 'react-select';
+import Select, { Async as AsyncSelect, components } from 'react-select';
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import { TextField, MenuItem } from "@material-ui/core";
@@ -107,10 +107,10 @@ const customStyles = {
 
 class ReduxSelect extends React.Component {
     render() {
-        const { name, loadOptions, onChange, onBlur, onFocus, value, isMulti, isDisabled, menuPosition='absolute', ...other } = this.props;
+        const { name, loadOptions, options, onChange, onBlur, onFocus, value, isMulti, isDisabled, menuPosition='absolute', ...other } = this.props;
         // console.log(menuPosition);
         return (
-            <AsyncSelect
+            <Select
                 value={value ? JSON.parse(value) : ''}
                 components={{
                     Option,
@@ -124,6 +124,7 @@ class ReduxSelect extends React.Component {
                 isClearable={true}
                 cacheOptions={false}
                 defaultOptions={true}
+                options={options}
                 placeholder=""
                 onChange={(data, meta) => {
                     if (data) {
@@ -136,11 +137,11 @@ class ReduxSelect extends React.Component {
                 onFocus={onFocus}
                 isDisabled={isDisabled}
                 menuPlacement="auto"
-                loadOptions={
-                    (value) => new Promise((resolve, reject) => {
-                        loadOptions(value, { resolve, reject });
-                    })
-                }
+                // loadOptions={
+                //     (value) => new Promise((resolve, reject) => {
+                //         loadOptions(value, { resolve, reject });
+                //     })
+                // }
             // {...other}
             />
         )
@@ -152,7 +153,8 @@ export default class Select3 extends React.Component {
         const {
             id,
             classes,
-            loadOptions,
+            options,
+            // loadOptions,
             name,
             label,
             fullWidth,
@@ -190,7 +192,8 @@ export default class Select3 extends React.Component {
                         // instanceId: 'react-select-chip-label',
                         id,
                         // simpleValue: true,
-                        loadOptions,
+                        // loadOptions,
+                        options,
                         ...inputProps
                     },
                     ...InputProps

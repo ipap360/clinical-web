@@ -32,7 +32,7 @@ export default ({ classes, theme, name, logout, toggleSidebar, title = "Calendar
                 {/* <IconButton className={sideIcon} onClick={toggleSidebar} color="inherit" aria-label="Menu">
                     <MenuIcon />
                 </IconButton> */}
-                <Typography className={titleCss} variant="title" color="inherit" style={{ width: '260px' }}>
+                <Typography className={titleCss} variant="title" color="inherit" style={{ marginRight: 24 }}>
                     {title}
                 </Typography>
                 <Toolbar style={{ flex: '1 auto' }} disableGutters>

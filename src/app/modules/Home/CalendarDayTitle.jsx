@@ -74,17 +74,17 @@ export default withStyles(styles)(({ classes, d, history }) => {
             </div>
             <Typography variant='display3'>{d.num}</Typography>
             <div className={classes.availability}>
-                <div>
+                <div className={classNames('border-indicator', m.toLowerCase())}>
                     <Typography>{male + " x"}</Typography>
                     <i className="fas fa-male"></i>
-                    <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
-                    </span>
+                    {/* <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
+                    </span> */}
                 </div>
-                <div>
+                <div className={classNames('border-indicator', f.toLowerCase())}>
                     <Typography>{female + " x"}</Typography>
                     <i className="fas fa-female"></i>
-                    <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
-                    </span>
+                    {/* <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
+                    </span> */}
                 </div>
             </div>
         </div>

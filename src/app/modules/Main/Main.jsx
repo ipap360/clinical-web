@@ -16,7 +16,7 @@ export default withStyles(styles)((props) => {
     if (!isSignedIn) return <Login />;
 
     return (
-        <div className={classes.root + (isSidebarOpen ? " " + " sidebar-open" : "")}>
+        <div className={classes.root + (sidebar && isSidebarOpen ? " " + " sidebar-open" : "")}>
             <TopBar classes={classes} toggleSidebar={sidebar && toggleSidebar} content={header}>
                 {topbar}
             </TopBar>

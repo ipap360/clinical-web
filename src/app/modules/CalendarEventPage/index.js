@@ -1,7 +1,7 @@
 import CalendarEventPage from './CalendarEventPage';
 import { connect2store, registerSagas, registerReducer } from '../../../common';
 import { NEW_PERSON_OK } from '../PersonForm';
-import { getCalendarEventTitle, setPerson, SAVE_CALENDAR_EVENT_OK } from '../CalendarEventForm';
+import { getCalendarEventTitle, setPerson, fetchPersons } from '../CalendarEventForm';
 import { createActionName, createAction } from '../../helpers';
 import history from '../../history';
 import { ROOT } from '../paths';
@@ -68,7 +68,7 @@ const d2p = {
     closeModals,
     newPersonModal,
     postponeModal,
-    copyModal
+    copyModal,
 };
 
 export default connect2store({ s2p, d2p })(CalendarEventPage);
@@ -83,6 +83,7 @@ function* onNewPerson({ take, put }) {
         };
 
         yield put(setPerson(JSON.stringify(person)));
+        yield put(fetchPersons());
         yield put(closeModals());
     }
 }
