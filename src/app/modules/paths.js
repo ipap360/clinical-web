@@ -1,6 +1,6 @@
 export const ROOT = '/';
 export const SIGNUP = '/signup';
-export const SIGNUP_CONFIRM = '/signup-confirm';
+export const SIGNUP_CONFIRM = '/signup/confirm/:token';
 export const SIGNUP_EMAIL = '/signup-email';
 export const LOGIN = '/login';
 export const RECOVER_PWD_INIT = '/recover/init';

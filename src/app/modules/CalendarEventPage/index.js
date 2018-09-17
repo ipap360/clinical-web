@@ -77,12 +77,9 @@ function* onNewPerson({ take, put }) {
     while (true) {
         const { payload } = yield take(NEW_PERSON_OK);
 
-        const person = {
-            value: payload.id,
-            label: payload.name
-        };
-
-        yield put(setPerson(JSON.stringify(person)));
+        console.log(payload);
+        
+        yield put(setPerson(payload.id));
         yield put(fetchPersons());
         yield put(closeModals());
     }

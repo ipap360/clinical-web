@@ -8,6 +8,7 @@ import { ROOT } from '../paths';
 import moment from 'moment';
 import CopyEventForm from '../CopyEventForm';
 import classNames from 'classnames';
+import PostponeEventForm from '../PostponeEventForm';
 
 const style = theme => ({
     root: {
@@ -32,10 +33,10 @@ const style = theme => ({
         textOverflow: 'ellipsis'
     },
     modal: {
-        height: 400,
+        height: 500,
         width: 600,
         overflowY: 'auto',
-        marginTop: -200,
+        marginTop: -250,
         top: '50%',
         position: 'absolute',
         left: '50%',
@@ -93,9 +94,7 @@ class CalendarEventPage extends React.Component {
         const { params: { id } } = match;
 
         const isNew = (id === "new" || id == "0");
-        const initDate = location.state && location.state.date;
-
-        // console.log(initDate);
+        const date = location.state && location.state.date;
 
         const header = (
             <Toolbar className={classes.header} disableGutters>
@@ -161,7 +160,7 @@ class CalendarEventPage extends React.Component {
                                         </Toolbar>
                                     </AppBar>
                                     <Toolbar>
-                                        <CopyEventForm
+                                        <PostponeEventForm
                                             modal={true}
                                             className={classes.modalform}
                                             description='Test'
@@ -219,9 +218,9 @@ class CalendarEventPage extends React.Component {
                 <Paper square className={classes.paper}>
                     <CalendarEventForm
                         className={classes.form}
-                        id={id}
                         onSuccess={() => history.push(ROOT)}
-                        initialValues={(initDate) ? { date: moment(initDate) } : null}
+                        id={(isNew) ? 0 : id}
+                        initialValues={(date) ? { date } : null}
                     />
                 </Paper>
             </Main>

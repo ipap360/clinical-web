@@ -106,12 +106,21 @@ const customStyles = {
 // https://codesandbox.io/s/o51yw14l59
 
 class ReduxSelect extends React.Component {
+
     render() {
-        const { name, loadOptions, options, onChange, onBlur, onFocus, value, isMulti, isDisabled, menuPosition='absolute', ...other } = this.props;
-        // console.log(menuPosition);
+        const { name, loadOptions, options = [], onChange, onBlur, onFocus, value = -1, isMulti, isDisabled, menuPosition = 'absolute', ...other } = this.props;
+
+        const ids = options.map(o => o.value);
+        const index = ids.indexOf(value);
+
+        // console.log(ids);
+        // console.log(value);
+        // console.log(options);
+        // console.log(index);
+
         return (
             <Select
-                value={value ? JSON.parse(value) : ''}
+                value={index >= 0 ? options[index] : ''}
                 components={{
                     Option,
                     // ClearIndicator,
@@ -128,7 +137,7 @@ class ReduxSelect extends React.Component {
                 placeholder=""
                 onChange={(data, meta) => {
                     if (data) {
-                        onChange(JSON.stringify(data));
+                        onChange(data.value);
                     } else {
                         onChange(null);
                     }
@@ -137,11 +146,11 @@ class ReduxSelect extends React.Component {
                 onFocus={onFocus}
                 isDisabled={isDisabled}
                 menuPlacement="auto"
-                // loadOptions={
-                //     (value) => new Promise((resolve, reject) => {
-                //         loadOptions(value, { resolve, reject });
-                //     })
-                // }
+            // loadOptions={
+            //     (value) => new Promise((resolve, reject) => {
+            //         loadOptions(value, { resolve, reject });
+            //     })
+            // }
             // {...other}
             />
         )

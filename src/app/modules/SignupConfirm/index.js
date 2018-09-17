@@ -18,6 +18,7 @@ export const confirmSignup = createAction(SIGNUP_CONFIRM)
 const state0 = {
     loading: false,
     isError: false,
+    isDone: false,
     message: null
 };
 
@@ -29,6 +30,7 @@ const reducer = (state = state0, { type, payload }) => {
                 ...state,
                 loading: true,
                 isError: false,
+                isDone: false,
                 message: "Your request is being processed..."
             }
         case SIGNUP_CONFIRMED:
@@ -36,6 +38,7 @@ const reducer = (state = state0, { type, payload }) => {
                 ...state,
                 loading: false,
                 isError: false,
+                isDone: true,
                 message: payload.message
             }
         case SIGNUP_REJECTED:
@@ -43,6 +46,7 @@ const reducer = (state = state0, { type, payload }) => {
                 ...state,
                 loading: false,
                 isError: true,
+                isDone: false,
                 message: payload.message
             }
         default:
@@ -54,7 +58,7 @@ registerReducer(MODULE_NAME, reducer);
 
 // sagas
 function* signupConfirmListener({ takeEvery }) {
-    yield takeEvery(SIGNUP_CONFIRM, apiSaga.bind(null, confirmRegistrations))
+    yield takeEvery(SIGNUP_CONFIRM, apiSaga, confirmRegistrations)
 }
 
 registerSagas(signupConfirmListener);

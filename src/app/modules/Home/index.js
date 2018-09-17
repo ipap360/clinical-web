@@ -78,13 +78,53 @@ export const getCalendarDates = (state) => state[MODULE_NAME].dates.map(d => {
     };
 });
 
-export const getCalendarEvents = (state) => state[MODULE_NAME].events;
+const getDatePeriod = (state) => {
+
+    const dates = state[MODULE_NAME].dates;
+
+    let m1 = dates[0].format("MMM");
+    let m2 = dates[6].format("MMM");
+
+    const y1 = dates[0].format("YYYY");
+    const y2 = dates[6].format("YYYY");
+
+    m1 = (y1 != y2) ? m1 + " " + y1 : m1;
+    m2 = (m1 != m2) ? " - " + m2 : "";
+    m2 = (y1 != y2) ? m2 + " " + y2 : m2 + " " + y1;
+
+    return m1 + m2;
+}
+
+export const getCalendarEvents = (state) => {
+    
+    const events = state[MODULE_NAME].events;
+    const dates = state[MODULE_NAME].dates;
+
+    let isodates = dates.map(d => d.format("YYYY-MM-DD"));
+    isodates.push(dates[6].clone().add(1, 'd').format("YYYY-MM-DD"));
+
+    return events.map(e => {
+
+        const checkin = isodates.indexOf(e.admissionDate);
+        let checkout = isodates.indexOf(e.releaseDate);
+        if (checkout < 0) checkout = 8;
+
+        return {
+            ...e,
+            start: checkin + 1,
+            end: checkout + 1
+        };
+
+    });
+
+};
 
 const s2p = (state) => ({
     loading: isCalendarLoading(state),
     selected: getCalendarSelection(state),
     dates: getCalendarDates(state),
-    events: getCalendarEvents(state)
+    events: getCalendarEvents(state),
+    datePeriod: getDatePeriod(state),
 });
 
 const d2p = { fetchCalendarEvents, fetchAvailability, setSelectedDate }

@@ -1,35 +1,52 @@
 import React from 'react';
-import { fromQueryParams } from '../../utils';
+import classNames from 'classnames';
 import { PageWrapper, Loader, Typography, NavButton } from '../../../components';
-import { ErrorOutline, Done } from '@material-ui/icons';
-import { CONFIRM_QUERY_PARAM } from '../Signup';
+import { withStyles, CircularProgress } from '@material-ui/core';
+import { ROOT } from '../paths';
 
-export default class SignupConfirm extends React.Component {
 
-    constructor(props) {
-        super(props);
-        const { confirmSignup } = props;
+const styles = theme => ({
+    okIcon: {
+        color: theme.palette.primary.main,
+        fontSize: 92
+    },
+    errorIcon: {
+        color: theme.palette.error.main,
+        fontSize: 92
+    }
+});
 
-        console.log(window.location);
-        const q = fromQueryParams(window.location.search);
-        console.log(q);
-        if (q[CONFIRM_QUERY_PARAM]) {
-            confirmSignup(q[CONFIRM_QUERY_PARAM]);
+class SignupConfirm extends React.Component {
+
+    componentWillMount() {
+
+        const { confirmSignup, history, match, location } = this.props;
+
+        const { params: { token } } = match;
+        const { pathname } = location;
+
+        if (token && token != "1") {
+            confirmSignup({ token });
+            history.replace(pathname.substring(0, pathname.lastIndexOf("/")) + "/1");
         }
+
     }
 
     render() {
-        const { loading, isError, isDone, message, t } = this.props;
+        const { loading, isError, isDone, message, t, classes } = this.props;
         return (
             <PageWrapper>
-                {loading && <Loader />}
-                {(isError && !loading) && <ErrorOutline />}
-                {(isDone && !loading) && <Done />}
-                <Typography>
+                {loading && <CircularProgress size={75}/>}
+                {(isError && !loading) && <i className={classNames("fas fa-exclamation-circle", classes.errorIcon)}></i>}
+                {(isDone && !loading) && <i className={classNames("fas fa-check-circle", classes.okIcon)}></i>}
+                <br/>
+                <Typography variant='display2'>
                     {message}
                 </Typography>
-                {(isDone && !loading) && <NavButton>{t("Get Started")}</NavButton>}
+                {(isDone && !loading) && <NavButton to={ROOT}>{t("Get Started")}</NavButton>}
             </PageWrapper>
         );
     }
 }
+
+export default withStyles(styles)(SignupConfirm);

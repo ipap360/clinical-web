@@ -73,8 +73,6 @@ class Home extends Component {
 
 
     shouldComponentUpdate(nextProps, nextState) {
-        // console.log(this.props);
-        // console.log(nextProps);
         const { dates, events } = this.props;
         const changedEvents = JSON.stringify(events) !== JSON.stringify(nextProps.events);
         const changedDates = JSON.stringify(dates) !== JSON.stringify(nextProps.dates);
@@ -90,20 +88,10 @@ class Home extends Component {
 
     render() {
 
-        const { classes, dates, selected, events, history, setSelectedDate } = this.props;
+        const { classes, dates, datePeriod, selected, events, history, setSelectedDate } = this.props;
 
         const header = (<CalendarHeader dates={dates} history={history} />);
         const sidebar = (<SmallCalendar value={selected} onChange={(d) => { setSelectedDate(d) }} />);
-
-        let m1 = dates[0].d.format("MMM");
-        let m2 = dates[6].d.format("MMM");
-
-        const y1 = dates[0].d.format("YYYY");
-        const y2 = dates[6].d.format("YYYY");
-
-        m1 = (y1 != y2) ? m1 + " " + y1 : m1;
-        m2 = (m1 != m2) ? " - " + m2 : "";
-        m2 = (y1 != y2) ? m2 + " " + y2 : m2 + " " + y1;
 
         const topbar = (
             <div className={classes.topbar}>
@@ -111,7 +99,7 @@ class Home extends Component {
                     <Icon fontSize='inherit'>arrow_left</Icon>
                 </IconButton>
                 <Typography color='inherit' variant='title'>
-                    {m1}{m2}
+                    {datePeriod}
                 </Typography>
                 <IconButton variant="outlined" color='inherit' onClick={() => setSelectedDate(selected.clone().add(1, 'w'))}>
                     <Icon fontSize='inherit'>arrow_right</Icon>
@@ -121,32 +109,13 @@ class Home extends Component {
                 </Button>                
             </div>
         );
-        const isodates = dates.map(d => d.iso);
 
-        const eventsUI = events.filter(e => {
-
-            const checkin = isodates.indexOf(e.scheduled_date);
-            const checkout = isodates.indexOf(e.scheduled_out);
-            return checkin >= 0 || checkout > 0;
-
-        }).map(e => {
-
-            const checkin = isodates.indexOf(e.scheduled_date);
-            const checkout = isodates.indexOf(e.scheduled_out);
-
-            return {
-                ...e,
-                start: checkin + 1,
-                end: (checkin === -1) ? checkout + 1 : checkin + 1 + e.scheduled_duration
-            };
-
-        });
 
         // sidebar={sidebar}
         return (
             <Main header={header} topbar={topbar}>
                 <Paper square className={classes.calendarContent}>
-                    {eventsUI.map((e, i) => <CalendarEventBar key={i} data={e} history={history} />)}
+                    {events.map((e, i) => <CalendarEventBar key={i} data={e} history={history} />)}
                 </Paper>
                 <NavButton variant="fab" className={classes.addBtn} color='secondary' to={NEW_CALENDAR_EVENT}>
                     <Icon>add</Icon>

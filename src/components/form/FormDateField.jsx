@@ -14,8 +14,8 @@ const DateField = ({ input: { name, onBlur, onChange, value }, label, meta, rend
             value={value || null}
             // onBlur={(...props) => {console.log(props)}}
             onChange={(date) => {
-                // console.log(date);
-                onChange(date);
+                const v = (date) ? date.format("YYYY-MM-DD") : null;
+                onChange(v);
             }}
             renderDay={renderDay}
             // disabled={disabled}

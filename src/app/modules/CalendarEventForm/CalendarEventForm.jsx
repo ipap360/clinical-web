@@ -1,6 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import classNames from 'classnames';
 
 import {
     Form,
@@ -13,25 +11,21 @@ import {
     FormError,
     FormSelect,
     FormAreaField,
-    FormDateField,
 } from '../../../components';
+
+import DatePickerWithAvailability from '../DatePickerWithAvailability';
 
 class CalendarEventForm extends React.Component {
 
     componentWillMount() {
 
-        const { id, fetchAvailability, loadCalendarEvent, fetchPersons } = this.props;
+        const { id, loadCalendarEvent, fetchPersons } = this.props;
 
         const isNew = (id === 'new' || id == '0');
 
         if (!isNew) {
             loadCalendarEvent(id);
         }
-
-        fetchAvailability({
-            from: moment().format("YYYY-MM-DD"),
-            to: moment().add(2, 'M').format("YYYY-MM-DD")
-        });
 
         fetchPersons();
 
@@ -44,12 +38,6 @@ class CalendarEventForm extends React.Component {
                 onSuccess.apply(this);
             }
         }
-        // console.log(prevProps);
-        // console.log(this.props);
-        // // Typical usage (don't forget to compare props):
-        // if (this.props.userID !== prevProps.userID) {
-        //     this.fetchData(this.props.userID);
-        // }
     }
 
     componentWillUnmount() {
@@ -63,52 +51,31 @@ class CalendarEventForm extends React.Component {
             handleSubmit,
             className,
             id,
-            fetchPersons,
-            availability,
-            selectedPerson,
-            persons,
-            // gender = "m",
-            ...other
+            disabledDate,
+            patientOptions,
+            gender,
+            // ...other
         } = this.props;
 
         const isNew = (id === 'new' || id == '0');
-
-        const personIds = persons.map(p => p.id);
-        const i = (selectedPerson) ? personIds.indexOf(JSON.parse(selectedPerson).value) : -1;
-        // console.log(i);
-        let gender = (i >= 0 && persons[i].gender) ? persons[i].gender.toLowerCase()[0] : "";
-       
-        const options = persons.map(p => ({
-            value: p.id,
-            label: p.name
-        }));
-
-        const renderDay = (day, selectedDate, dayInCurrentMonth, dayComponent) => {
-            const date = day.format("YYYY-MM-DD");
-            const indicator = availability[date] || { m: "", f: "" };
-            const gi = indicator[gender] || "";
-            return (<div className={classNames('day-indicator', {
-                [gi.toLowerCase()] : !!gi
-            })}>{dayComponent}</div>);
-        }
 
         return (
             <Form onSubmit={handleSubmit} className={className}>
                 <FormRow>
                     <FormSelect
-                        name="person"
-                        options={options}
+                        name="patient"
+                        options={patientOptions}
                         label={t("Patient")}
                         fullWidth
                         isDisabled={!isNew}
                     />
                 </FormRow>
                 <FormRow>
-                    <FormDateField
+                    <DatePickerWithAvailability
                         name="date"
                         label={t("Date")}
-                        renderDay={renderDay}
-                        disabled={!selectedPerson}
+                        disabled={!disabledDate}
+                        gender={gender}
                     />
                 </FormRow>
                 <FormRow>
@@ -121,8 +88,7 @@ class CalendarEventForm extends React.Component {
                 </FormRow>
                 <FormRow>
                     <FormAreaField
-                        name='description'
-                        inputProps={{ maxLength: "255" }}
+                        name='notes'
                         label={t("Notes")}
                         fullWidth
                     />

@@ -4,7 +4,7 @@ import { registerSagas, connect2store } from '../../../common';
 import { apiSaga } from '../../session';
 import { newRegistration } from '../../api';
 import { setOK, createActionName, createAction } from '../../helpers';
-import { SIGNUP_EMAIL } from '../paths';
+import { SIGNUP_EMAIL, SIGNUP_CONFIRM } from '../paths';
 import history from '../../history';
 
 // import { getSession }
@@ -19,7 +19,7 @@ const s2p = (state, ownProps) => ({
     initialValues: {
         timezone: getTimezone(getSession(state)),
         locale: getLocale(getSession(state)),
-        url: ownProps.callbackURL
+        url: window.location.origin + SIGNUP_CONFIRM
     }
 });
 

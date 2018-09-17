@@ -78,9 +78,9 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(({ classes, t, data, history }) => {
-    // console.log(props);
-    const { id, start, end, description, name, gender } = data;
-    const text = name + (description ? ", " + description : "");
+    
+    const { id, start, end, patientNotes, name, code, eventNotes } = data;
+    const text = [name, code, patientNotes, eventNotes].join(" ");
 
     const realstart = start === 0 ? 1 : start;
     const realend = end > 8 ? 8 : end;
@@ -103,6 +103,7 @@ export default withStyles(styles)(({ classes, t, data, history }) => {
                 color='inherit'
                 variant='body1'
                 style={{ whiteSpace: (!span2) ? 'nowrap' : null }}
+                title={text}
             >
                 {text}
             </Typography>

@@ -8,13 +8,13 @@ import { withTheme } from '@material-ui/core';
 registerReducer("form", reducer);
 
 const onSubmit = (values, dispatch, props) => new Promise((resolve, reject) => {
-    const { submitActionCreator } = props;
-    console.log(values);
-    submitActionCreator(values, { resolve, reject });
-}).catch(({ data: { message, ...more }, status, statusText }) => {
+    const { submitActionCreator, id = 0 } = props;
+    // console.log(values);
+    submitActionCreator({ id, ...values }, { resolve, reject });
+}).catch(({ data: { message = "", errors = {}, ...more }, status, statusText }) => {
     throw new SubmissionError({
-        _error: message || statusText,
-        ...more
+        _error: (message == null && Object.keys(errors).length === 0) ? statusText : message,
+        ...errors
     });
 });
 
@@ -22,6 +22,9 @@ export default (options = {}) => (comp) => {
     const { s2p, d2p, form, i18n } = options;
     let ret = translate(i18n)(comp);
     ret = withTheme()(ret);
-    if (form) ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret);
+    if (form) {
+        // console.log(s2p);
+        ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret)
+    };
     return connect(s2p, d2p)(ret);
 };

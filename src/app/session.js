@@ -191,7 +191,7 @@ function* errorSaga(type, meta, e) {
 
 export function* apiSaga(...args) {
     const [fn, { type, payload, meta = {} }] = args;
-    console.log(args);
+    // console.log(args);
     try {
         const data = yield call(fn, payload);
         yield* okSaga(type, meta, data);

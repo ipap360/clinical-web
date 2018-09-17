@@ -5,7 +5,6 @@ import NavButton from '../../../components/atoms/NavButton';
 
 export default ({ classes, theme, name, logout, toggleSidebar, title = "Calendar", content, history, location, children, ...other }) => {
 
-    console.log(other);
 
     const items = [
         // {

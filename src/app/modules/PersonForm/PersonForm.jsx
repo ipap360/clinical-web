@@ -1,5 +1,4 @@
 import React from 'react';
-import { data } from '../../utils';
 
 import {
     Form,
@@ -12,12 +11,11 @@ import {
     FormRadio,
     FormError,
     FormSelect,
-    FormSelect2,
-    FormDateField,
+    FormAreaField,
 } from '../../../components';
 
 const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...props }) => {
-    console.log(modal);
+    
     return (
         <Form onSubmit={handleSubmit} className={className}>
             <FormRow>
@@ -25,6 +23,21 @@ const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...
                     name='name'
                     inputProps={{ maxLength: "255" }}
                     label={t("Name")}
+                    fullWidth
+                />
+            </FormRow>
+            <FormRow>
+                <FormTextField
+                    name='code'
+                    inputProps={{ maxLength: "255" }}
+                    label={t("Code")}
+                    fullWidth
+                />
+            </FormRow>
+            <FormRow>
+                <FormAreaField
+                    name='notes'
+                    label={t("Notes")}
                     fullWidth
                 />
             </FormRow>
@@ -37,23 +50,9 @@ const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...
             </FormRow>
             <FormRow>
                 <FormSelect name="birthYear" menuPosition={(modal) ? 'fixed' : 'absolute'}
-                    options={data.range2array(1910, (new Date()).getFullYear())
-                        // .filter(y => (!token || y.toString().indexOf(token) >= 0))
-                        .map(y => ({ value: y, label: y }))}
+                    options={birthYears}
                     label={t("Year of birth")} fullWidth />
             </FormRow>
-            {/* <FormRow>
-                <FormDateField name="date1" label={t("Date")}/>
-            </FormRow> */}
-            {/* <FormRow>
-                <FormSelect2 
-                    name="birthYear2" 
-                    options={props.birthOptions} 
-                    isLoading={props.birthLoading} 
-                    onInputChange={birthYears} 
-                    label={t("Year of birth")}
-                />
-            </FormRow> */}
             <FormButtonsContainer>
                 <FormSubmitButton>{t("Insert")}</FormSubmitButton>
                 <FormResetButton>{t("Reset")}</FormResetButton>

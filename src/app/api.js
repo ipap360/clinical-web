@@ -102,12 +102,14 @@ export const getCalendars = () =>
 export const getCalendar = ({ id, ...data }) =>
     net.get("/calendar/" + id + toQueryParams(data));
 
-export const calendarEvents = ({ from, to, calendarId, personId }) => {
-    return net.get("/calendar-events" + toQueryParams({ from, to, calendarId, personId }));
+export const calendarEvents = ({ from, to, patient }) => {
+    return net.get("/calendar-events" + toQueryParams({ from, to, patient }));
 }
 
-export const roomAvailability = ({ from, to, calendarId, personId }) => {
-    return net.get("/room-availability" + toQueryParams({ from, to, calendarId, personId }));
+export const roomAvailability = ({ from, to }) => {
+    return net.get("/room-availability" + toQueryParams({ 
+        from, to
+    }));
 }
 
 export const viewCalendarEvent = (id) =>
@@ -115,29 +117,14 @@ export const viewCalendarEvent = (id) =>
 
 export const upsertCalendarEvent = ({
     id = 0,
-    person,
-    date,
-    duration,
-    description
+    ...data
 }) => {
-
-    // console.log(id);
-    // console.log(person);
-    // console.log(date);
-    // console.log(duration);
-    // console.log(description);
-
-    return net.post("/calendar-events/" + id, {
-        personId: person ? JSON.parse(person).value : null,
-        date: date ? date.format('YYYY-MM-DD') : null,
-        duration,
-        description
-    });
+    return net.post("/calendar-events/" + id, data);
 }
 
 
 export const deleteCalendarEvent = (id) =>
-    net.post("/calendar-events/" + id + "/remove");
+    net.post("/calendar-events/" + id + "/delete");
 
 export const postponeCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id + "/postpone", data);
@@ -146,20 +133,14 @@ export const copyCalendarEvent = ({ id, ...data }) =>
     net.post("/calendar-events/" + id + "/copy", data);
 
 export const getPersons = ({ ...params }) => {
-    return net.get("/persons" + toQueryParams(params));
+    return net.get("/patients" + toQueryParams(params));
 }
 
-export const getPerson = (id) =>
-    net.get("/persons/" + id);
+export const getPerson = (id) =>    net.get("/patients/" + id);
 
-export const savePerson = ({ id = 0, name, birthYear, gender }) => {
-    return net.post("/persons", {
-        id,
-        name,
-        birthYear: birthYear ? JSON.parse(birthYear).value : null,
-        gender
-    });
+export const savePerson = ({ id = 0, ...data }) => {
+    return net.post("/patients/" + id, data);
 }
 
 export const deletePerson = (id) =>
-    net.post("/persons/" + id + "/remove");
+    net.post("/patients/" + id + "/delete");

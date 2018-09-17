@@ -3,7 +3,6 @@ import registerPhoto from '../../resources/images/register.jpeg';
 import SignupForm from '../SignupForm';
 
 import { PageImgWrapper, Paper, AppBar, Typography, IconButton } from '../../../components';
-import { SIGNUP_CALLBACK_URL } from '.';
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
@@ -34,7 +33,7 @@ export default () => (
                     <Typography variant='subheading'>
                         It is that easy
                     </Typography>
-                    <SignupForm callbackURL={SIGNUP_CALLBACK_URL} />
+                    <SignupForm />
                 </Pad>
             </Paper>
         </Container>

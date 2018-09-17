@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { RadioGroup } from 'redux-form-material-ui';
-import { InputLabel, FormControl, FormHelperText, withStyles, FormLabel, FormGroup } from '@material-ui/core';
+// import { RadioGroup } from 'redux-form-material-ui';
+import { InputLabel, FormControl, FormHelperText, withStyles, FormLabel, FormGroup, RadioGroup } from '@material-ui/core';
 // import classNames from 'classnames';
 
 const styles = theme => ({
@@ -15,6 +15,15 @@ const styles = theme => ({
         marginRight: theme.spacing.unit * 3,
     },
 })
+
+const MyRadioGroup = ({ input, ...rest }) => (
+    <RadioGroup
+      {...input}
+      {...rest}
+      value={`${input.value}`}
+      onChange={(event, value) => input.onChange(value)}
+    />
+  );
 
 const FormRadioLabel = withStyles(styles)(({ classes, label, variant, id, children, ...props }) => {
 
@@ -66,7 +75,7 @@ class FormRadioGroup extends React.Component {
             ...other
         } = this.props;
 
-        const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
+        const helperTextId = helperText && id ? `${id}-helper-text` : undefined;     
 
         return (
             <FormControl
@@ -81,9 +90,17 @@ class FormRadioGroup extends React.Component {
                     <Field
                         id={id}
                         name={name}
-                        value={value}
-                        component={RadioGroup}
+                        value={`${value}`}
+                        // normalize={(value) => {
+                        //     console.log(value); 
+                        //     return value;
+                        // }}
+                        component={MyRadioGroup}
                         {...RadioGroupProps}
+                        // onChange={(event, value) => {
+                        //     console.log(event);
+                        //     console.log(value);
+                        // }}
                     >
                         {children}
                     </Field>

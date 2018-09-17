@@ -18,7 +18,6 @@ export default withStyles(styles)(({ classes, dates, history }) => (
         <Toolbar disableGutters>
             {
                 dates.map((d, i) => {
-                    console.log(d);
                     return (
                         <CalendarDayTitle
                             key={i}
