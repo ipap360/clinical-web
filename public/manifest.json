@@ -1,6 +1,6 @@
 {
-  "short_name": "mCalendar",
-  "name": "Clinic Appointments",
+  "short_name": "HIS Admissions",
+  "name": "Hospital Admissions Planner",
   "icons": [
     {
       "src": "favicon.ico",

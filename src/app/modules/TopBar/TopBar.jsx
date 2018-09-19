@@ -1,9 +1,9 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, SimpleMenu, IconButton, AccountCircle, HomeIcon, MenuIcon, Paper, Link } from '../../../components';
 import { PROFILE, ROOT } from '../paths';
-import NavButton from '../../../components/atoms/NavButton';
+// import NavButton from '../../../components/atoms/NavButton';
 
-export default ({ classes, theme, name, logout, toggleSidebar, title = "Calendar", content, history, location, children, ...other }) => {
+export default ({ classes, theme, name, logout, toggleSidebar, title = "Admissions Planner", content, history, location, children, ...other }) => {
 
 
     const items = [

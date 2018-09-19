@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { PageWrapper, MainWrapper } from '../../../components';
-
 import Login from '../Login';
 import TopBar from '../TopBar';
 import SideBar from '../SideBar';

@@ -1,11 +1,10 @@
 import React from 'react';
 import Main from '../Main';
-import { withStyles, Divider, AppBar, Icon } from '@material-ui/core';
+import { withStyles, AppBar } from '@material-ui/core';
 import { Typography, Toolbar, Paper, Modal, Button, HorizontalLinearSteps } from '../../../components';
 import CalendarEventForm from '../CalendarEventForm';
 import PersonForm from '../PersonForm';
 import { ROOT } from '../paths';
-import moment from 'moment';
 import CopyEventForm from '../CopyEventForm';
 import classNames from 'classnames';
 import PostponeEventForm from '../PostponeEventForm';

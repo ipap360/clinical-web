@@ -3,6 +3,8 @@
 import axios from 'axios';
 import { toQueryParams, isObject } from './utils';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "";
+
 const HTTP_STATUS = {
     BAD_REQUEST: 400,
     NOT_AUTHORIZED: 401,
@@ -13,7 +15,7 @@ const HTTP_STATUS = {
 const API_STATUS = -101;
 
 const net = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: BASE_URL + "/api/v1",
     withCredentials: true,
     headers: {
         common: {
@@ -51,8 +53,8 @@ net.interceptors.response.use(function (response) {
 });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const getSession = ({ uuid }) => {
-    return net.get("/sessions?uuid=" + uuid);
+export const getSession = ({ uuid = "0" }) => {
+    return net.get("/sessions/" + uuid);
 }
 
 // login using username & password
@@ -63,10 +65,8 @@ export const newSession = ({ username, password }) =>
     });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const refreshSession = ({ uuid }) => {
-    return net.post("/sessions/refresh", {
-        uuid
-    }).then(response => {
+export const refreshSession = ({ uuid= "0" }) => {
+    return net.post("/sessions/" + uuid + "/refresh").then(response => {
         return response;
     }).catch(e => {
         return e;
@@ -74,10 +74,8 @@ export const refreshSession = ({ uuid }) => {
 }
 
 // check whether I have a valid token or if I am visiting as a guest
-export const expireSession = ({ uuid }) => {
-    return net.post("/sessions/expire", {
-        uuid
-    });
+export const expireSession = ({ uuid = "0" }) => {
+    return net.post("/sessions/" + uuid + "/expire");
 }
 
 // sign uuuup
@@ -107,7 +105,7 @@ export const calendarEvents = ({ from, to, patient }) => {
 }
 
 export const roomAvailability = ({ from, to }) => {
-    return net.get("/room-availability" + toQueryParams({ 
+    return net.get("/room-availability" + toQueryParams({
         from, to
     }));
 }
@@ -136,7 +134,7 @@ export const getPersons = ({ ...params }) => {
     return net.get("/patients" + toQueryParams(params));
 }
 
-export const getPerson = (id) =>    net.get("/patients/" + id);
+export const getPerson = (id) => net.get("/patients/" + id);
 
 export const savePerson = ({ id = 0, ...data }) => {
     return net.post("/patients/" + id, data);

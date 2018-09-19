@@ -5,16 +5,10 @@ import { savePerson } from '../../api';
 import { apiSaga } from '../../session';
 import { data } from '../../utils';
 
-// import moment from 'moment';
-
 export const MODULE_NAME = 'personForm';
 
 export const NEW_PERSON = createActionName("SAVE", MODULE_NAME);
 export const NEW_PERSON_OK = setOK(NEW_PERSON);
-
-// export const BIRTH_YEARS = createActionName("BIRTH_YEARS", MODULE_NAME);
-// export const BIRTH_YEARS_OK = setOK(BIRTH_YEARS);
-// export const BIRTH_YEARS_FAIL = setFail(BIRTH_YEARS);
 
 export const newPerson = createAction(NEW_PERSON);
 // export const birthYears = createAction(BIRTH_YEARS);

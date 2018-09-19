@@ -10,8 +10,8 @@ it('renders without crashing', () => {
 });
 
 it('playground', () => {
-    const r = console.log;
-    r("Welcome to my playground");
-    r(moment().date());
+    // const r = console.log;
+    // r("Welcome to my playground");
+    // r(moment().date());
     // return ;
 });

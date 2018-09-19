@@ -3,10 +3,6 @@ const topbarHeight = 128;
 const sideMargins = 64;
 const marginBottom = 16;
 
-// '@media (min-width: 1025px)': {
-
-// },
-
 export default theme => ({
     root: {
         display: 'flex',

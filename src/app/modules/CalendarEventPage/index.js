@@ -3,8 +3,8 @@ import { connect2store, registerSagas, registerReducer } from '../../../common';
 import { NEW_PERSON_OK } from '../PersonForm';
 import { getCalendarEventTitle, setPerson, fetchPersons } from '../CalendarEventForm';
 import { createActionName, createAction } from '../../helpers';
-import history from '../../history';
-import { ROOT } from '../paths';
+// import history from '../../history';
+// import { ROOT } from '../paths';
 // import { createActionName, createAction } from '../../helpers';
 
 const MODULE_NAME = "calendarEventPage";
@@ -18,9 +18,6 @@ export const closeModals = createAction(CLOSE_MODALS);
 export const newPersonModal = createAction(NEW_PERSON_MODAL);
 export const postponeModal = createAction(POSTPONE_MODAL);
 export const copyModal = createAction(COPY_MODAL);
-// export const POSTPONE_EVENT = createActionName("POSTPONE_EVENT", MODULE_NAME);
-
-// export const postponeEvent = createAction(POSTPONE_EVENT);
 
 const state0 = {
     newPatientModal: false,

@@ -15,7 +15,6 @@ import {
     SIGNUP, 
     SIGNUP_EMAIL, 
     SIGNUP_CONFIRM, 
-    // NEW_CALENDAR_EVENT, 
     EDIT_CALENDAR_EVENT, 
     PROFILE, 
     SETTINGS 
