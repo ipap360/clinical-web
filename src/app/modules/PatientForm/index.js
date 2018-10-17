@@ -19,7 +19,7 @@ const s2p = state => ({
 });
 
 const d2p = {
-    // submitActionCreator: savePatient
+    submitActionCreator: savePatient
 };
 
 export default connect2store({
@@ -27,7 +27,7 @@ export default connect2store({
     d2p,
     form: {
         name: MODULE_NAME,
-        onSubmit: savePatient
+        // onSubmit: savePatient
     }
 })(PersonForm);
 

@@ -3,7 +3,7 @@ import Main from "../Main";
 import { withStyles, AppBar } from "@material-ui/core";
 import { Typography, Toolbar, Paper, Modal, Button } from "../../../components";
 import CalendarEventForm from "../CalendarEventForm";
-import PersonForm from "../PersonForm";
+import PersonForm from "../PatientForm";
 import { ROOT } from "../paths";
 import CopyEventForm from "../CopyEventForm";
 import classNames from "classnames";

@@ -26,7 +26,7 @@ export default (options = {}) => (comp) => {
         if (typeof form === 'string') {
             ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret)
         } else if (typeof form === 'object') {
-            ret = reduxForm({ enableReinitialize: true })(ret) 
+            ret = reduxForm({ form: form.name, onSubmit, enableReinitialize: true })(ret) 
         }
         
     };

@@ -1,6 +1,6 @@
 import CalendarEventPage from './CalendarEventPage';
 import { connect2store, registerSagas, registerReducer } from '../../../common';
-import { SAVE_PATIENT_OK } from '../PersonForm';
+import { SAVE_PATIENT_OK } from '../PatientForm';
 import { getCalendarEventTitle, setPatient } from '../CalendarEventForm';
 import { createActionName, createAction } from '../../helpers';
 import { fetchPatients } from '../Patients';
