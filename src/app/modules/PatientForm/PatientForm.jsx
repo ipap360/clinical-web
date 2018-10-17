@@ -14,7 +14,7 @@ import {
     FormAreaField,
 } from '../../../components';
 
-const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...props }) => {
+const PatientForm = ({ t, handleSubmit, modal = false, className, birthYears, ...props }) => {
     
     return (
         <Form onSubmit={handleSubmit} className={className}>
@@ -62,4 +62,4 @@ const PersonForm = ({ t, handleSubmit, modal = false, className, birthYears, ...
     );
 }
 
-export default PersonForm; 
+export default PatientForm; 

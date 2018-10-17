@@ -1,5 +1,5 @@
-import React from 'react';
-import Select, { Async as AsyncSelect, components } from 'react-select';
+import React from "react";
+import Select, { components } from "react-select";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import { TextField, MenuItem } from "@material-ui/core";
@@ -39,12 +39,14 @@ class Option extends React.Component {
 //     );
 // };
 
-const DropdownIndicator = (props) => {
+const DropdownIndicator = props => {
     const { menuIsOpen } = props.selectProps;
-    return components.DropdownIndicator && (
-        <components.DropdownIndicator {...props}>
-            {menuIsOpen ? <ArrowDropUpIcon /> : < ArrowDropDownIcon />}
-        </components.DropdownIndicator>
+    return (
+        components.DropdownIndicator && (
+            <components.DropdownIndicator {...props}>
+                {menuIsOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+            </components.DropdownIndicator>
+        )
     );
 };
 
@@ -54,19 +56,19 @@ const customStyles = {
             ...base,
             width: "100%",
             minWidth: 192
-        }
+        };
     },
     dropdownIndicator: (base, state) => {
         return {
             ...base,
             padding: 4
-        }
+        };
     },
     valueContainer: (base, state) => {
         return {
             ...base,
             padding: "2px 0"
-        }
+        };
     },
     control: () => ({
         display: "flex",
@@ -94,21 +96,31 @@ const customStyles = {
     }),
     clearIndicator: (base, state) => ({
         ...base,
-        cursor: 'pointer',
+        cursor: "pointer",
         padding: 4
         // color: state.isFocused ? 'blue' : 'black',
     })
 };
-
 
 // TODO!!!
 // https://stackoverflow.com/questions/48564764/load-options-on-the-first-open-of-the-async-drop-down-menu
 // https://codesandbox.io/s/o51yw14l59
 
 class ReduxSelect extends React.Component {
-
     render() {
-        const { name, loadOptions, options = [], onChange, onBlur, onFocus, value = -1, isMulti, isDisabled, menuPosition = 'absolute', ...other } = this.props;
+        const {
+            name,
+            // loadOptions,
+            options = [],
+            onChange,
+            onBlur,
+            onFocus,
+            value = -1,
+            isMulti,
+            isDisabled,
+            menuPosition = "absolute",
+            // ...other
+        } = this.props;
 
         const ids = options.map(o => o.value);
         const index = ids.indexOf(value);
@@ -120,11 +132,11 @@ class ReduxSelect extends React.Component {
 
         return (
             <Select
-                value={index >= 0 ? options[index] : ''}
+                value={index >= 0 ? options[index] : ""}
                 components={{
                     Option,
                     // ClearIndicator,
-                    DropdownIndicator,
+                    DropdownIndicator
                 }}
                 name={name}
                 isMulti={isMulti}
@@ -146,14 +158,14 @@ class ReduxSelect extends React.Component {
                 onFocus={onFocus}
                 isDisabled={isDisabled}
                 menuPlacement="auto"
-            // loadOptions={
-            //     (value) => new Promise((resolve, reject) => {
-            //         loadOptions(value, { resolve, reject });
-            //     })
-            // }
-            // {...other}
+                // loadOptions={
+                //     (value) => new Promise((resolve, reject) => {
+                //         loadOptions(value, { resolve, reject });
+                //     })
+                // }
+                // {...other}
             />
-        )
+        );
     }
 }
 
@@ -209,6 +221,6 @@ export default class Select3 extends React.Component {
                 }}
                 {...other}
             />
-        )
+        );
     }
 }

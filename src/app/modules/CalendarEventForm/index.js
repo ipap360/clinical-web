@@ -1,18 +1,18 @@
 import CalendarEventForm from './CalendarEventForm';
 import { connect2store, registerSagas, registerReducer } from '../../../common';
 import { createActionName, createAction, setOK } from '../../helpers';
-import { upsertCalendarEvent, getPersons, roomAvailability, viewCalendarEvent } from '../../api';
+import * as api from '../../api/calendar-events';
 import { apiSaga } from '../../session';
+
 import {
     change as setFormValue,
-    hasSubmitSucceeded,
+    // hasSubmitSucceeded,
     formValueSelector
 } from 'redux-form';
 
-export const MODULE_NAME = 'calendarEventForm';
+import { fetchPatients, getPatients, getPatientsById } from '../Patients';
 
-export const FETCH_PERSONS = createActionName("LIST_PERSONS", MODULE_NAME);
-export const FETCH_PERSONS_OK = setOK(FETCH_PERSONS);
+export const MODULE_NAME = 'calendarEventForm';
 
 export const CLEAR_CALENDAR_EVENT = createActionName("CLEAR", MODULE_NAME);
 
@@ -25,24 +25,19 @@ export const SAVE_CALENDAR_EVENT_OK = setOK(SAVE_CALENDAR_EVENT);
 export const clearCalendarEvent = createAction(CLEAR_CALENDAR_EVENT);
 export const loadCalendarEvent = createAction(LOAD_CALENDAR_EVENT);
 export const saveCalendarEvent = createAction(SAVE_CALENDAR_EVENT);
-export const fetchPersons = createAction(FETCH_PERSONS);
 
-export const setPerson = (value) => {
-    console.log(value);
+export const setPatient = (value) => {
     const set = setFormValue.bind(null, MODULE_NAME, "patient");
     return set(value);
 };
 
 const state0 = {
-    persons: [],
     initialValues: {},
     hasPerson: false
 }
 
 const reducer = (state = state0, { type, payload }) => {
     switch (type) {
-        case FETCH_PERSONS_OK:
-            return { ...state, persons: payload }
         case CLEAR_CALENDAR_EVENT:
             return { ...state, initialValues: {} }
         case LOAD_CALENDAR_EVENT_OK:
@@ -54,30 +49,29 @@ const reducer = (state = state0, { type, payload }) => {
 
 registerReducer(MODULE_NAME, reducer);
 
-export const getPatientsFromState = (state) => state[MODULE_NAME].persons;
+
 export const getInitialValues = (state) => {
     return {
         ...state[MODULE_NAME].initialValues,
     }
 };
-export const getCalendarEventTitle = (state) => {
-    // TODO: wrong title because ID not correct
-    const { id, patient, notes = "" } = state[MODULE_NAME].initialValues;
-    const p = patient && state[MODULE_NAME].persons[patient];
-    return (id) ? [p.name, p.code, p.notes, notes].join(" ") : "New Calendar Event"
+
+export const getCalendarEventTitle = (state) => (isNew) => {
+    if (isNew) return "New Calendar Event";
+    
+     const { patient } = getInitialValues(state);
+     const patients = getPatientsById(state);
+     const p = patient && patients[patient];
+     return (p) ? [p.name, p.code].join(" ") : "";
 };
 
 const selector = formValueSelector(MODULE_NAME);
 
 const getGender = (state) => {
-    
-    const patients = getPatientsFromState(state);
     const patient = selector(state, 'patient');
-    const ids = patients.map(p => p.id);
-    const i = (patient) ? ids.indexOf(patient) : -1;
-    
-    return (i >= 0 && patients[i].gender) ? patients[i].gender.toLowerCase()[0] : "";
-     
+    const patients = getPatientsById(state);
+    const p = patient && patients[patient];
+    return (p && p.gender) ? p.gender.toLowerCase()[0] : "";
 }
 
 const s2p = (state, ownProps) => ({
@@ -85,11 +79,11 @@ const s2p = (state, ownProps) => ({
         ...getInitialValues(state),
         ...ownProps.initialValues
     },
-    patientOptions: getPatientsFromState(state).map(p => ({
+    patientOptions: getPatients(state).map(p => ({
         value: p.id,
         label: [p.name, p.code, p.notes].join(" ")
     })),
-    submitSucceeded: hasSubmitSucceeded(MODULE_NAME)(state),
+    // submitSucceeded: hasSubmitSucceeded(MODULE_NAME)(state),
     disabledDate: !selector(state, 'patient'),
     gender: getGender(state)
 });
@@ -98,18 +92,15 @@ const d2p = {
     submitActionCreator: saveCalendarEvent,
     loadCalendarEvent,
     clearCalendarEvent,
-    fetchPersons
+    fetchPatients
 };
 
 export default connect2store({ s2p, d2p, form: MODULE_NAME })(CalendarEventForm);
 
-const searchPatients = (token) => getPersons({ q: token })
-
 // sagas
 function* calendarEventFormListeners({ takeEvery, takeLatest }) {
-    yield takeEvery(LOAD_CALENDAR_EVENT, apiSaga, viewCalendarEvent);
-    yield takeEvery(SAVE_CALENDAR_EVENT, apiSaga, upsertCalendarEvent);
-    yield takeEvery(FETCH_PERSONS, apiSaga, searchPatients);
+    yield takeEvery(LOAD_CALENDAR_EVENT, apiSaga, api.view);
+    yield takeEvery(SAVE_CALENDAR_EVENT, apiSaga, api.save);
 }
 
 registerSagas(calendarEventFormListeners);

@@ -2,7 +2,7 @@ import SignupForm from './SignupForm';
 
 import { registerSagas, connect2store } from '../../../common';
 import { apiSaga } from '../../session';
-import { newRegistration } from '../../api';
+import * as api from '../../api/registrations';
 import { setOK, createActionName, createAction } from '../../helpers';
 import { SIGNUP_EMAIL, SIGNUP_CONFIRM } from '../paths';
 import history from '../../history';
@@ -25,7 +25,7 @@ const s2p = (state, ownProps) => ({
 
 // sagas
 function* signupListener({ takeEvery }) {
-    yield takeEvery(SIGNUP, apiSaga.bind(null, newRegistration));
+    yield takeEvery(SIGNUP, apiSaga, api.insert);
 }
 
 function* onSignup({ take, call }) {

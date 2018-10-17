@@ -6,7 +6,7 @@ import locale2 from 'locale2';
 import { base64 } from './utils';
 import { createActionName, createAction, setOK, setFin, setFail } from './helpers';
 import { APP_NAME } from './constants';
-import { getSession, newSession, refreshSession, expireSession } from './api';
+import * as api from './api/sessions';
 import { fork, call, put, take, join } from 'redux-saga/effects';
 import { registerReducer, registerSagas } from '../common';
 import history from './history';
@@ -18,7 +18,7 @@ const LANG_COOKIE_NAME = 'lang';
 const XSRF_COOKIE = "XSRF-TOKEN";
 
 // these are set by the server and are defined only for logout
-const REFRESH_TOKEN_COOKIE_NAME = "iu2w";
+const REFRESH_TOKEN_COOKIE_NAME = "cli3ntRT";
 
 // default session details based on client's system settings
 const session0 = {
@@ -138,7 +138,7 @@ function* onRefreshSession() {
         const action = yield take(REFRESH_SESSION);
         if (task === undefined || !task.isRunning()) {
             const { uuid } = cookie.get();
-            task = yield fork(refreshSession, { uuid });
+            task = yield fork(api.refresh, { uuid });
         }
         yield fork(joinTask, task, action);
     }
@@ -171,9 +171,9 @@ function* onAnyLogout({ take, call, put }) {
 }
 
 function* sessionListeners({ takeEvery }) {
-    yield takeEvery(LOGIN, apiSaga, newSession);
-    yield takeEvery(FETCH_SESSION, apiSaga, getSession);
-    yield takeEvery(LOGOUT, apiSaga, expireSession);
+    yield takeEvery(LOGIN, apiSaga, api.login);
+    yield takeEvery(FETCH_SESSION, apiSaga, api.check);
+    yield takeEvery(LOGOUT, apiSaga, api.expire);
 }
 
 function* okSaga(type, meta, data) {
@@ -183,15 +183,20 @@ function* okSaga(type, meta, data) {
 }
 
 function* errorSaga(type, meta, e) {
-    yield put({ type: setFail(type), payload: e.data });
-    console.log(meta);
-    console.log(e);
-    if (meta.reject) yield call(meta.reject, e);
+    // console.log(type, meta, JSON.stringify(e));
+    if (e.reLogin) {
+        // console.log("re-login - clear cookies");
+        cookie.clear();
+        yield put(sessionUpdated(cookie.get()));
+    } else {
+        // console.log("just error - do not clear session data");
+        yield put({ type: setFail(type), payload: e.data });
+        if (meta.reject) yield call(meta.reject, e);
+    }
 }
 
 export function* apiSaga(...args) {
     const [fn, { type, payload, meta = {} }] = args;
-    // console.log(args);
     try {
         const data = yield call(fn, payload);
         yield* okSaga(type, meta, data);
@@ -203,12 +208,8 @@ export function* apiSaga(...args) {
                 onError: errorSaga.bind(null, type, meta)
             });
             return;
-        } else if (e.reLogin) {
-            cookie.clear();
-            yield put(sessionUpdated(cookie.get()));
-        } else {
-            yield* errorSaga(type, meta, e);
         }
+        yield* errorSaga(type, meta, e);
     }
     yield put({ type: setFin(type) });
 }

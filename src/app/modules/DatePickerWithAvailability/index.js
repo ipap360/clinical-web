@@ -1,7 +1,7 @@
 import DatePickerWithAvailability from './DatePickerWithAvailability';
 import { connect2store, registerSagas, registerReducer } from '../../../common';
 import { createActionName, createAction, setOK } from '../../helpers';
-import { roomAvailability } from '../../api';
+import { query } from '../../api/room-availability';
 import { apiSaga } from '../../session';
 
 export const MODULE_NAME = 'DatePickerWithAvailability';
@@ -32,6 +32,8 @@ const getAvailability = (state, ownProps) => {
     const gender = ownProps.gender;
 
     const ga = {};
+
+    // eslint-disable-next-line
     Object.keys(availability).map(function(key, index) {
         ga[key] = (gender) ? availability[key][gender].toLowerCase() : "";
      });
@@ -49,7 +51,7 @@ export default connect2store({ s2p, d2p })(DatePickerWithAvailability);
 
 // sagas
 function* availabilityListener({ takeEvery }) {
-    yield takeEvery(FETCH_AVAILABILITY, apiSaga, roomAvailability);
+    yield takeEvery(FETCH_AVAILABILITY, apiSaga, query);
 }
 
 registerSagas(availabilityListener);

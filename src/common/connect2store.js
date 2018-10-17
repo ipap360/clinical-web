@@ -23,8 +23,12 @@ export default (options = {}) => (comp) => {
     let ret = translate(i18n)(comp);
     ret = withTheme()(ret);
     if (form) {
-        // console.log(s2p);
-        ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret)
+        if (typeof form === 'string') {
+            ret = reduxForm({ form, onSubmit, enableReinitialize: true })(ret)
+        } else if (typeof form === 'object') {
+            ret = reduxForm({ enableReinitialize: true })(ret) 
+        }
+        
     };
     return connect(s2p, d2p)(ret);
 };

@@ -1,7 +1,7 @@
 import CopyEventForm from '../CopyEventForm/CopyEventForm';
 import { connect2store, registerSagas } from '../../../common';
 import { createActionName, createAction, setOK } from '../../helpers';
-import { postponeCalendarEvent } from '../../api';
+import { postpone } from '../../api/calendar-events';
 import { apiSaga } from '../../session';
 
 export const MODULE_NAME = 'postponeEventForm';
@@ -19,7 +19,7 @@ export default connect2store({ d2p, form: MODULE_NAME })(CopyEventForm);
 
 // sagas
 function* postponeEventFormListeners({ takeEvery }) {
-    yield takeEvery(SAVE_POSTPONE_EVENT_FORM, apiSaga, postponeCalendarEvent);
+    yield takeEvery(SAVE_POSTPONE_EVENT_FORM, apiSaga, postpone);
 }
 
 registerSagas(postponeEventFormListeners);

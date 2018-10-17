@@ -80,7 +80,9 @@ const styles = theme => ({
 export default withStyles(styles)(({ classes, t, data, history }) => {
     
     const { id, start, end, patientNotes, name, code, eventNotes } = data;
-    const text = [name, code, patientNotes, eventNotes].join(" ");
+
+    const patient = [name, code, patientNotes].join(" ");
+    const text = (eventNotes) ? [patient, eventNotes].join(", ") : patient;
 
     const realstart = start === 0 ? 1 : start;
     const realend = end > 8 ? 8 : end;

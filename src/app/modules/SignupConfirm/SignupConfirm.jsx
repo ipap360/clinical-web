@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { PageWrapper, Loader, Typography, NavButton } from '../../../components';
+import { PageWrapper, Typography, NavButton } from '../../../components';
 import { withStyles, CircularProgress } from '@material-ui/core';
 import { ROOT } from '../paths';
 
@@ -25,7 +25,7 @@ class SignupConfirm extends React.Component {
         const { params: { token } } = match;
         const { pathname } = location;
 
-        if (token && token != "1") {
+        if (token && token !== "1") {
             confirmSignup({ token });
             history.replace(pathname.substring(0, pathname.lastIndexOf("/")) + "/1");
         }

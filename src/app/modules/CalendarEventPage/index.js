@@ -1,8 +1,9 @@
 import CalendarEventPage from './CalendarEventPage';
 import { connect2store, registerSagas, registerReducer } from '../../../common';
-import { NEW_PERSON_OK } from '../PersonForm';
-import { getCalendarEventTitle, setPerson, fetchPersons } from '../CalendarEventForm';
+import { SAVE_PATIENT_OK } from '../PersonForm';
+import { getCalendarEventTitle, setPatient } from '../CalendarEventForm';
 import { createActionName, createAction } from '../../helpers';
+import { fetchPatients } from '../Patients';
 // import history from '../../history';
 // import { ROOT } from '../paths';
 // import { createActionName, createAction } from '../../helpers';
@@ -72,12 +73,10 @@ export default connect2store({ s2p, d2p })(CalendarEventPage);
 
 function* onNewPerson({ take, put }) {
     while (true) {
-        const { payload } = yield take(NEW_PERSON_OK);
+        const { payload } = yield take(SAVE_PATIENT_OK);
 
-        console.log(payload);
-        
-        yield put(setPerson(payload.id));
-        yield put(fetchPersons());
+        yield put(setPatient(payload.id));
+        yield put(fetchPatients());
         yield put(closeModals());
     }
 }

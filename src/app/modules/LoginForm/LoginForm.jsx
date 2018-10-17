@@ -7,7 +7,7 @@ import {
     Typography,
     FormRow,
     FormError,
-    Spacer
+    // Spacer
 } from '../../../components';
 import { RECOVER_PWD_INIT } from '../paths';
 import FormButtonsContainer from '../../../components/form/FormButtonsContainer';

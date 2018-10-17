@@ -19,26 +19,27 @@ class CalendarEventForm extends React.Component {
 
     componentWillMount() {
 
-        const { id, loadCalendarEvent, fetchPersons } = this.props;
+        const { id, loadCalendarEvent, fetchPatients } = this.props;
 
+        // eslint-disable-next-line
         const isNew = (id === 'new' || id == '0');
 
         if (!isNew) {
             loadCalendarEvent(id);
         }
 
-        fetchPersons();
+        fetchPatients();
 
     }
 
-    componentDidUpdate(prevProps) {
-        const { submitSucceeded, onSuccess } = this.props;
-        if (submitSucceeded !== prevProps.submitSucceeded) {
-            if (typeof onSuccess === 'function') {
-                onSuccess.apply(this);
-            }
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     const { submitSucceeded, onSuccess } = this.props;
+    //     if (submitSucceeded !== prevProps.submitSucceeded) {
+    //         if (typeof onSuccess === 'function') {
+    //             onSuccess.apply(this);
+    //         }
+    //     }
+    // }
 
     componentWillUnmount() {
         this.props.clearCalendarEvent();
@@ -57,6 +58,7 @@ class CalendarEventForm extends React.Component {
             // ...other
         } = this.props;
 
+        // eslint-disable-next-line
         const isNew = (id === 'new' || id == '0');
 
         return (
