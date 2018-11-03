@@ -4,7 +4,10 @@ export default theme => {
             margin: "0 auto"
         },
         pad: {
-            padding: theme.spacing.unit
+            padding: theme.spacing.unit * 1
+        },
+        loginForm: {
+            width: 350
         }
     };
 };

@@ -95,6 +95,7 @@ class Form extends React.Component {
     render() {
         const {
             id,
+            className,
             children,
             load,
             subscription = {},
@@ -139,7 +140,11 @@ class Form extends React.Component {
                 }}
             >
                 {({ handleSubmit }) => {
-                    return <form onSubmit={handleSubmit}>{children}</form>;
+                    return (
+                        <form onSubmit={handleSubmit} className={className}>
+                            {children}
+                        </form>
+                    );
                 }}
             </FinalForm>
         );

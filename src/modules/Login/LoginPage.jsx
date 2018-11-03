@@ -23,7 +23,7 @@ class Login extends React.Component {
                             Log In
                         </TTypography>
                     </AppBar>
-                    <LoginForm className={classes.pad} />
+                    <LoginForm className={classes.loginForm} />
                     {/* <Divider />
                         <Pad>
                             <Typography align="left">
