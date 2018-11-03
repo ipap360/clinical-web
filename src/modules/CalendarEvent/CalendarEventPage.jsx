@@ -5,6 +5,8 @@ import Main from "../Main";
 import { withStyles, Toolbar, Paper } from "@material-ui/core";
 import { TTypography } from "../../components";
 
+import TopBar from "../TopBar";
+import SideBar from "../SideBar";
 import CalendarEventForm from "../CalendarEventForm";
 import NewCalendarEventSidebar from "./NewCalendarEventSidebar";
 import ExistingCalendarEventSidebar from "./ExistingCalendarEventSidebar";
@@ -49,12 +51,14 @@ class CalendarEventPage extends React.Component {
                         </TTypography>
                     </Toolbar>
                 </TopBar>
-                {isNew ? (
-                    <NewCalendarEventSidebar />
-                ) : (
-                    <ExistingCalendarEventSidebar />
-                )}
-                <Main header={header} sidebar={sidebar}>
+                <SideBar>
+                    {isNew ? (
+                        <NewCalendarEventSidebar />
+                    ) : (
+                        <ExistingCalendarEventSidebar />
+                    )}
+                </SideBar>
+                <Main topbar={true} sidebar={true}>
                     <Paper square className={classes.paper}>
                         <CalendarEventForm
                             className={classes.form}

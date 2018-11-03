@@ -24,8 +24,6 @@ const config = {
 
 export default Component => props => {
     const theme = createMuiTheme(config);
-
-    // CssBaseline kickstart an elegant, consistent, and simple baseline to build upon
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />

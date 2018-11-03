@@ -1,8 +1,10 @@
 import React from "react";
 import { Provider, connect } from "react-redux";
 import configureStore from "redux-dynamic-config";
+import config from "../app.config";
 
-const store = configureStore("iHM", {});
+const { appName } = config;
+const store = configureStore(appName, {});
 
 export default Component => props => (
     <Provider store={store}>

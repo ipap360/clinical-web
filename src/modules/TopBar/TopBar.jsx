@@ -1,13 +1,6 @@
 import React from "react";
-import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    AccountCircle,
-    HomeIcon,
-    withStyles
-} from "@material-ui/core";
-
+import { AppBar, Toolbar, IconButton, withStyles } from "@material-ui/core";
+import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
 import { PROFILE, ROOT } from "../routes";
 import { TTypography, SimpleMenu, Link } from "../../components";
 import { withI18n, withRouter } from "../../context";

@@ -73,7 +73,7 @@ class Form extends React.Component {
                         },
                         () => {
                             if (typeof onSaveSuccess === "function") {
-                                onSaveSuccess.apply(ref, [ref]);
+                                onSaveSuccess.apply(ref, [ref, response]);
                             }
                         }
                     );
@@ -114,11 +114,7 @@ class Form extends React.Component {
         if (isLoading) return <Loader>{"Loading..."}</Loader>;
 
         if (failedToLoad)
-            return (
-                <Retry action={this.load.bind(this)}>
-                    {failedToLoad}
-                </Retry>
-            );
+            return <Retry action={this.load.bind(this)}>{failedToLoad}</Retry>;
 
         const extraValues = !savedSuccessfully ? suggestedValues : {};
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormDate } from "../../../components";
+import { FormDate } from "../../components";
 import moment from "moment";
 import classNames from "classnames";
 

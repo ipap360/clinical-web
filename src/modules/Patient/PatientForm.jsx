@@ -14,8 +14,8 @@ import {
     FormRadio,
     FormError,
     FormSelect,
-    FormAreaField
-} from "../../../components";
+    FormArea
+} from "../../components";
 
 const PatientForm = ({ t, id = 0, modal = false, className }) => {
     return (
@@ -42,7 +42,7 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
                 />
             </FormRow>
             <FormRow>
-                <FormAreaField name="notes" label={t("Notes")} fullWidth />
+                <FormArea name="notes" label={t("Notes")} fullWidth />
             </FormRow>
             <FormRow>
                 <FormRadioGroup name="gender" fullWidth label={t("Gender")}>

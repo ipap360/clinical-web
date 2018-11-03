@@ -1,3 +1,4 @@
+import { withStore } from "../../context";
 import TopBar from "./TopBar";
 
 import { logout, getName } from "../Session";

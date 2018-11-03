@@ -75,14 +75,14 @@ export default withStyles(styles)(({ classes, d, history }) => {
             }
         >
             <div className={classes.dayname}>
-                <Typography variant="subheading">{d.short}</Typography>
+                <TTypography variant="subheading">{d.short}</TTypography>
             </div>
-            <Typography variant="display3">{d.num}</Typography>
+            <TTypography variant="display3">{d.num}</TTypography>
             <div className={classes.availability}>
                 <div
                     className={classNames("border-indicator", m.toLowerCase())}
                 >
-                    <Typography>{male + " x"}</Typography>
+                    <TTypography>{male + " x"}</TTypography>
                     <i className="fas fa-male" />
                     {/* <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
                     </span> */}
@@ -90,7 +90,7 @@ export default withStyles(styles)(({ classes, d, history }) => {
                 <div
                     className={classNames("border-indicator", f.toLowerCase())}
                 >
-                    <Typography>{female + " x"}</Typography>
+                    <TTypography>{female + " x"}</TTypography>
                     <i className="fas fa-female" />
                     {/* <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
                     </span> */}

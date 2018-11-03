@@ -1,4 +1,4 @@
-import "babel-polyfill";
+// import "babel-polyfill";
 import React from "react";
 import { render } from "react-dom";
 
@@ -9,7 +9,7 @@ import "moment/locale/el";
 import registerServiceWorker from "./registerServiceWorker";
 
 import Root from "./modules";
-import { DateUtils, Theme, Store, I18n } from "./providers";
+import { DateUtils, Theme, Store, I18n } from "./context";
 
 const App = DateUtils(Theme(I18n(Store(Root))));
 

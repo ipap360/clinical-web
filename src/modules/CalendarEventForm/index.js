@@ -1,5 +1,5 @@
 import { withStore } from "../../context";
-import { fetchPatients, getPatients } from "../Patients";
+import { fetchPatients, getPatients } from "../PatientsList";
 import CalendarEventForm from "./CalendarEventForm";
 
 const s2p = state => ({

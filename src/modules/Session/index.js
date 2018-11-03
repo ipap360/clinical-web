@@ -10,9 +10,10 @@ import { sessions } from "../../api";
 import { fork, call, put, take, join } from "redux-saga/effects";
 import { registerReducer, registerSagas } from "redux-dynamic-config";
 import cookie from "./cookie";
-
 import createHistory from "history/createBrowserHistory";
+import config from "../../app.config";
 
+const { appName } = config;
 const history = createHistory();
 
 const MODULE_NAME = "session";
@@ -74,7 +75,7 @@ export const getName = state => state[MODULE_NAME].name || "";
 
 // sagas
 function* onInit({ take, put }) {
-    yield take(APP_NAME);
+    yield take(appName);
     cookie.setLanguage();
     const { uuid } = cookie.get();
     yield put(whoami({ uuid }));
@@ -94,7 +95,7 @@ function* onRefreshSession() {
         const action = yield take(REFRESH_SESSION);
         if (task === undefined || !task.isRunning()) {
             const { uuid } = cookie.get();
-            task = yield fork(api.refresh, { uuid });
+            task = yield fork(sessions.refresh, { uuid });
         }
         yield fork(joinTask, task, action);
     }
@@ -109,13 +110,13 @@ function* joinTask(task, action) {
     }
 }
 
-function* onLoginOk({ take, put }) {
-    while (true) {
-        const { payload } = yield take(LOGIN_OK);
-        cookie.set(payload);
-        yield put(sessionUpdated());
-    }
-}
+// function* onLoginOk({ take, put }) {
+//     while (true) {
+//         const { payload } = yield take(LOGIN_OK);
+//         cookie.set(payload);
+//         yield put(sessionUpdated());
+//     }
+// }
 
 function* onAnyLogout({ take, call, put }) {
     while (true) {
@@ -174,7 +175,7 @@ registerSagas(
     onInit,
     onRefreshSession,
     onSessionOk,
-    onLoginOk,
+    // onLoginOk,
     onAnyLogout,
     sessionListeners
 );

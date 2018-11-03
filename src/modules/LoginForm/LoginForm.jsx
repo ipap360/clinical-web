@@ -8,17 +8,20 @@ import {
     FormRow,
     FormError,
     FormButtonsContainer
-} from "../../../components";
+} from "../../components";
 import { RECOVER_PWD_INIT } from "../routes";
 import { sessions } from "../../api";
 import { withI18n } from "../../context";
+// import cookie from "../Session/cookie";
 
 export default withI18n()(({ t, className, sessionUpdated }) => (
     <Form
-        save={sessions.login}
+        save={(id, values) => sessions.login(values)}
         className={className}
         onSubmitSuccess={args => {
             console.log(args);
+            // cookie.set()
+            sessionUpdated();
         }}
     >
         <FormRow>

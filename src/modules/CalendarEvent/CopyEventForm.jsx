@@ -7,8 +7,8 @@ import {
     FormResetButton,
     FormButtonsContainer,
     FormError,
-    FormAreaField
-} from "../../../components";
+    FormArea
+} from "../../components";
 import { withI18n } from "../../context";
 
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
@@ -26,7 +26,7 @@ class CopyEventForm extends React.Component {
                     />
                 </FormRow>
                 <FormRow>
-                    <FormAreaField
+                    <FormArea
                         name="description"
                         inputProps={{ maxLength: "255" }}
                         label={t("Notes")}

@@ -1,5 +1,7 @@
 import _ from "lodash";
-import { APP_NAME } from "./constants";
+import config from "../app.config";
+
+const { appName } = config;
 
 const statuses = {
     ok: "OK",
@@ -38,7 +40,7 @@ export const createActionName = (name, ns = null, options = {}) => {
     fullname = status ? `${fullname}:${statuses[status]}` : fullname;
     fullname = ns ? `${_.snakeCase(ns).toUpperCase()}/${fullname}` : fullname;
 
-    return `${APP_NAME}/${fullname}`;
+    return `${appName}/${fullname}`;
 };
 
 // export const decorateActionName = (fullname, { status, command }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Menu, MenuItem } from "@material-ui/core";
-import { uuid } from "../../common";
+import { uuid } from "../../utils";
 
 class SimpleMenu extends React.Component {
     state = {
@@ -14,7 +14,6 @@ class SimpleMenu extends React.Component {
 
     handleClose = cb => {
         this.setState({ anchorEl: null });
-        // if (typeof cb === 'function') cb.apply();
     };
 
     render() {

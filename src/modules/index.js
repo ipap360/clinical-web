@@ -1,4 +1,4 @@
-import { getIsSignedIn } from "../../session";
+import { getIsSignedIn } from "./Session";
 import { withStore } from "../context";
 import App from "./App";
 

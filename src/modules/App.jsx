@@ -21,18 +21,26 @@ import {
 class App extends React.Component {
     render() {
         const { isSignedIn } = this.props;
-        if (!isSignedIn) return <Login />;
-
         return (
             <Router>
-                <Switch>
-                    <Route path={CALENDAR_EVENT} component={CalendarEvent} />
-                    <Route path={PATIENT} component={Patient} />
-                    <Route path={PATIENTS_LIST} component={PatientsList} />
-                    <Route path={PROFILE} component={Profile} />
-                    <Route path={SETTINGS} component={Settings} />
-                    <Route path={ROOT} component={Home} />
-                </Switch>
+                {!isSignedIn ? (
+                    <Switch>
+                        {/* <Route path={RECOVER_PWD_INIT} component={RecoverPasswordInit} /> */}
+                        <Route path={ROOT} component={Login} />
+                    </Switch>
+                ) : (
+                    <Switch>
+                        <Route
+                            path={CALENDAR_EVENT}
+                            component={CalendarEvent}
+                        />
+                        <Route path={PATIENT} component={Patient} />
+                        <Route path={PATIENTS_LIST} component={PatientsList} />
+                        <Route path={PROFILE} component={Profile} />
+                        <Route path={SETTINGS} component={Settings} />
+                        <Route path={ROOT} component={Home} />
+                    </Switch>
+                )}
             </Router>
         );
     }

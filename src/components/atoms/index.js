@@ -4,4 +4,4 @@ export { default as NavButton } from "./NavButton";
 export { default as BackgroundImage } from "./BackgroundImage";
 export { default as TTypography } from "./TTypography";
 export { default as StepLabel } from "./StepLabel";
-export { default as SmallCalendar } from "./SmallCalendar";
+// export { default as SmallCalendar } from "./SmallCalendar";

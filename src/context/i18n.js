@@ -7,12 +7,12 @@ import XHR from "i18next-xhr-backend";
 // .use(LanguageDetector)
 
 const DEFAULT_NS = "translations";
-export default resources => Component => props => {
+export default Component => props => {
     i18n.use(XHR).init({
         // initial language?
         lng: "en-US",
         // we init with preloaded resources
-        resources: resources,
+        // resources: resources,
 
         // key is the fallback
         fallbackLng: false,
