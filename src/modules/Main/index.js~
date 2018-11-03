@@ -1,0 +1,35 @@
+import { getIsSignedIn } from '../Session/session';
+import { connect2store, registerReducer } from '../../../common';
+import { createAction, createActionName } from '../../utils/helpers';
+
+import Main from './Main';
+
+// name
+export const MODULE_NAME = 'main';
+
+const reducer = (state = state0, { type, payload }) => {
+    switch (type) {
+        case TOGGLE_SIDEBAR:
+            return {
+                ...state,
+                isSidebarOpen: !state.isSidebarOpen
+            };
+        default:
+            return state;
+    }
+};
+
+registerReducer(MODULE_NAME, reducer);
+
+// selectors
+export const getIsSidebarOpen = (state) => !!state[MODULE_NAME].isSidebarOpen;
+
+// connect
+const s2p = (state) => ({
+    isSignedIn: getIsSignedIn(state),
+    isSidebarOpen: getIsSidebarOpen(state)
+});
+
+const d2p = { toggleSidebar };
+
+export default connect2store({ s2p, d2p })(Main);

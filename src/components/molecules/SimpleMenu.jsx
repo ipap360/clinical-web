@@ -1,9 +1,8 @@
-import React from 'react';
-import { Button, Menu, MenuItem } from '../../components';
-import { uuid } from '../../common';
+import React from "react";
+import { Button, Menu, MenuItem } from "@material-ui/core";
+import { uuid } from "../../common";
 
 class SimpleMenu extends React.Component {
-
     state = {
         anchorEl: null,
         id: uuid()
@@ -13,7 +12,7 @@ class SimpleMenu extends React.Component {
         this.setState({ anchorEl: event.currentTarget });
     };
 
-    handleClose = (cb) => {
+    handleClose = cb => {
         this.setState({ anchorEl: null });
         // if (typeof cb === 'function') cb.apply();
     };
@@ -36,11 +35,9 @@ class SimpleMenu extends React.Component {
                     open={Boolean(anchorEl)}
                     onClose={this.handleClose}
                 >
-                    {
-                        items.map((item, i) => {
-                            return <MenuItem key={i} {...item} />
-                        })
-                    }
+                    {items.map((item, i) => {
+                        return <MenuItem key={i} {...item} />;
+                    })}
                 </Menu>
             </div>
         );

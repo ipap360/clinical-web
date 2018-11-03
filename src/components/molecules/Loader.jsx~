@@ -1,0 +1,10 @@
+import React from "react";
+import { CircularProgress, TTypography } from "../atoms";
+
+export default ({ size, color, ...props }) => (
+    <React.Fragment>
+        <CircularProgress color={color} size={size} />
+        <br />
+        <TTypography color={color} {...props} />
+    </React.Fragment>
+);
