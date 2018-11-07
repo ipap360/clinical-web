@@ -1,76 +1,85 @@
-import { registerReducer, registerSagas } from "redux-dynamic-config";
+import { registerReducer } from "redux-dynamic-config";
 import Home from "./Home";
-import { createAction, createActionName, setOK, setFail } from "../../utils";
+import {
+    createAction,
+    createAsyncNames,
+    createAsyncAction,
+    createActionName
+} from "../../utils";
 
 import { calendarEvents, roomAvailability } from "../../api";
 import { withStore } from "../../context";
-import { apiSaga, getIsSignedIn } from "../Session";
+
 import moment from "moment";
 
 const MODULE_NAME = "calendar";
 
-export const FETCH_CALENDAR_EVENTS = createActionName(
+export const FETCH_CALENDAR_EVENTS = createAsyncNames(
     "FETCH_EVENTS",
     MODULE_NAME
 );
 
-export const FETCH_CALENDAR_EVENTS_OK = setOK(FETCH_CALENDAR_EVENTS);
-export const FETCH_CALENDAR_EVENTS_FAIL = setFail(FETCH_CALENDAR_EVENTS);
+export const FETCH_AVAILABILITY = createAsyncNames("FETCH_DAYS", MODULE_NAME);
 
-export const FETCH_AVAILABILITY = createActionName("FETCH_DAYS", MODULE_NAME);
-export const FETCH_AVAILABILITY_OK = setOK(FETCH_AVAILABILITY);
-export const FETCH_AVAILABILITY_FAIL = setFail(FETCH_AVAILABILITY);
+export const PREV_WEEK = createActionName("PREV_WEEK", MODULE_NAME);
+export const NEXT_WEEK = createActionName("NEXT_WEEK", MODULE_NAME);
+export const THIS_WEEK = createActionName("THIS_WEEK", MODULE_NAME);
 
-export const SET_SELECTED_DATE = createActionName(
-    "SET_SELECTED_DATE",
-    MODULE_NAME
+export const fetchCalendarEvents = createAsyncAction(
+    FETCH_CALENDAR_EVENTS,
+    calendarEvents.query
+);
+export const fetchAvailability = createAsyncAction(
+    FETCH_AVAILABILITY,
+    roomAvailability.query
 );
 
-export const fetchCalendarEvents = createAction(FETCH_CALENDAR_EVENTS);
-export const fetchAvailability = createAction(FETCH_AVAILABILITY);
-
-export const setSelectedDate = createAction(SET_SELECTED_DATE);
-
-const getWeek = selected => {
-    let d = selected.clone().startOf("week");
-    let week = [];
-    for (let i = 1; i < 8; i++) {
-        week.push(d.clone());
-        d.add(1, "d");
-    }
-    return week;
-};
+export const prevWeek = createAction(PREV_WEEK);
+export const nextWeek = createAction(NEXT_WEEK);
+export const thisWeek = createAction(THIS_WEEK);
 
 const state0 = {
     isLoggedIn: false,
     error: false,
     loading: false,
     selected: moment(),
-    dates: getWeek(moment()),
     availability: {},
     events: []
 };
 
 const reducer = (state = state0, { type, payload }) => {
     switch (type) {
-        case SET_SELECTED_DATE:
+        case PREV_WEEK:
+            const prev = state.selected.clone().subtract(1, "w");
             return {
                 ...state,
-                selected: payload,
-                dates: getWeek(payload),
+                selected: prev,
                 events: []
             };
-        case FETCH_AVAILABILITY:
+        case NEXT_WEEK:
+            const next = state.selected.clone().add(1, "w");
+            return {
+                ...state,
+                selected: next,
+                events: []
+            };
+        case THIS_WEEK:
+            return {
+                ...state,
+                selected: moment(),
+                events: []
+            };
+        case FETCH_AVAILABILITY._:
             return { ...state, loading: true, error: false };
-        case FETCH_AVAILABILITY_FAIL:
+        case FETCH_AVAILABILITY.FAILED:
             return { ...state, loading: false, error: true };
-        case FETCH_AVAILABILITY_OK:
+        case FETCH_AVAILABILITY.OK:
             return { ...state, loading: false, availability: payload };
-        case FETCH_CALENDAR_EVENTS:
+        case FETCH_CALENDAR_EVENTS._:
             return { ...state, loading: true, error: false };
-        case FETCH_CALENDAR_EVENTS_FAIL:
+        case FETCH_CALENDAR_EVENTS.FAILED:
             return { ...state, loading: false, error: true };
-        case FETCH_CALENDAR_EVENTS_OK:
+        case FETCH_CALENDAR_EVENTS.OK:
             return { ...state, loading: false, events: payload };
         default:
             return state;
@@ -81,9 +90,8 @@ registerReducer(MODULE_NAME, reducer);
 
 export const hasCalendarError = state => state[MODULE_NAME].error;
 export const isCalendarLoading = state => state[MODULE_NAME].loading;
-export const getCalendarSelection = state => state[MODULE_NAME].selected;
-export const getCalendarDates = state =>
-    state[MODULE_NAME].dates.map(d => {
+export const getCalendarDates = state => {
+    return getDatePeriod(state).map(d => {
         const iso = d.format("YYYY-MM-DD");
         const availability = state[MODULE_NAME].availability[iso] || {
             male: "",
@@ -97,9 +105,20 @@ export const getCalendarDates = state =>
             availability
         };
     });
+};
 
 const getDatePeriod = state => {
-    const dates = state[MODULE_NAME].dates;
+    let d = state[MODULE_NAME].selected.clone().startOf("week");
+    let week = [];
+    for (let i = 1; i < 8; i++) {
+        week.push(d.clone());
+        d.add(1, "d");
+    }
+    return week;
+};
+
+const getDatePeriodTitle = state => {
+    const dates = getDatePeriod(state);
 
     let m1 = dates[0].format("MMM");
     let m2 = dates[6].format("MMM");
@@ -116,8 +135,7 @@ const getDatePeriod = state => {
 
 export const getCalendarEvents = state => {
     const events = state[MODULE_NAME].events;
-    const dates = state[MODULE_NAME].dates;
-
+    const dates = getDatePeriod(state);
     let isodates = dates.map(d => d.format("YYYY-MM-DD"));
     isodates.push(
         dates[6]
@@ -140,23 +158,19 @@ export const getCalendarEvents = state => {
 };
 
 const s2p = state => ({
-    isLoggedIn: getIsSignedIn(state),
     error: hasCalendarError(state),
     loading: isCalendarLoading(state),
-    selected: getCalendarSelection(state),
     dates: getCalendarDates(state),
     events: getCalendarEvents(state),
-    datePeriod: getDatePeriod(state)
+    periodTitle: getDatePeriodTitle(state)
 });
 
-const d2p = { fetchCalendarEvents, fetchAvailability, setSelectedDate };
+const d2p = {
+    fetchCalendarEvents,
+    fetchAvailability,
+    prevWeek,
+    nextWeek,
+    thisWeek
+};
 
 export default withStore(s2p, d2p)(Home);
-
-// sagas
-function* homeListeners({ takeEvery, takeLatest }) {
-    yield takeEvery(FETCH_AVAILABILITY, apiSaga, roomAvailability.query);
-    yield takeEvery(FETCH_CALENDAR_EVENTS, apiSaga, calendarEvents.query);
-}
-
-registerSagas(homeListeners);

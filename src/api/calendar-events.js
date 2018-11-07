@@ -4,6 +4,7 @@ const API_ENDPOINT = "/calendar-events";
 
 // LIST
 export const query = ({ from, to, patient }) => {
+    console.log("calendarEvents.query");
     return net.get(API_ENDPOINT + toQueryParams({ from, to, patient }));
 };
 

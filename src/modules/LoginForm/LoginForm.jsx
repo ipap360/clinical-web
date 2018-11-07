@@ -15,7 +15,6 @@ import { withI18n } from "../../context";
 import classNames from "classnames";
 import { formStyles } from "../../components";
 import { withStyles } from "@material-ui/core";
-// import cookie from "../Session/cookie";
 
 export default withStyles(formStyles)(
     withI18n()(({ t, classes, className, sessionUpdated }) => (
@@ -24,8 +23,6 @@ export default withStyles(formStyles)(
             className={classNames(classes.form, className)}
             onSubmitSuccess={args => {
                 console.log(args);
-                // cookie.set()
-                sessionUpdated();
             }}
         >
             <FormRow>

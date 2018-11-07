@@ -1,32 +1,25 @@
-import net from "./api";
+import net, { SESSIONS_ENDPOINT } from "./api";
+import cookie from "./cookie";
 
-const API_ENDPOINT = "/sessions";
+export const init = cookie.get();
 
 // check whether I have a valid token or if I am visiting as a guest
-export const check = ({ uuid = "0" }) => {
-    return net.get(API_ENDPOINT + "/" + uuid);
+export const query = () => {
+    const { uuid } = cookie.get();
+    const id = uuid || "0";
+    return net.get(SESSIONS_ENDPOINT + "/" + id);
 };
 
 // login using username & password
 export const login = ({ username, password }) =>
-    net.post(API_ENDPOINT, {
+    net.post(SESSIONS_ENDPOINT, {
         username: username || "",
         password: password || ""
     });
 
 // check whether I have a valid token or if I am visiting as a guest
-export const refresh = ({ uuid = "0" }) => {
-    return net
-        .post(API_ENDPOINT + "/" + uuid + "/refresh")
-        .then(response => {
-            return response;
-        })
-        .catch(e => {
-            return e;
-        });
-};
-
-// check whether I have a valid token or if I am visiting as a guest
-export const expire = ({ uuid = "0" }) => {
-    return net.post(API_ENDPOINT + "/" + uuid + "/expire");
+export const expire = () => {
+    const { uuid } = cookie.get();
+    const id = uuid || "0";
+    return net.post(SESSIONS_ENDPOINT + "/" + id + "/expire");
 };

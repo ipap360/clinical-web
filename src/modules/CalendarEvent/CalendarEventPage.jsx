@@ -27,7 +27,7 @@ class CalendarEventPage extends React.Component {
     }
 
     render() {
-        const { classes, t, history, location, match, title } = this.props;
+        const { classes, history, location, match } = this.props;
 
         const {
             params: { id }
@@ -78,4 +78,4 @@ class CalendarEventPage extends React.Component {
     }
 }
 
-export default withI18n()(withStyles(styles)(CalendarEventPage));
+export default withI18n()(withStyles(styles)(withRouter(CalendarEventPage)));

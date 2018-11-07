@@ -100,7 +100,7 @@ class Form extends React.Component {
             load,
             subscription = {},
             mutators = {},
-            t = s => s,
+            // t = s => s,
             suggestedValues = {},
             ...rest
         } = this.props;

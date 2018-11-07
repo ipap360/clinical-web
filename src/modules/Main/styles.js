@@ -10,6 +10,7 @@ export default theme => ({
         marginBottom: marginBottom,
         marginRight: sideMargins,
         marginLeft: sideMargins,
+        minHeight: `calc(100vh - ${marginBottom}px)`,
         transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen
@@ -25,9 +26,9 @@ export default theme => ({
     toolbar2: {
         marginRight: sideMargins,
         marginLeft: sideMargins,
-        ".sidebar-open &": {
-            marginLeft: drawerWidth
-        },
+        // ".sidebar-open &": {
+        //     marginLeft: drawerWidth
+        // },
         transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen

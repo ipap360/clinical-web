@@ -1,5 +1,5 @@
 import CalendarEventPage from "./CalendarEventPage";
-import { registerSagas, registerReducer } from "redux-dynamic-config";
+import { registerReducer } from "redux-dynamic-config";
 import { withStore } from "../../context";
 
 const MODULE_NAME = "calendarEvent";

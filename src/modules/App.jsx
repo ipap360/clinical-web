@@ -18,30 +18,57 @@ import {
     PATIENTS_LIST
 } from "./routes";
 
+import { sessions, addAuthInterceptor } from "../api";
+
+const SessionContext = React.createContext("session");
+
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...sessions.init
+        };
+        const ref = this;
+        addAuthInterceptor({
+            onSessionUpdated: data => {
+                ref.setState(state => data);
+            }
+        });
+    }
+
+    componentDidMount() {
+        sessions.query();
+    }
+
     render() {
-        const { isSignedIn } = this.props;
+        const { name } = this.state;
+        const isSignedIn = name !== null;
         return (
-            <Router>
-                {!isSignedIn ? (
-                    <Switch>
-                        {/* <Route path={RECOVER_PWD_INIT} component={RecoverPasswordInit} /> */}
-                        <Route path={ROOT} component={Login} />
-                    </Switch>
-                ) : (
-                    <Switch>
-                        <Route
-                            path={CALENDAR_EVENT}
-                            component={CalendarEvent}
-                        />
-                        <Route path={PATIENT} component={Patient} />
-                        <Route path={PATIENTS_LIST} component={PatientsList} />
-                        <Route path={PROFILE} component={Profile} />
-                        <Route path={SETTINGS} component={Settings} />
-                        <Route path={ROOT} component={Home} />
-                    </Switch>
-                )}
-            </Router>
+            <SessionContext.Provider value={this.state}>
+                <Router>
+                    {!isSignedIn ? (
+                        <Switch>
+                            {/* <Route path={RECOVER_PWD_INIT} component={RecoverPasswordInit} /> */}
+                            <Route path={ROOT} component={Login} />
+                        </Switch>
+                    ) : (
+                        <Switch>
+                            <Route
+                                path={CALENDAR_EVENT}
+                                component={CalendarEvent}
+                            />
+                            <Route path={PATIENT} component={Patient} />
+                            <Route
+                                path={PATIENTS_LIST}
+                                component={PatientsList}
+                            />
+                            <Route path={PROFILE} component={Profile} />
+                            <Route path={SETTINGS} component={Settings} />
+                            <Route path={ROOT} component={Home} />
+                        </Switch>
+                    )}
+                </Router>
+            </SessionContext.Provider>
         );
     }
 }

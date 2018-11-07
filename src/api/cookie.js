@@ -2,14 +2,13 @@ import moment from "moment";
 import momentTimezone from "moment-timezone";
 import locale2 from "locale2";
 import Cookies from "js-cookie";
-import { base64 } from "../../utils";
+import { base64 } from "../utils";
 
 const SESSION_COOKIE_NAME = "presence";
 const LANG_COOKIE_NAME = "lang";
 const XSRF_COOKIE = "XSRF-TOKEN";
 
-// these are set by the server and are defined only for logout
-const REFRESH_TOKEN_COOKIE_NAME = "cli3ntRT";
+const REFRESH_TOKEN_COOKIE_NAME = process.env.REACT_APP_COOKIE || "cli3ntRT";
 
 // default session details based on client's system settings
 const session0 = {
@@ -57,5 +56,7 @@ const cookie = {
         moment.locale(momentLanguage);
     }
 };
+
+cookie.setLanguage();
 
 export default cookie;

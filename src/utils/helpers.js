@@ -1,4 +1,5 @@
-import _ from "lodash";
+// import _ from "lodash";
+import snakeCase from "lodash/snakeCase";
 import config from "../app.config";
 
 const { appName } = config;
@@ -31,6 +32,42 @@ export const createAction = type => (payload, meta) => {
     };
 };
 
+export const createAsyncNames = (...args) => {
+    const name = createActionName.apply(this, args);
+    return {
+        _: name,
+        OK: setOK(name),
+        FAILED: setFail(name),
+        ALWAYS: setFin(name)
+    };
+};
+
+export const createAsyncAction = (action, api) => (
+    params,
+    meta
+) => dispatch => {
+    const type = typeof action === "object" ? action._ : action;
+    dispatch({ type });
+    api(params)
+        .then(response => {
+            dispatch({
+                type: setOK(type),
+                payload: response.data
+            });
+        })
+        .catch(e => {
+            dispatch({
+                type: setFail(type),
+                payload: e
+            });
+        })
+        .then(() => {
+            dispatch({
+                type: setFin(type)
+            });
+        });
+};
+
 export const createActionName = (name, ns = null, options = {}) => {
     const { status, command } = options;
 
@@ -38,7 +75,7 @@ export const createActionName = (name, ns = null, options = {}) => {
 
     fullname = command ? `${commands[command]}_${fullname}` : fullname;
     fullname = status ? `${fullname}:${statuses[status]}` : fullname;
-    fullname = ns ? `${_.snakeCase(ns).toUpperCase()}/${fullname}` : fullname;
+    fullname = ns ? `${snakeCase(ns).toUpperCase()}/${fullname}` : fullname;
 
     return `${appName}/${fullname}`;
 };

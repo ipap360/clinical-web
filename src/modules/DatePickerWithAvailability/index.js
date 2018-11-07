@@ -1,9 +1,8 @@
-import { registerSagas, registerReducer } from "redux-dynamic-config";
+import { registerReducer } from "redux-dynamic-config";
 
 import { withStore } from "../../context";
-import { createActionName, createAction, setOK } from "../../utils";
+import { createActionName, createAsyncAction, setOK } from "../../utils";
 import { roomAvailability } from "../../api";
-import { apiSaga } from "../Session";
 
 import DatePickerWithAvailability from "./DatePickerWithAvailability";
 
@@ -16,7 +15,10 @@ export const FETCH_AVAILABILITY = createActionName(
 
 export const FETCH_AVAILABILITY_OK = setOK(FETCH_AVAILABILITY);
 
-export const fetchAvailability = createAction(FETCH_AVAILABILITY);
+export const fetchAvailability = createAsyncAction(
+    FETCH_AVAILABILITY,
+    roomAvailability.query
+);
 
 const state0 = {
     availability: {}
@@ -54,10 +56,3 @@ const s2p = (state, ownProps) => ({
 const d2p = { fetchAvailability };
 
 export default withStore({ s2p, d2p })(DatePickerWithAvailability);
-
-// sagas
-function* availabilityListener({ takeEvery }) {
-    yield takeEvery(FETCH_AVAILABILITY, apiSaga, roomAvailability.query);
-}
-
-registerSagas(availabilityListener);

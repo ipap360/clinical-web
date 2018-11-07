@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core";
 import { TTypography } from "../../components";
 import classNames from "classnames";
 import { CALENDAR_EVENT } from "../routes";
+import { withRouter } from "../../context";
 
 const partA = "#eaeaea";
 const partB = "#ffffff";
@@ -63,39 +64,47 @@ const styles = theme => ({
     }
 });
 
-export default withStyles(styles)(({ classes, d, history }) => {
-    const { m = "", f = "", male, female } = d.availability;
-    return (
-        <div
-            className={classes.root}
-            onClick={() =>
-                history.push(CALENDAR_EVENT.replace(":id", "0"), {
-                    date: d.iso
-                })
-            }
-        >
-            <div className={classes.dayname}>
-                <TTypography variant="subheading">{d.short}</TTypography>
-            </div>
-            <TTypography variant="display3">{d.num}</TTypography>
-            <div className={classes.availability}>
-                <div
-                    className={classNames("border-indicator", m.toLowerCase())}
-                >
-                    <TTypography>{male + " x"}</TTypography>
-                    <i className="fas fa-male" />
-                    {/* <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
-                    </span> */}
+export default withStyles(styles)(
+    withRouter(({ classes, d, history }) => {
+        const { m = "", f = "", male, female } = d.availability;
+        return (
+            <div
+                className={classes.root}
+                onClick={() =>
+                    history.push(CALENDAR_EVENT.replace(":id", "0"), {
+                        date: d.iso
+                    })
+                }
+            >
+                <div className={classes.dayname}>
+                    <TTypography variant="subheading">{d.short}</TTypography>
                 </div>
-                <div
-                    className={classNames("border-indicator", f.toLowerCase())}
-                >
-                    <TTypography>{female + " x"}</TTypography>
-                    <i className="fas fa-female" />
-                    {/* <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
+                <TTypography variant="display3">{d.num}</TTypography>
+                <div className={classes.availability}>
+                    <div
+                        className={classNames(
+                            "border-indicator",
+                            m.toLowerCase()
+                        )}
+                    >
+                        <TTypography>{male + " x"}</TTypography>
+                        <i className="fas fa-male" />
+                        {/* <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
                     </span> */}
+                    </div>
+                    <div
+                        className={classNames(
+                            "border-indicator",
+                            f.toLowerCase()
+                        )}
+                    >
+                        <TTypography>{female + " x"}</TTypography>
+                        <i className="fas fa-female" />
+                        {/* <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
+                    </span> */}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-});
+        );
+    })
+);

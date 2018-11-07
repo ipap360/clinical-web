@@ -21,7 +21,7 @@ export default theme => ({
         bottom: theme.spacing.unit * 4.5,
         right: theme.spacing.unit * 4.5
     },
-    topbar: {
+    topbarTitle: {
         display: "flex",
         alignItems: "center",
         color: theme.palette.getContrastText(theme.palette.primary.main),
@@ -35,5 +35,12 @@ export default theme => ({
         "& > *": {
             marginRight: 5
         }
+    },
+    topbarBody: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        background: "transparent"
     }
 });
