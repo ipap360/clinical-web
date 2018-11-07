@@ -1,6 +1,6 @@
 import React from "react";
-import { withStyles } from "@material-ui/core";
-import { TTypography } from "../../components";
+import { withStyles, Typography } from "@material-ui/core";
+// import { TTypography } from "../../components";
 import classNames from "classnames";
 import { CALENDAR_EVENT } from "../routes";
 import { withRouter } from "../../context";
@@ -77,9 +77,9 @@ export default withStyles(styles)(
                 }
             >
                 <div className={classes.dayname}>
-                    <TTypography variant="subheading">{d.short}</TTypography>
+                    <Typography variant="subheading">{d.short}</Typography>
                 </div>
-                <TTypography variant="display3">{d.num}</TTypography>
+                <Typography variant="display3">{d.num}</Typography>
                 <div className={classes.availability}>
                     <div
                         className={classNames(
@@ -87,7 +87,7 @@ export default withStyles(styles)(
                             m.toLowerCase()
                         )}
                     >
-                        <TTypography>{male + " x"}</TTypography>
+                        <Typography>{male + " x"}</Typography>
                         <i className="fas fa-male" />
                         {/* <span className={classNames(classes.indicator, 'day-indicator', m.toLowerCase())}>
                     </span> */}
@@ -98,7 +98,7 @@ export default withStyles(styles)(
                             f.toLowerCase()
                         )}
                     >
-                        <TTypography>{female + " x"}</TTypography>
+                        <Typography>{female + " x"}</Typography>
                         <i className="fas fa-female" />
                         {/* <span className={classNames(classes.indicator, 'day-indicator', f.toLowerCase())}>
                     </span> */}

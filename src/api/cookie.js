@@ -3,6 +3,7 @@ import momentTimezone from "moment-timezone";
 import locale2 from "locale2";
 import Cookies from "js-cookie";
 import { base64 } from "../utils";
+import { changeLanguage } from "../context";
 
 const SESSION_COOKIE_NAME = "presence";
 const LANG_COOKIE_NAME = "lang";
@@ -45,6 +46,7 @@ const cookie = {
         // Cookies.set(LANG_COOKIE_NAME, lang);
     },
     clear: () => {
+        console.trace("Cleared Cookie!");
         Cookies.remove(SESSION_COOKIE_NAME);
         Cookies.remove(XSRF_COOKIE);
         Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
@@ -54,6 +56,7 @@ const cookie = {
         Cookies.set(LANG_COOKIE_NAME, language);
         const momentLanguage = language.split("-")[0];
         moment.locale(momentLanguage);
+        changeLanguage(language);
     }
 };
 

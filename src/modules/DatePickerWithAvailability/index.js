@@ -55,4 +55,4 @@ const s2p = (state, ownProps) => ({
 
 const d2p = { fetchAvailability };
 
-export default withStore({ s2p, d2p })(DatePickerWithAvailability);
+export default withStore(s2p, d2p)(DatePickerWithAvailability);

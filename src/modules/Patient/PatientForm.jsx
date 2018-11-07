@@ -31,6 +31,7 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
                     inputProps={{ maxLength: "255" }}
                     label={t("Name")}
                     fullWidth
+                    required
                 />
             </FormRow>
             <FormRow>
@@ -63,8 +64,8 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
                 />
             </FormRow>
             <FormButtonsContainer>
-                <FormSubmitButton>{t("Insert")}</FormSubmitButton>
-                <FormResetButton>{t("Reset")}</FormResetButton>
+                <FormSubmitButton>{t("INSERT")}</FormSubmitButton>
+                <FormResetButton>{t("RESET")}</FormResetButton>
             </FormButtonsContainer>
             <FormError />
         </Form>

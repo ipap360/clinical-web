@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Paper, Icon, IconButton, Button, Toolbar } from "@material-ui/core";
+import {
+    Paper,
+    Icon,
+    IconButton,
+    Button,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import { TTypography } from "../../components";
 import TopBar from "../TopBar";
 import CalendarDayTitle from "./CalendarDayTitle";
@@ -25,9 +32,9 @@ class CalendarTopBar extends Component {
                     >
                         <Icon fontSize="inherit">arrow_left</Icon>
                     </IconButton>
-                    <TTypography color="inherit" variant="title">
+                    <Typography color="inherit" variant="title">
                         {periodTitle}
-                    </TTypography>
+                    </Typography>
                     <IconButton
                         variant="outlined"
                         color="inherit"
@@ -40,7 +47,7 @@ class CalendarTopBar extends Component {
                         color="inherit"
                         onClick={() => thisWeek()}
                     >
-                        <TTypography color="inherit">Today</TTypography>
+                        <TTypography color="inherit">TODAY</TTypography>
                     </Button>
                 </TopBar.Title>
                 <TopBar.Body>

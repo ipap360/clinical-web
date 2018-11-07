@@ -1,6 +1,6 @@
 import React from "react";
-import { withStyles, Paper } from "@material-ui/core";
-import { TTypography } from "../../components";
+import { withStyles, Paper, Typography } from "@material-ui/core";
+// import { TTypography } from "../../components";
 import classNames from "classnames";
 import { CALENDAR_EVENT } from "../routes";
 
@@ -106,14 +106,14 @@ export default withStyles(styles)(({ classes, t, data, history }) => {
         >
             {/* {gender === 'MALE' && <i class="fas fa-male"></i>} */}
             {/* {gender === 'FEMALE' && <i class="fas fa-female"></i>} */}
-            <TTypography
+            <Typography
                 color="inherit"
                 variant="body1"
                 style={{ whiteSpace: !span2 ? "nowrap" : null }}
                 title={text}
             >
                 {text}
-            </TTypography>
+            </Typography>
         </Paper>
     );
 });

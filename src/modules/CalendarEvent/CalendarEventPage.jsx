@@ -2,7 +2,7 @@ import React from "react";
 import { withI18n, withRouter } from "../../context";
 
 import Main from "../Main";
-import { withStyles, Toolbar, Paper } from "@material-ui/core";
+import { withStyles, Toolbar, Paper, Button } from "@material-ui/core";
 import { TTypography } from "../../components";
 
 import TopBar from "../TopBar";
@@ -27,7 +27,7 @@ class CalendarEventPage extends React.Component {
     }
 
     render() {
-        const { classes, history, location, match } = this.props;
+        const { t, classes, history, location, match } = this.props;
 
         const {
             params: { id }
@@ -41,24 +41,33 @@ class CalendarEventPage extends React.Component {
 
         return (
             <React.Fragment>
-                <TopBar>
-                    <Toolbar className={classes.header} disableGutters>
-                        <TTypography
-                            variant="headline"
-                            className={classes.title}
-                        >
-                            Title!
-                        </TTypography>
-                    </Toolbar>
+                <TopBar sidebar={true}>
+                    <TopBar.Body>
+                        <Toolbar className={classes.header} disableGutters>
+                            <TTypography
+                                variant="headline"
+                                className={classes.title}
+                            >
+                                Title!
+                            </TTypography>
+                        </Toolbar>
+                    </TopBar.Body>
                 </TopBar>
                 <SideBar>
-                    {isNew ? (
-                        <NewCalendarEventSidebar />
-                    ) : (
-                        <ExistingCalendarEventSidebar />
-                    )}
+                    <div className={classes.sidebar}>
+                        {isNew ? (
+                            <NewCalendarEventSidebar classes={classes} />
+                        ) : (
+                            <ExistingCalendarEventSidebar classes={classes} />
+                        )}
+                        <div>
+                            <Button fullWidth onClick={() => history.go(-1)}>
+                                {t("BACK")}
+                            </Button>
+                        </div>
+                    </div>
                 </SideBar>
-                <Main topbar={true} sidebar={true}>
+                <Main sidebar={true}>
                     <Paper square className={classes.paper}>
                         <CalendarEventForm
                             className={classes.form}

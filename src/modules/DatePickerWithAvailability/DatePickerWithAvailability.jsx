@@ -15,7 +15,7 @@ class DatePickerWithAvailability extends React.Component {
     }
 
     render() {
-        const { availability, ...props } = this.props;
+        const { availability, fetchAvailability, ...props } = this.props;
 
         return (
             <FormDate

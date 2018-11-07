@@ -16,8 +16,8 @@ import classNames from "classnames";
 import { formStyles } from "../../components";
 import { withStyles } from "@material-ui/core";
 
-export default withStyles(formStyles)(
-    withI18n()(({ t, classes, className, sessionUpdated }) => (
+export default withI18n()(
+    withStyles(formStyles)(({ t, classes, className, sessionUpdated }) => (
         <Form
             save={(id, values) => sessions.login(values)}
             className={classNames(classes.form, className)}
@@ -45,11 +45,11 @@ export default withStyles(formStyles)(
                 />
             </FormRow>
             <FormButtonsContainer>
-                <FormSubmitButton fullWidth>{t("Log In")}</FormSubmitButton>
+                <FormSubmitButton fullWidth>{t("LOG IN")}</FormSubmitButton>
             </FormButtonsContainer>
             <FormError />
             <TTypography variant="caption" align="right">
-                <Link to={RECOVER_PWD_INIT}>Forgot password?</Link>
+                <Link to={RECOVER_PWD_INIT}>{t("Forgot your password?")}</Link>
             </TTypography>
         </Form>
     ))

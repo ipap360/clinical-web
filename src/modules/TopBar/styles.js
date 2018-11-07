@@ -1,4 +1,4 @@
-// const drawerWidth = 300;
+const drawerWidth = 300;
 // const topbarHeight = 128;
 const sideMargins = 64;
 // const marginBottom = 16;
@@ -38,12 +38,12 @@ export default theme => ({
     toolbar2: {
         marginRight: sideMargins,
         marginLeft: sideMargins,
-        // ".sidebar-open &": {
-        //     marginLeft: drawerWidth
-        // },
         transition: theme.transitions.create(["margin", "width"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
         })
+    },
+    withSidebar: {
+        marginLeft: drawerWidth
     }
 });

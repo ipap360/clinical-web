@@ -30,10 +30,10 @@ class ExistingCalendarEventSidebar extends React.Component {
     }
 
     render() {
-        const { t, classes, history } = this.props;
+        const { t, classes } = this.props;
         const ref = this;
         return (
-            <div className={classes.sidebar}>
+            <>
                 <div>
                     <Button
                         onClick={() => this.open("postpone")}
@@ -124,12 +124,7 @@ class ExistingCalendarEventSidebar extends React.Component {
                         </Paper>
                     </Modal>
                 </div>
-                <div>
-                    <Button fullWidth onClick={() => history.go(-1)}>
-                        {t("Back")}
-                    </Button>
-                </div>
-            </div>
+            </>
         );
     }
 }

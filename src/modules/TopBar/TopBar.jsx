@@ -1,6 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, IconButton, withStyles } from "@material-ui/core";
 import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
+import classNames from "classnames";
 import { PROFILE, ROOT } from "../routes";
 import { TTypography, SimpleMenu, Link } from "../../components";
 import { withI18n, withRouter } from "../../context";
@@ -53,14 +54,15 @@ class TopBar extends React.Component {
     }
 
     render() {
-        const { classes, history, children = [] } = this.props;
+        const { classes, history, children = [], sidebar } = this.props;
         const {
             root,
             homeTrigger,
             menuTrigger,
             titleCss,
             menuCss,
-            toolbar2
+            toolbar2,
+            withSidebar
         } = classes;
         const { items } = this.state;
 
@@ -92,7 +94,12 @@ class TopBar extends React.Component {
                         style={{ minWidth: 180 }}
                     />
                 </Toolbar>
-                <Toolbar disableGutters className={toolbar2}>
+                <Toolbar
+                    disableGutters
+                    className={classNames(toolbar2, {
+                        [withSidebar]: !!sidebar
+                    })}
+                >
                     {getChildrenOfType(children, Body)}
                 </Toolbar>
             </AppBar>
