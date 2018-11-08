@@ -38,7 +38,7 @@ const refresh = () => {
         .then(response => {
             RequestsQueue.forEach(({ resolve, config }) => {
                 const retry = { ...config, baseURL: "" };
-                resolve(axios(retry));
+                resolve(net(retry));
             });
         })
         .catch(error => {
@@ -114,7 +114,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
                 __onSessionUpdated.apply(this);
             }
 
-            return { data, status, statusText };
+            return data;
         },
         function(error) {
             const { reAuth, reLogin, data } = normalizeError(error);
@@ -135,7 +135,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
                 cookie.clear();
                 __onSessionUpdated.apply(this);
             }
-            return Promise.reject({ ...data });
+            return Promise.reject(data);
         }
     );
 };
