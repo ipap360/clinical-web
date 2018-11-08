@@ -14,10 +14,11 @@ import {
     FormArea
 } from "../../components";
 
-import { withI18n } from "../../context";
+import { withI18n, withStore } from "../../context";
 import { calendarEvents } from "../../api";
 
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
+import { fetchPatients, getPatients, getPatientsById } from "../PatientsList";
 
 class CalendarEventForm extends React.Component {
     componentDidMount() {
@@ -26,7 +27,16 @@ class CalendarEventForm extends React.Component {
     }
 
     render() {
-        const { t, className, id, patients, ...props } = this.props;
+        const {
+            t,
+            className,
+            id,
+            patients,
+            getGender,
+            onSaveSuccess,
+            children,
+            ...props
+        } = this.props;
         const isNew = id === 0;
         return (
             <Form
@@ -34,6 +44,7 @@ class CalendarEventForm extends React.Component {
                 save={calendarEvents.save}
                 load={calendarEvents.view}
                 className={className}
+                onSaveSuccess={onSaveSuccess}
                 {...props}
             >
                 <FormRow>
@@ -46,16 +57,13 @@ class CalendarEventForm extends React.Component {
                     />
                 </FormRow>
                 <FormSpy subscription={{ values: true }}>
-                    {values => {
-                        // TODO: read patient and determin disabled + gender
-                        console.log(values);
+                    {({ values }) => {
                         return (
                             <FormRow>
                                 <DatePickerWithAvailability
                                     name="date"
                                     label={t("Date")}
-                                    // disabled={!disabledDate}
-                                    // gender={gender}
+                                    gender={getGender(values.patient)}
                                 />
                             </FormRow>
                         );
@@ -66,6 +74,7 @@ class CalendarEventForm extends React.Component {
                         name="duration"
                         fullWidth
                         label={t("Night stay")}
+                        valueType="integer"
                     >
                         <FormRadio value="0" label={t("None")} />
                         <FormRadio value="1" label={t("One")} />
@@ -85,9 +94,30 @@ class CalendarEventForm extends React.Component {
                     </FormResetButton>
                 </FormButtonsContainer>
                 <FormError />
+                {children}
             </Form>
         );
     }
 }
 
-export default withI18n()(CalendarEventForm);
+const s2p = state => ({
+    // title: getCalendarEventTitle(state),
+    patients: getPatients(state).map(p => ({
+        value: p.id,
+        label: [p.name, p.code, p.notes].join(" ")
+    })),
+    getGender: id => {
+        if (!id) return "";
+
+        const patient = getPatientsById(state)[id];
+        if (!patient) return "";
+
+        return patient.gender.toLowerCase()[0] || "";
+    }
+});
+
+const d2p = {
+    fetchPatients
+};
+
+export default withI18n()(withStore(s2p, d2p)(CalendarEventForm));

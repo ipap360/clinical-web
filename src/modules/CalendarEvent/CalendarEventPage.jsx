@@ -2,12 +2,14 @@ import React from "react";
 import { withI18n, withRouter } from "../../context";
 
 import Main from "../Main";
-import { withStyles, Toolbar, Paper, Button } from "@material-ui/core";
-import { TTypography } from "../../components";
+import { withStyles, Paper, Button } from "@material-ui/core";
 
 import TopBar from "../TopBar";
 import SideBar from "../SideBar";
-import CalendarEventForm from "../CalendarEventForm";
+
+import CalendarEventForm from "./CalendarEventForm";
+import FormStateToRedux from "../FormStateToRedux";
+import CalendarEventTitle from "./CalendarEventTitle";
 import NewCalendarEventSidebar from "./NewCalendarEventSidebar";
 import ExistingCalendarEventSidebar from "./ExistingCalendarEventSidebar";
 
@@ -38,19 +40,13 @@ class CalendarEventPage extends React.Component {
         const isNew = calendarEventId === 0;
 
         const date = location.state && location.state.date;
+        const formName = `calendarEvent${calendarEventId}`;
 
         return (
             <React.Fragment>
                 <TopBar sidebar={true}>
                     <TopBar.Body>
-                        <Toolbar className={classes.header} disableGutters>
-                            <TTypography
-                                variant="headline"
-                                className={classes.title}
-                            >
-                                Title!
-                            </TTypography>
-                        </Toolbar>
+                        <CalendarEventTitle form={formName} />
                     </TopBar.Body>
                 </TopBar>
                 <SideBar>
@@ -62,7 +58,7 @@ class CalendarEventPage extends React.Component {
                         )}
                         <div>
                             <Button fullWidth onClick={() => history.go(-1)}>
-                                {t("BACK")}
+                                {t("Back")}
                             </Button>
                         </div>
                     </div>
@@ -71,15 +67,16 @@ class CalendarEventPage extends React.Component {
                     <Paper square className={classes.paper}>
                         <CalendarEventForm
                             className={classes.form}
-                            onSubmitSuccess={args => {
-                                console.log(args);
+                            onSaveSuccess={args => {
                                 history.push(ROOT);
                             }}
                             id={calendarEventId}
                             suggestedValues={{
                                 ...(date ? { date } : null)
                             }}
-                        />
+                        >
+                            <FormStateToRedux form={formName} />
+                        </CalendarEventForm>
                     </Paper>
                 </Main>
             </React.Fragment>
