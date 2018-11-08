@@ -24,6 +24,7 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
             load={patients.view}
             save={patients.save}
             className={className}
+            formnovalidate
         >
             <FormRow>
                 <FormText
@@ -49,7 +50,7 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
                 <FormRadioGroup name="gender" fullWidth label={t("Gender")}>
                     <FormRadio value="MALE" label={t("Male")} />
                     <FormRadio value="FEMALE" label={t("Female")} />
-                    <FormRadio value="UNKNOWN" label={t("Other")} />
+                    {/* <FormRadio value="UNKNOWN" label={t("Other")} /> */}
                 </FormRadioGroup>
             </FormRow>
             <FormRow>
@@ -64,8 +65,8 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
                 />
             </FormRow>
             <FormButtonsContainer>
-                <FormSubmitButton>{t("INSERT")}</FormSubmitButton>
-                <FormResetButton>{t("RESET")}</FormResetButton>
+                <FormSubmitButton>{t("Insert")}</FormSubmitButton>
+                <FormResetButton>{t("Reset")}</FormResetButton>
             </FormButtonsContainer>
             <FormError />
         </Form>

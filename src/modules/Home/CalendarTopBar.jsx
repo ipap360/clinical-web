@@ -47,7 +47,7 @@ class CalendarTopBar extends Component {
                         color="inherit"
                         onClick={() => thisWeek()}
                     >
-                        <TTypography color="inherit">TODAY</TTypography>
+                        <TTypography color="inherit">Today</TTypography>
                     </Button>
                 </TopBar.Title>
                 <TopBar.Body>

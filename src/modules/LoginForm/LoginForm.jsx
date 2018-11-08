@@ -45,7 +45,7 @@ export default withI18n()(
                 />
             </FormRow>
             <FormButtonsContainer>
-                <FormSubmitButton fullWidth>{t("LOG IN")}</FormSubmitButton>
+                <FormSubmitButton fullWidth>{t("Log In")}</FormSubmitButton>
             </FormButtonsContainer>
             <FormError />
             <TTypography variant="caption" align="right">

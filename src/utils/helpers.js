@@ -52,7 +52,7 @@ export const createAsyncAction = (action, api) => (
         .then(response => {
             dispatch({
                 type: setOK(type),
-                payload: response.data
+                payload: response
             });
         })
         .catch(e => {
