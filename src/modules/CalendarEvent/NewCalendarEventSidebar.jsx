@@ -35,12 +35,13 @@ class NewCalendarEventSidebar extends React.Component {
                         variant="contained"
                         fullWidth
                     >
-                        {t("NEW PATIENT")}
+                        {t("New Patient")}
                     </Button>
                     <Modal
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                         open={this.state.modal}
+                        onClose={this.closeModal.bind(this)}
                     >
                         <Paper square className={classes.modal}>
                             <div>

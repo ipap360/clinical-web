@@ -46,6 +46,7 @@ class ExistingCalendarEventSidebar extends React.Component {
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                         open={this.state.postpone}
+                        onClose={this.close.bind(this)}
                     >
                         <Paper
                             square
@@ -85,12 +86,13 @@ class ExistingCalendarEventSidebar extends React.Component {
                         variant="contained"
                         fullWidth
                     >
-                        {t("Next appointment")}
+                        {t("Next Appointment")}
                     </Button>
                     <Modal
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                         open={this.state.copy}
+                        onClose={this.close.bind(this)}
                     >
                         <Paper
                             square
