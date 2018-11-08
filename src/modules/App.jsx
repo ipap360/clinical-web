@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Home from "./Home";
 import CalendarEvent from "./CalendarEvent";
@@ -24,6 +25,7 @@ const SessionContext = React.createContext("session");
 
 class App extends React.Component {
     constructor(props) {
+        console.log("App wtf?");
         super(props);
         this.state = {
             ...sessions.init
@@ -41,10 +43,11 @@ class App extends React.Component {
     }
 
     render() {
-        const { name } = this.state;
+        const { name, language = "en" } = this.state;
         const isSignedIn = name !== null;
         return (
             <SessionContext.Provider value={this.state}>
+                <Helmet htmlAttributes={{ lang: language }} />
                 <Router>
                     {!isSignedIn ? (
                         <Switch>

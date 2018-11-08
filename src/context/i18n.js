@@ -8,43 +8,61 @@ import XHR from "i18next-xhr-backend";
 
 const DEFAULT_NS = "translation";
 
-i18n.use(XHR).init({
-    // initial language?
-    // lng: "en",
-    // we init with preloaded resources
-    // resources: resources,
+// const greek = {
+//     type: "postProcessor",
+//     name: "greek",
+//     process: function(value, key, options, translator) {
+//         console.log(value, key, options, translator);
+//         return value;
+//     }
+// };
 
-    // key is the fallback
-    fallbackLng: false,
-    // fallbackLng: {
-    //     "el-GR": ["el"],
-    //     "en-US": ["en"],
-    //     default: ["en"]
-    // },
+i18n.use(XHR)
+    // .use(greek)
+    .init({
+        // initial language?
+        // lng: "en",
+        // we init with preloaded resources
+        // resources: resources,
 
-    // debug if development
-    debug: process.env.NODE_ENV !== "production",
-    // debug: false,
+        // key is the fallback
+        fallbackLng: false,
+        // fallbackLng: {
+        //     "el-GR": ["el"],
+        //     "en-US": ["en"],
+        //     default: ["en"]
+        // },
 
-    // have a common namespace used around the full app
-    ns: [],
-    defaultNS: DEFAULT_NS,
+        // debug if development
+        debug: process.env.NODE_ENV !== "production",
+        // debug: false,
 
-    keySeparator: false, // we use content as keys
+        // have a common namespace used around the full app
+        ns: [],
+        defaultNS: DEFAULT_NS,
 
-    interpolation: {
-        escapeValue: false, // not needed for react!!
-        formatSeparator: ","
-    },
+        keySeparator: false, // we use content as keys
 
-    react: {
-        wait: true
-    },
+        interpolation: {
+            escapeValue: false, // not needed for react!!
+            formatSeparator: ","
+        },
 
-    backend: {
-        loadPath: "/locales/{{lng}}/{{ns}}.json"
-    }
-});
+        react: {
+            wait: true
+        },
+
+        // overloadTranslationOptionHandler: function(args) {
+        //     return {
+        //         postProcess: "greek",
+        //         defaultValue: args[1]
+        //     };
+        // },
+
+        backend: {
+            loadPath: "/locales/{{lng}}/{{ns}}.json"
+        }
+    });
 
 export default Component => props => {
     return (
