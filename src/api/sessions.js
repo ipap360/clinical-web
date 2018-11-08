@@ -1,4 +1,4 @@
-import net, { SESSIONS_ENDPOINT } from "./api";
+import net, { SESSIONS_ENDPOINT, formErrorHandler } from "./api";
 import cookie from "./cookie";
 
 export const init = cookie.get();
@@ -12,10 +12,12 @@ export const query = () => {
 
 // login using username & password
 export const login = ({ username, password }) =>
-    net.post(SESSIONS_ENDPOINT, {
-        username: username || "",
-        password: password || ""
-    });
+    net
+        .post(SESSIONS_ENDPOINT, {
+            username: username || "",
+            password: password || ""
+        })
+        .catch(formErrorHandler);
 
 // check whether I have a valid token or if I am visiting as a guest
 export const expire = () => {

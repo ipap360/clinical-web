@@ -24,7 +24,7 @@ const PatientForm = ({ t, id = 0, modal = false, className }) => {
             load={patients.view}
             save={patients.save}
             className={className}
-            formnovalidate
+            formProps={{ novalidate: "novalidate" }}
         >
             <FormRow>
                 <FormText

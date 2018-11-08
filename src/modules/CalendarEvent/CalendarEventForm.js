@@ -45,6 +45,7 @@ class CalendarEventForm extends React.Component {
                 load={calendarEvents.view}
                 className={className}
                 onSaveSuccess={onSaveSuccess}
+                formProps={{ novalidate: "novalidate" }}
                 {...props}
             >
                 <FormRow>
@@ -53,6 +54,7 @@ class CalendarEventForm extends React.Component {
                         options={patients}
                         label={t("Patient")}
                         fullWidth
+                        required
                         disabled={!isNew}
                     />
                 </FormRow>
@@ -64,6 +66,7 @@ class CalendarEventForm extends React.Component {
                                     name="date"
                                     label={t("Date")}
                                     gender={getGender(values.patient)}
+                                    required
                                 />
                             </FormRow>
                         );

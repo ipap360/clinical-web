@@ -140,6 +140,11 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
     );
 };
 
+export const formErrorHandler = data => {
+    if (data.errors) return { ...data.errors };
+    throw data.message;
+};
+
 export const toQueryParams = (json = {}) => {
     const keys = Object.keys(json);
     return keys.length === 0

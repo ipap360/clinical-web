@@ -30,7 +30,7 @@ class Form extends React.Component {
 
     getError(error) {
         const msg = error && error.message;
-        return msg || "An unspecified error occurred";
+        return;
     }
 
     load() {
@@ -64,6 +64,10 @@ class Form extends React.Component {
         return new Promise(resolve => {
             save(id, saveValues)
                 .then(response => {
+                    if (response) {
+                        resolve(response);
+                        return;
+                    }
                     // re-initialize
                     ref.setState(
                         {
@@ -73,16 +77,16 @@ class Form extends React.Component {
                         },
                         () => {
                             if (typeof onSaveSuccess === "function") {
-                                onSaveSuccess.apply(ref, [ref, response]);
+                                onSaveSuccess.apply(ref, [ref]);
                             }
                         }
                     );
-                    resolve(response);
+                    resolve();
                 })
                 .catch(error => {
                     // just in case sth has not been handled properly
                     resolve({
-                        [FORM_ERROR]: ref.getError(error)
+                        [FORM_ERROR]: error || "An unspecified error occurred"
                     });
                 });
         });
@@ -102,6 +106,7 @@ class Form extends React.Component {
             mutators = {},
             // t = s => s,
             suggestedValues = {},
+            formProps = {},
             ...rest
         } = this.props;
 
@@ -141,7 +146,11 @@ class Form extends React.Component {
             >
                 {({ handleSubmit }) => {
                     return (
-                        <form onSubmit={handleSubmit} className={className}>
+                        <form
+                            onSubmit={handleSubmit}
+                            className={className}
+                            {...formProps}
+                        >
                             {children}
                         </form>
                     );
