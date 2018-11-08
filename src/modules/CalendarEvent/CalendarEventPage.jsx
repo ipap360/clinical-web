@@ -54,7 +54,10 @@ class CalendarEventPage extends React.Component {
                         {isNew ? (
                             <NewCalendarEventSidebar classes={classes} />
                         ) : (
-                            <ExistingCalendarEventSidebar classes={classes} />
+                            <ExistingCalendarEventSidebar
+                                classes={classes}
+                                mainForm={formName}
+                            />
                         )}
                         <div>
                             <Button fullWidth onClick={() => history.go(-1)}>

@@ -30,7 +30,7 @@ class ExistingCalendarEventSidebar extends React.Component {
     }
 
     render() {
-        const { t, classes } = this.props;
+        const { t, classes, mainForm } = this.props;
         const ref = this;
         return (
             <>
@@ -65,6 +65,7 @@ class ExistingCalendarEventSidebar extends React.Component {
                                 </AppBar>
                                 <Toolbar>
                                     <CopyEventForm
+                                        mainForm={mainForm}
                                         modal={true}
                                         className={classes.modalform}
                                         save={values => {
@@ -105,12 +106,13 @@ class ExistingCalendarEventSidebar extends React.Component {
                                             variant="title"
                                             color="inherit"
                                         >
-                                            Schedule next appointment
+                                            Next Appointment
                                         </TTypography>
                                     </Toolbar>
                                 </AppBar>
                                 <Toolbar>
                                     <CopyEventForm
+                                        mainForm={mainForm}
                                         modal={true}
                                         className={classes.modalform}
                                         save={values => {

@@ -18,7 +18,7 @@ import { withI18n, withStore } from "../../context";
 import { calendarEvents } from "../../api";
 
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
-import { fetchPatients, getPatients, getPatientsById } from "../PatientsList";
+import { fetchPatients, getPatients, getGenderInitial } from "../PatientsList";
 
 class CalendarEventForm extends React.Component {
     componentDidMount() {
@@ -106,14 +106,7 @@ const s2p = state => ({
         value: p.id,
         label: [p.name, p.code, p.notes].join(" ")
     })),
-    getGender: id => {
-        if (!id) return "";
-
-        const patient = getPatientsById(state)[id];
-        if (!patient) return "";
-
-        return patient.gender.toLowerCase()[0] || "";
-    }
+    getGender: id => getGenderInitial(state, id)
 });
 
 const d2p = {

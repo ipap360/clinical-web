@@ -36,18 +36,16 @@ export const getPatientsById = state => {
     return keyBy(getPatients(state), "id");
 };
 
-// TODO: FIX!!!
-export const getGenderInitial = state => patientId => {
-    const patient = patientId && getPatientsById(state)[patientId];
-    return patient && patient.gender ? patient.gender.toLowerCase()[0] : "";
+export const getGenderInitial = (state, id) => {
+    if (!id) return "";
+
+    const patient = getPatientsById(state)[id];
+    if (!patient) return "";
+
+    return patient.gender.toLowerCase()[0] || "";
 };
 
-const s2p = (state, ownProps) => ({
-    // submitSucceeded: hasSubmitSucceeded(MODULE_NAME)(state),
-    // TODO: FIX!!!
-    // disabledDate: false, // !selector(state, 'patient'),
-    // gender: getGender(state)
-});
+const s2p = (state, ownProps) => ({});
 
 const d2p = {
     fetchPatients

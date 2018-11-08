@@ -9,13 +9,15 @@ import {
     FormError,
     FormArea
 } from "../../components";
-import { withI18n } from "../../context";
+import { withI18n, withStore } from "../../context";
 
+import { getFormValue } from "../FormStateToRedux";
+import { getGenderInitial } from "../PatientsList";
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
 
 class CopyEventForm extends React.Component {
     render() {
-        const { t, save, className, description, gender = "" } = this.props;
+        const { t, save, className, description, gender } = this.props;
         return (
             <Form save={save} className={className}>
                 <FormRow>
@@ -44,4 +46,8 @@ class CopyEventForm extends React.Component {
     }
 }
 
-export default withI18n()(CopyEventForm);
+const s2p = (state, { mainForm }) => ({
+    gender: getGenderInitial(state, getFormValue(state, mainForm, "patient"))
+});
+
+export default withI18n()(withStore(s2p)(CopyEventForm));
