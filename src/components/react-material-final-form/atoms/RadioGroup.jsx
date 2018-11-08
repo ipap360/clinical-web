@@ -54,8 +54,23 @@ class RadioField extends React.Component {
             placeholder,
             required,
             value,
+            valueType = "string",
             ...other
         } = this.props;
+
+        const handleChange = (evt, value) => {
+            onChange.apply(this, [parseValue(value)]);
+        };
+
+        const parseValue = value => {
+            if (value === null) return value;
+            if (valueType === "integer") return parseInt(value, 10);
+            return value;
+        };
+
+        const formatValue = originalValue => {
+            return originalValue === null ? originalValue : `${originalValue}`;
+        };
 
         warning(
             Boolean(children),
@@ -88,8 +103,8 @@ class RadioField extends React.Component {
                     <RadioGroup
                         id={id}
                         name={name}
-                        value={value}
-                        onChange={onChange}
+                        value={formatValue(value)}
+                        onChange={handleChange}
                         row
                         {...RadioGroupProps}
                     >
@@ -97,7 +112,11 @@ class RadioField extends React.Component {
                     </RadioGroup>
                 </FormGroup>
                 {helperText && (
-                    <FormHelperText id={helperTextId} className={classes.formHelper} {...FormHelperTextProps}>
+                    <FormHelperText
+                        id={helperTextId}
+                        className={classes.formHelper}
+                        {...FormHelperTextProps}
+                    >
                         {helperText}
                     </FormHelperText>
                 )}
