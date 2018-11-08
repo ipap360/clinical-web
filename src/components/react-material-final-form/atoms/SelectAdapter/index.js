@@ -1,15 +1,15 @@
-import React from 'react'
-import Select from 'react-select'
-import DropdownIndicator from './DropdownIndicator'
-import Option from './Option'
-import customStyles from './Styles'
+import React from "react";
+import Select from "react-select";
+import DropdownIndicator from "./DropdownIndicator";
+import Option from "./Option";
+import customStyles from "./Styles";
 
 class SelectAdapter extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            options: [],
-        }
+            options: []
+        };
     }
 
     // componentDidMount(...args) {
@@ -18,11 +18,11 @@ class SelectAdapter extends React.Component {
     // }
 
     handleChange(value, meta) {
-        const { onChange } = this.props
+        const { onChange } = this.props;
         if (Array.isArray(value)) {
-            onChange.apply(this, [value.map(o => o.value)])
+            onChange.apply(this, [value.map(o => o.value)]);
         } else {
-            onChange.apply(this, [value && value.value])
+            onChange.apply(this, [value && value.value]);
         }
     }
 
@@ -39,32 +39,32 @@ class SelectAdapter extends React.Component {
     }
 
     getChildOptions() {
-        const { children } = this.props
+        const { children } = this.props;
         return (
             React.Children.map(children, child => {
-                const { value, children } = child.props
+                const { value, children } = child.props;
                 return {
                     value,
-                    label: children,
-                }
+                    label: children
+                };
             }) || []
-        )
+        );
     }
 
     getOptions() {
-        const { options = [] } = this.props
-        return [...options, ...this.getChildOptions(), ...this.state.options]
+        const { options = [] } = this.props;
+        return [...options, ...this.getChildOptions(), ...this.state.options];
     }
 
     getValue() {
-        const { value } = this.props
+        const { value } = this.props;
         return this.getOptions().filter(v => {
             if (Array.isArray(value)) {
-                return value.indexOf(v.value) >= 0
+                return value.indexOf(v.value) >= 0;
             } else {
-                return v.value === value
+                return v.value === value;
             }
-        })
+        });
     }
 
     render() {
@@ -76,17 +76,17 @@ class SelectAdapter extends React.Component {
             onFocus,
             // value,
             isMulti,
-            isDisabled,
-            menuPosition = 'absolute',
+            disabled,
+            menuPosition = "absolute"
             // ...other
-        } = this.props
+        } = this.props;
 
         return (
             <Select
                 value={this.getValue()}
                 components={{
                     Option,
-                    DropdownIndicator,
+                    DropdownIndicator
                 }}
                 name={name}
                 isMulti={isMulti}
@@ -103,14 +103,14 @@ class SelectAdapter extends React.Component {
                 onInputChange={this.handleInputChange.bind(this)}
                 onBlur={() => onBlur()}
                 onFocus={onFocus}
-                isDisabled={isDisabled}
+                isDisabled={disabled}
                 menuPlacement="auto"
             />
-        )
+        );
     }
 }
 
-SelectAdapter.Option = () => null
+SelectAdapter.Option = () => null;
 
 // TODO!!!
 // https://stackoverflow.com/questions/48564764/load-options-on-the-first-open-of-the-async-drop-down-menu
@@ -122,4 +122,4 @@ SelectAdapter.Option = () => null
 // https://deploy-preview-2289--react-select.netlify.com/props#api
 // https://stackoverflow.com/questions/50640858/react-select-does-not-clear-value-when-redux-form-is-reset
 
-export default SelectAdapter
+export default SelectAdapter;
