@@ -21,36 +21,38 @@ class CalendarTopBar extends Component {
             nextWeek,
             thisWeek
         } = this.props;
-        const { topbarTitle, topbarBody } = classes;
+        const { topbarBody } = classes;
         return (
-            <TopBar>
-                <TopBar.Title className={topbarTitle}>
-                    <IconButton
-                        variant="outlined"
-                        color="inherit"
-                        onClick={() => prevWeek()}
-                    >
-                        <Icon fontSize="inherit">arrow_left</Icon>
-                    </IconButton>
-                    <Typography color="inherit" variant="title">
-                        {periodTitle}
-                    </Typography>
-                    <IconButton
-                        variant="outlined"
-                        color="inherit"
-                        onClick={() => nextWeek()}
-                    >
-                        <Icon fontSize="inherit">arrow_right</Icon>
-                    </IconButton>
-                    <Button
-                        variant="outlined"
-                        color="inherit"
-                        onClick={() => thisWeek()}
-                    >
-                        <TTypography color="inherit">Today</TTypography>
-                    </Button>
-                </TopBar.Title>
-                <TopBar.Body>
+            <TopBar
+                title={
+                    <React.Fragment>
+                        <IconButton
+                            variant="outlined"
+                            color="inherit"
+                            onClick={() => prevWeek()}
+                        >
+                            <Icon fontSize="inherit">arrow_left</Icon>
+                        </IconButton>
+                        <Typography color="inherit" variant="title">
+                            {periodTitle}
+                        </Typography>
+                        <IconButton
+                            variant="outlined"
+                            color="inherit"
+                            onClick={() => nextWeek()}
+                        >
+                            <Icon fontSize="inherit">arrow_right</Icon>
+                        </IconButton>
+                        <Button
+                            variant="outlined"
+                            color="inherit"
+                            onClick={() => thisWeek()}
+                        >
+                            <TTypography color="inherit">Today</TTypography>
+                        </Button>
+                    </React.Fragment>
+                }
+                body={
                     <Paper className={topbarBody} square>
                         <Toolbar disableGutters>
                             {dates.map((d, i) => {
@@ -58,8 +60,8 @@ class CalendarTopBar extends Component {
                             })}
                         </Toolbar>
                     </Paper>
-                </TopBar.Body>
-            </TopBar>
+                }
+            />
         );
     }
 }

@@ -4,32 +4,40 @@ import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PROFILE, ROOT } from "../routes";
 import { TTypography, SimpleMenu, Link } from "../../components";
-import { withI18n, withRouter } from "../../context";
+import { withI18n, withRouter, compose } from "../../context";
 import { sessions } from "../../api";
 
 import styles from "./styles";
 
-const Title = () => null;
-const Body = () => null;
+// class Title extends React.Component {
+//     render() {
+//         return <div />;
+//     }
+// }
+// class Body extends React.Component {
+//     render() {
+//         return <div />;
+//     }
+// }
 
-const getName = component => {
-    return component.displayName || component.name;
-};
+// const getName = component => {
+//     return component.displayName || component.name;
+// };
 
-const getChildrenOfType = (children, component) => {
-    let result = [];
-    React.Children.forEach(children, child => {
-        const type = child && child.type && getName(child.type);
-        if (getName(component).includes(type)) {
-            if (Array.isArray(child.props.children)) {
-                result.push(...child.props.children);
-            } else if (typeof child.props.children === "object") {
-                result.push(child.props.children);
-            }
-        }
-    });
-    return result;
-};
+// const getChildrenOfType = (children, component) => {
+//     let result = [];
+//     React.Children.forEach(children, child => {
+//         const type = child && child.type && getName(child.type);
+//         if (getName(component).includes(type)) {
+//             if (Array.isArray(child.props.children)) {
+//                 result.push(...child.props.children);
+//             } else if (typeof child.props.children === "object") {
+//                 result.push(child.props.children);
+//             }
+//         }
+//     });
+//     return result;
+// };
 
 class TopBar extends React.Component {
     constructor(props) {
@@ -54,7 +62,7 @@ class TopBar extends React.Component {
     }
 
     render() {
-        const { classes, history, children = [], sidebar } = this.props;
+        const { classes, history, title, body, sidebar } = this.props;
         const {
             root,
             homeTrigger,
@@ -84,7 +92,8 @@ class TopBar extends React.Component {
                         Clinic Bed Management
                     </TTypography>
                     <Toolbar style={{ flex: "1 auto" }} disableGutters>
-                        {getChildrenOfType(children, Title)}
+                        {title}
+                        {/* {getChildrenOfType(children, Title)} */}
                     </Toolbar>
                     <SimpleMenu
                         label={<AccountCircle className={menuTrigger} />}
@@ -100,14 +109,19 @@ class TopBar extends React.Component {
                         [withSidebar]: !!sidebar
                     })}
                 >
-                    {getChildrenOfType(children, Body)}
+                    {body}
+                    {/* {getChildrenOfType(children, Body)} */}
                 </Toolbar>
             </AppBar>
         );
     }
 }
 
-TopBar.Title = Title;
-TopBar.Body = Body;
+// TopBar.Title = Title;
+// TopBar.Body = Body;
 
-export default withI18n()(withStyles(styles)(withRouter(TopBar)));
+export default compose(
+    withStyles(styles),
+    withRouter,
+    withI18n()
+)(TopBar);
