@@ -141,7 +141,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
 };
 
 export const formErrorHandler = data => {
-    if (data.errors) return { ...data.errors };
+    if (data.errors) throw { ...data.errors };
     throw data.message;
 };
 

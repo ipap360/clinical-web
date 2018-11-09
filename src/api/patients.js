@@ -7,9 +7,10 @@ export const query = ({ ...params }) => {
 };
 
 // CRUD
-export const view = id => net.get(API_ENDPOINT + "/" + id);
+export const view = id =>
+    net.get(API_ENDPOINT + "/" + id).catch(formErrorHandler);
 
-export const save = ({ id = 0, ...data }) => {
+export const save = (id = 0, { ...data }) => {
     return net.post(API_ENDPOINT + "/" + id, data).catch(formErrorHandler);
 };
 
