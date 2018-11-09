@@ -42,7 +42,7 @@ export const getGenderInitial = (state, id) => {
     const patient = getPatientsById(state)[id];
     if (!patient) return "";
 
-    return patient.gender.toLowerCase()[0] || "";
+    return patient.gender ? patient.gender.toLowerCase()[0] : "";
 };
 
 const s2p = (state, ownProps) => ({});
