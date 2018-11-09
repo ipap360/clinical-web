@@ -89,9 +89,9 @@ class Form extends React.Component {
     };
 
     setValue = (name, value) => {
-        const form = this.innerRef.current;
-        if (!form) return;
-        form.changeValue(name, value);
+        const finalform = this.innerRef.current;
+        if (!finalform) return;
+        finalform.form.change(name, value);
     };
 
     componentDidMount() {
