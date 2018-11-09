@@ -12,26 +12,31 @@ class NewCalendarEventSidebar extends React.Component {
         };
     }
 
-    openModal() {
+    openModal = () => {
         this.setState({
             modal: true
         });
-    }
+    };
 
-    closeModal() {
+    closeModal = () => {
         this.setState({
             modal: false
         });
-    }
+    };
+
+    onAddPatient = (...args) => {
+        this.closeModal();
+        const { onAddPatient } = this.props;
+        if (typeof onAddPatient === "function") onAddPatient(...args);
+    };
 
     render() {
         const { t, classes } = this.props;
-        const ref = this;
         return (
             <>
                 <div>
                     <Button
-                        onClick={this.openModal.bind(this)}
+                        onClick={this.openModal}
                         variant="contained"
                         fullWidth
                     >
@@ -41,7 +46,7 @@ class NewCalendarEventSidebar extends React.Component {
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                         open={this.state.modal}
-                        onClose={this.closeModal.bind(this)}
+                        onClose={this.closeModal}
                     >
                         <Paper square className={classes.modal}>
                             <div>
@@ -59,10 +64,7 @@ class NewCalendarEventSidebar extends React.Component {
                                     <PatientForm
                                         modal={true}
                                         className={classes.modalform}
-                                        onSubmitSuccess={args => {
-                                            console.log(this, ref, args);
-                                            ref.closeModal();
-                                        }}
+                                        onSaveSuccess={this.onAddPatient}
                                     />
                                 </Toolbar>
                             </div>

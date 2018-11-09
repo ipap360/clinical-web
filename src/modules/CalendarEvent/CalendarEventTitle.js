@@ -25,7 +25,9 @@ const getCalendarEventTitle = (state, form) => {
     const formattedDate = date ? moment(date).format("dddd DD MMMM") : "";
     const patients = getPatientsById(state);
     const p = patient && patients[patient];
-    return p ? [p.name, `[${p.code}]`, formattedDate].join(" ") : "";
+    return p
+        ? [p.name, p.code ? `[${p.code}]` : "", formattedDate].join(" ")
+        : "";
 };
 
 const s2p = (state, { form }) => ({

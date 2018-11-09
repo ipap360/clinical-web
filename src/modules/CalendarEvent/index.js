@@ -1,6 +1,7 @@
 import CalendarEventPage from "./CalendarEventPage";
 import { registerReducer } from "redux-dynamic-config";
 import { withStore } from "../../context";
+import { fetchPatients } from "../PatientsList";
 
 const MODULE_NAME = "calendarEvent";
 
@@ -15,6 +16,6 @@ registerReducer(MODULE_NAME, reducer);
 
 const s2p = state => ({});
 
-const d2p = {};
+const d2p = { fetchPatients };
 
-export default withStore(s2p, d2p)(CalendarEventPage);
+export default withStore(s2p, d2p, null, { withRef: true })(CalendarEventPage);

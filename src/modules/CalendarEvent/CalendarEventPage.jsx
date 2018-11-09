@@ -18,15 +18,20 @@ import { ROOT } from "../routes";
 import styles from "./styles";
 
 class CalendarEventPage extends React.Component {
-    constructor(props) {
-        super(props);
+    ceFrmRef = React.createRef();
 
-        this.state = {
-            patient: false,
-            postpone: false,
-            copy: false
-        };
-    }
+    onAddPatient = (patientForm, data) => {
+        // console.log(patientForm, data);
+        const ref = this.ceFrmRef.current;
+        if (ref != null) {
+            const calendarEventForm = ref.getWrappedInstance();
+            const innerRef = calendarEventForm.form.current;
+            if (innerRef) {
+                innerRef.setValue("patient", data.id);
+                this.props.fetchPatients();
+            }
+        }
+    };
 
     render() {
         const { t, classes, history, location, match } = this.props;
@@ -44,15 +49,17 @@ class CalendarEventPage extends React.Component {
 
         return (
             <React.Fragment>
-                <TopBar sidebar={true}>
-                    <TopBar.Body>
-                        <CalendarEventTitle form={formName} />
-                    </TopBar.Body>
-                </TopBar>
+                <TopBar
+                    sidebar={true}
+                    body={<CalendarEventTitle form={formName} />}
+                />
                 <SideBar>
                     <div className={classes.sidebar}>
                         {isNew ? (
-                            <NewCalendarEventSidebar classes={classes} />
+                            <NewCalendarEventSidebar
+                                classes={classes}
+                                onAddPatient={this.onAddPatient}
+                            />
                         ) : (
                             <ExistingCalendarEventSidebar
                                 classes={classes}
@@ -77,6 +84,7 @@ class CalendarEventPage extends React.Component {
                             suggestedValues={{
                                 ...(date ? { date } : null)
                             }}
+                            ref={this.ceFrmRef}
                         >
                             <FormStateToRedux form={formName} />
                         </CalendarEventForm>
