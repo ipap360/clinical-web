@@ -14,26 +14,22 @@ class Form extends React.Component {
             originalValues: undefined,
             initialValues: undefined
         };
+        this.innerRef = React.createRef();
     }
 
-    unpack(values) {
+    unpack = values => {
         const { postLoadFormat } = this.props;
         return postLoadFormat ? postLoadFormat(values) : values;
-    }
+    };
 
-    pack(values) {
+    pack = values => {
         const { preSaveFormat } = this.props;
         return preSaveFormat
             ? preSaveFormat(values, this.state.originalValues)
             : values;
-    }
+    };
 
-    getError(error) {
-        const msg = error && error.message;
-        return;
-    }
-
-    load() {
+    load = () => {
         const { id = 0, load } = this.props;
         if (typeof load !== "function" || id === 0) return;
         const ref = this;
@@ -50,24 +46,20 @@ class Form extends React.Component {
             .catch(error => {
                 ref.setState({
                     isLoading: false,
-                    failedToLoad: ref.getError(error),
+                    failedToLoad: error,
                     originalValues: {},
                     initialValues: {}
                 });
             });
-    }
+    };
 
-    save(values) {
+    save = values => {
         const { id, save, onSaveSuccess } = this.props;
         const saveValues = this.pack(values);
         const ref = this;
         return new Promise(resolve => {
             save(id, saveValues)
                 .then(response => {
-                    if (response) {
-                        resolve(response);
-                        return;
-                    }
                     // re-initialize
                     ref.setState(
                         {
@@ -77,24 +69,36 @@ class Form extends React.Component {
                         },
                         () => {
                             if (typeof onSaveSuccess === "function") {
-                                onSaveSuccess.apply(ref, [ref]);
+                                onSaveSuccess.apply(ref, [ref, response]);
                             }
                         }
                     );
                     resolve();
                 })
                 .catch(error => {
-                    // just in case sth has not been handled properly
-                    resolve({
-                        [FORM_ERROR]: error || "An unspecified error occurred"
-                    });
+                    if (typeof error === "object") {
+                        resolve(error);
+                    } else {
+                        resolve({
+                            [FORM_ERROR]:
+                                error || "An unspecified error occurred"
+                        });
+                    }
                 });
         });
-    }
+    };
+
+    setValue = (name, value) => {
+        const form = this.innerRef.current;
+        if (!form) return;
+        form.changeValue(name, value);
+    };
 
     componentDidMount() {
         this.load();
     }
+
+    componentWillUnmount() {}
 
     render() {
         const {
@@ -104,7 +108,7 @@ class Form extends React.Component {
             load,
             subscription = {},
             mutators = {},
-            // t = s => s,
+            t = s => s,
             suggestedValues = {},
             formProps = {},
             ...rest
@@ -117,10 +121,10 @@ class Form extends React.Component {
             savedSuccessfully
         } = this.state;
 
-        if (isLoading) return <Loader>{"Loading..."}</Loader>;
+        if (isLoading) return <Loader>{t("Loading...")}</Loader>;
 
         if (failedToLoad)
-            return <Retry action={this.load.bind(this)}>{failedToLoad}</Retry>;
+            return <Retry action={this.load}>{failedToLoad}</Retry>;
 
         const extraValues = !savedSuccessfully ? suggestedValues : {};
 
@@ -132,7 +136,7 @@ class Form extends React.Component {
                     ...initialValues,
                     ...extraValues
                 }}
-                onSubmit={this.save.bind(this)}
+                onSubmit={this.save}
                 mutators={{
                     setValues: (args, state, { changeValue }) => {
                         const values = args[0];
@@ -143,8 +147,10 @@ class Form extends React.Component {
                     },
                     ...mutators
                 }}
+                ref={this.innerRef}
             >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, form, ...other }) => {
+                    // console.log(other);
                     return (
                         <form
                             onSubmit={handleSubmit}
