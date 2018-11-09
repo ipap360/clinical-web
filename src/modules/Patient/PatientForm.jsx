@@ -17,14 +17,21 @@ import {
     FormArea
 } from "../../components";
 
-const PatientForm = ({ t, id = 0, modal = false, className }) => {
+const PatientForm = ({
+    t,
+    id = 0,
+    modal = false,
+    className,
+    onSaveSuccess
+}) => {
     return (
         <Form
             id={id}
             load={patients.view}
             save={patients.save}
             className={className}
-            formProps={{ novalidate: "novalidate" }}
+            onSaveSuccess={onSaveSuccess}
+            formProps={{ noValidate: "novalidate" }}
         >
             <FormRow>
                 <FormText
