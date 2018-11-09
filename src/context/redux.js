@@ -2,6 +2,7 @@ import React from "react";
 import { Provider, connect } from "react-redux";
 import configureStore, { registerReducer } from "redux-dynamic-config";
 import config from "../app.config";
+export { compose } from "redux";
 
 const { appName } = config;
 
