@@ -96,4 +96,6 @@ const CalendarDayTitle = ({ classes, d, history }) => {
     );
 };
 
-export default consume({ styles, router: true })(CalendarDayTitle);
+export default consume({ styles, router: true, store: false })(
+    CalendarDayTitle
+);

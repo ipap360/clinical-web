@@ -33,7 +33,7 @@ class CalendarEventForm extends React.Component {
 
     render() {
         const {
-            t = s => s,
+            t,
             className,
             id,
             patients,
@@ -122,11 +122,6 @@ const s2p = state => ({
 const d2p = {
     fetchPatients
 };
-
-// export default withI18n()(
-//     withStore(s2p, d2p, null, { withRef: true })()
-// );
-// export default withStore(s2p, d2p, null, { withRef: true })(CalendarEventForm);
 
 const store = { s2p, d2p, opts: { withRef: true } };
 export default consume({ store })(CalendarEventForm);

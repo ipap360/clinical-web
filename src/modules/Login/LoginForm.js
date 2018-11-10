@@ -15,13 +15,10 @@ import { consume } from "../../context";
 import classNames from "classnames";
 import { formStyles as styles } from "../../components";
 
-const LoginForm = ({ t, classes, className, sessionUpdated }) => (
+const LoginForm = ({ t, classes, className }) => (
     <Form
         save={(id, values) => sessions.login(values)}
         className={classNames(classes.form, className)}
-        onSubmitSuccess={args => {
-            console.log(args);
-        }}
     >
         <FormRow>
             <FormText
