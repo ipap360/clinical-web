@@ -10,13 +10,20 @@ export default theme => ({
         position: "relative",
         backgroundColor: "#e4eb30",
         // color: theme.palette.getContrastText('#e4eb30'),
-        padding: theme.spacing.unit * 2,
+        padding: `10px ${theme.spacing.unit * 2}px`,
         width: "100%"
     },
     title: {
         whiteSpace: "nowrap",
         overflow: "hidden",
-        textOverflow: "ellipsis"
+        textOverflow: "ellipsis",
+        marginTop: 10
+    },
+    subtitle: {
+        position: "absolute",
+        top: 0,
+        lineHeight: "1em",
+        margin: "6px 1px"
     },
     modal: {
         height: 500,

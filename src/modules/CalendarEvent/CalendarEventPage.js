@@ -53,7 +53,7 @@ class CalendarEventPage extends React.Component {
             <React.Fragment>
                 <TopBar
                     sidebar={true}
-                    body={<CalendarEventTitle form={formName} />}
+                    body={<CalendarEventTitle form={formName} isNew={isNew} />}
                 />
                 <SideBar>
                     <div className={classes.sidebar}>

@@ -1,17 +1,24 @@
 import React, { Component } from "react";
-import { Toolbar, Typography, withStyles } from "@material-ui/core";
+import { Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 import { consume } from "../../context";
 import { getFormValue } from "../FormStateToRedux";
 import { getPatientsById } from "../PatientsList";
+import classNames from "classnames";
 import styles from "./styles";
 
 class CalendarEventTitle extends Component {
     render() {
-        const { title, classes } = this.props;
+        const { title, isNew, classes, t } = this.props;
         return (
             <Toolbar className={classes.header} disableGutters>
-                <Typography variant="headline" className={classes.title}>
+                <Typography
+                    variant={!!title ? "overline" : "h5"}
+                    className={classNames({ [classes.subtitle]: !!title })}
+                >
+                    {isNew ? t("New Appointment") : t("Edit Appointment")}
+                </Typography>
+                <Typography variant="h5" className={classes.title}>
                     {title}
                 </Typography>
             </Toolbar>
