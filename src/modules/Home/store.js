@@ -46,26 +46,29 @@ const state0 = {
 };
 
 const reducer = (state = state0, { type, payload }) => {
+    const current = state.selected.clone();
     switch (type) {
         case PREV_WEEK:
-            const prev = state.selected.clone().subtract(1, "w");
             return {
                 ...state,
-                selected: prev,
+                selected: current.subtract(1, "w"),
                 events: []
             };
         case NEXT_WEEK:
-            const next = state.selected.clone().add(1, "w");
             return {
                 ...state,
-                selected: next,
+                selected: current.add(1, "w"),
                 events: []
             };
         case THIS_WEEK:
             return {
                 ...state,
                 selected: moment(),
-                events: []
+                events: moment()
+                    .startOf("day")
+                    .isSame(current.startOf("day"))
+                    ? state.events
+                    : []
             };
         case FETCH_AVAILABILITY._:
             return { ...state, loading: true, error: false };
