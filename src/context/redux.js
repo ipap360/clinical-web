@@ -1,8 +1,8 @@
 import React from "react";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 import configureStore, { registerReducer } from "redux-dynamic-config";
 import config from "../app.config";
-export { compose } from "redux";
+// export { compose } from "redux";
 
 const { appName } = config;
 
@@ -15,4 +15,4 @@ export default Component => props => (
     </Provider>
 );
 
-export const withStore = connect;
+// export const withStore = connect;

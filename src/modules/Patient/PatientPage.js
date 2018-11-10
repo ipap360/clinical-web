@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { consume } from "../../context";
 
 class PatientPage extends Component {
     componentDidMount() {}
@@ -10,4 +11,4 @@ class PatientPage extends Component {
     }
 }
 
-export default PatientPage;
+export default consume()(PatientPage);

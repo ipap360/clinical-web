@@ -1,6 +1,6 @@
 import { registerReducer } from "redux-dynamic-config";
 
-import { withStore } from "../../context";
+import { consume } from "../../context";
 import { createActionName, createAsyncAction, setOK } from "../../utils";
 import { roomAvailability } from "../../api";
 
@@ -54,5 +54,5 @@ const s2p = (state, ownProps) => ({
 });
 
 const d2p = { fetchAvailability };
-
-export default withStore(s2p, d2p)(DatePickerWithAvailability);
+const store = { s2p, d2p };
+export default consume({ store })(DatePickerWithAvailability);

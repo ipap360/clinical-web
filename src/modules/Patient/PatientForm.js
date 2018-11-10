@@ -1,6 +1,6 @@
 import React from "react";
 import { patients } from "../../api";
-import { withI18n } from "../../context";
+import { consume } from "../../context";
 import { data } from "../../utils";
 
 import {
@@ -80,4 +80,4 @@ const PatientForm = ({
     );
 };
 
-export default withI18n()(PatientForm);
+export default consume()(PatientForm);

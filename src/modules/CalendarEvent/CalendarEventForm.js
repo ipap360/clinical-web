@@ -14,7 +14,7 @@ import {
     FormArea
 } from "../../components";
 
-import { withI18n, withStore, compose } from "../../context";
+import { consume } from "../../context";
 import { calendarEvents } from "../../api";
 
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
@@ -128,7 +128,5 @@ const d2p = {
 // );
 // export default withStore(s2p, d2p, null, { withRef: true })(CalendarEventForm);
 
-export default compose(
-    withStore(s2p, d2p, null, { withRef: true }),
-    withI18n()
-)(CalendarEventForm);
+const store = { s2p, d2p, opts: { withRef: true } };
+export default consume({ store })(CalendarEventForm);

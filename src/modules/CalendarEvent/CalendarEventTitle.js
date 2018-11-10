@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Toolbar, Typography, withStyles } from "@material-ui/core";
 import moment from "moment";
-import { withStore } from "../../context";
+import { consume } from "../../context";
 import { getFormValue } from "../FormStateToRedux";
 import { getPatientsById } from "../PatientsList";
 import styles from "./styles";
@@ -34,4 +34,5 @@ const s2p = (state, { form }) => ({
     title: getCalendarEventTitle(state, form)
 });
 
-export default withStore(s2p)(withStyles(styles)(CalendarEventTitle));
+const store = { s2p };
+export default consume({ store, styles })(CalendarEventTitle);

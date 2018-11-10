@@ -25,7 +25,6 @@ const SessionContext = React.createContext("session");
 
 class App extends React.Component {
     constructor(props) {
-        console.log("App wtf?");
         super(props);
         this.state = {
             ...sessions.init

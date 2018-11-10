@@ -9,7 +9,7 @@ import {
     FormError,
     FormArea
 } from "../../components";
-import { withI18n, withStore } from "../../context";
+import { consume } from "../../context";
 
 import { getFormValue } from "../FormStateToRedux";
 import { getGenderInitial } from "../PatientsList";
@@ -50,4 +50,4 @@ const s2p = (state, { mainForm }) => ({
     gender: getGenderInitial(state, getFormValue(state, mainForm, "patient"))
 });
 
-export default withI18n()(withStore(s2p)(CopyEventForm));
+export default consume()(CopyEventForm);

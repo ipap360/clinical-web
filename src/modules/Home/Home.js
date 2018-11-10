@@ -6,12 +6,22 @@ import Main from "../Main";
 import { CALENDAR_EVENT } from "../routes";
 
 import CalendarTopBar from "./CalendarTopBar";
-// import CalendarHeader from "./CalendarHeader";
 import CalendarEventBar from "./CalendarEventBar";
 
-import { withStyles } from "@material-ui/core";
-// import moment from "moment";
 import styles from "./styles";
+import {
+    hasCalendarError,
+    isCalendarLoading,
+    getCalendarDates,
+    getCalendarEvents,
+    getDatePeriodTitle,
+    fetchCalendarEvents,
+    fetchAvailability,
+    prevWeek,
+    nextWeek,
+    thisWeek
+} from "./store";
+import { consume } from "../../context";
 
 class Home extends Component {
     componentDidMount() {
@@ -95,4 +105,21 @@ class Home extends Component {
     }
 }
 
-export default withStyles(styles)(Home);
+const s2p = state => ({
+    error: hasCalendarError(state),
+    loading: isCalendarLoading(state),
+    dates: getCalendarDates(state),
+    events: getCalendarEvents(state),
+    periodTitle: getDatePeriodTitle(state)
+});
+
+const d2p = {
+    fetchCalendarEvents,
+    fetchAvailability,
+    prevWeek,
+    nextWeek,
+    thisWeek
+};
+
+const store = { s2p, d2p };
+export default consume({ store, styles })(Home);

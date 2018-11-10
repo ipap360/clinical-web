@@ -1,6 +1,5 @@
 import React from "react";
 import { withStyles, Paper, Typography } from "@material-ui/core";
-// import { TTypography } from "../../components";
 import classNames from "classnames";
 import { CALENDAR_EVENT } from "../routes";
 
@@ -77,7 +76,7 @@ const styles = theme => ({
     }
 });
 
-export default withStyles(styles)(({ classes, t, data, history }) => {
+export default withStyles(styles)(({ classes, data, history }) => {
     const { id, start, end, patientNotes, name, code, eventNotes } = data;
 
     const patient = [name, code, patientNotes].join(" ");
@@ -104,8 +103,6 @@ export default withStyles(styles)(({ classes, t, data, history }) => {
                 gridRowEnd: span2 ? "span 2" : null
             }}
         >
-            {/* {gender === 'MALE' && <i class="fas fa-male"></i>} */}
-            {/* {gender === 'FEMALE' && <i class="fas fa-female"></i>} */}
             <Typography
                 color="inherit"
                 variant="body1"

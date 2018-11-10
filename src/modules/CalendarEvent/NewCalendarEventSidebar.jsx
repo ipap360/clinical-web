@@ -1,5 +1,5 @@
 import React from "react";
-import { withI18n, withRouter } from "../../context";
+import { consume } from "../../context";
 import { TTypography } from "../../components";
 import { PatientForm } from "../Patient";
 import { AppBar, Toolbar, Paper, Modal, Button } from "@material-ui/core";
@@ -76,4 +76,4 @@ class NewCalendarEventSidebar extends React.Component {
     }
 }
 
-export default withI18n()(withRouter(NewCalendarEventSidebar));
+export default consume({ router: true })(NewCalendarEventSidebar);

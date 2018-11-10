@@ -1,5 +1,5 @@
 import React from "react";
-import { withI18n, withRouter } from "../../context";
+import { consume } from "../../context";
 import { TTypography } from "../../components";
 
 import CopyEventForm from "./CopyEventForm";
@@ -133,4 +133,4 @@ class ExistingCalendarEventSidebar extends React.Component {
     }
 }
 
-export default withI18n()(withRouter(ExistingCalendarEventSidebar));
+export default consume({ router: true })(ExistingCalendarEventSidebar);

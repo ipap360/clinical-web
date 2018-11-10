@@ -1,8 +1,8 @@
 import React from "react";
-import { withI18n, withRouter } from "../../context";
+import { consume } from "../../context";
 
 import Main from "../Main";
-import { withStyles, Paper, Button } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 
 import TopBar from "../TopBar";
 import SideBar from "../SideBar";
@@ -12,6 +12,8 @@ import FormStateToRedux from "../FormStateToRedux";
 import CalendarEventTitle from "./CalendarEventTitle";
 import NewCalendarEventSidebar from "./NewCalendarEventSidebar";
 import ExistingCalendarEventSidebar from "./ExistingCalendarEventSidebar";
+
+import { fetchPatients } from "../PatientsList";
 
 import { ROOT } from "../routes";
 
@@ -95,4 +97,8 @@ class CalendarEventPage extends React.Component {
     }
 }
 
-export default withI18n()(withStyles(styles)(withRouter(CalendarEventPage)));
+const d2p = { fetchPatients };
+const opts = { withRef: true };
+export default consume({ store: { d2p, opts }, styles, router: true })(
+    CalendarEventPage
+);

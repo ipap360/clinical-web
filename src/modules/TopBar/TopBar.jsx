@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import { AppBar, Toolbar, IconButton, withStyles } from "@material-ui/core";
 import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PROFILE, ROOT } from "../routes";
 import { TTypography, SimpleMenu, Link } from "../../components";
-import { withI18n, withRouter, compose } from "../../context";
+import { consume } from "../../context";
 import { sessions } from "../../api";
 
 import styles from "./styles";
@@ -39,7 +39,10 @@ import styles from "./styles";
 //     return result;
 // };
 
-class TopBar extends React.Component {
+const Title = ({ children }) => <Fragment>{children}</Fragment>;
+const Body = ({ children }) => <Fragment>{children}</Fragment>;
+
+class TopBar extends Component {
     constructor(props) {
         super(props);
         const { t } = props;
@@ -117,11 +120,7 @@ class TopBar extends React.Component {
     }
 }
 
-// TopBar.Title = Title;
-// TopBar.Body = Body;
+TopBar.Title = Title;
+TopBar.Body = Body;
 
-export default compose(
-    withStyles(styles),
-    withRouter,
-    withI18n()
-)(TopBar);
+export default consume({ router: true, styles })(TopBar);

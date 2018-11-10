@@ -1,6 +1,6 @@
 import React from "react";
 import loginPhoto from "../../assets/images/login.jpg";
-import LoginForm from "../LoginForm";
+import LoginForm from "./LoginForm";
 import styles from "./styles";
 // import { SIGNUP } from '../paths';
 

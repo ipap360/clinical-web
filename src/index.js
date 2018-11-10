@@ -9,9 +9,9 @@ import "moment/locale/el";
 import registerServiceWorker from "./registerServiceWorker";
 
 import Root from "./modules";
-import { DateUtils, Theme, Store, I18n } from "./context";
+import { provide } from "./context";
 
-const App = DateUtils(Theme(I18n(Store(Root))));
+const App = provide(Root);
 
 render(<App />, document.getElementById("root"));
 
