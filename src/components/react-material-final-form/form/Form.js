@@ -149,8 +149,7 @@ class Form extends React.Component {
                 }}
                 ref={this.innerRef}
             >
-                {({ handleSubmit, form, ...other }) => {
-                    // console.log(other);
+                {({ handleSubmit }) => {
                     return (
                         <form
                             onSubmit={handleSubmit}
