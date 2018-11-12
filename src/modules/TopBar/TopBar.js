@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import { AppBar, Toolbar, IconButton, withStyles } from "@material-ui/core";
+import React, { Component } from "react";
+import { AppBar, Toolbar, IconButton } from "@material-ui/core";
 import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PROFILE, ROOT } from "../routes";
@@ -8,39 +8,6 @@ import { consume } from "../../context";
 import { sessions } from "../../api";
 
 import styles from "./styles";
-
-// class Title extends React.Component {
-//     render() {
-//         return <div />;
-//     }
-// }
-// class Body extends React.Component {
-//     render() {
-//         return <div />;
-//     }
-// }
-
-// const getName = component => {
-//     return component.displayName || component.name;
-// };
-
-// const getChildrenOfType = (children, component) => {
-//     let result = [];
-//     React.Children.forEach(children, child => {
-//         const type = child && child.type && getName(child.type);
-//         if (getName(component).includes(type)) {
-//             if (Array.isArray(child.props.children)) {
-//                 result.push(...child.props.children);
-//             } else if (typeof child.props.children === "object") {
-//                 result.push(child.props.children);
-//             }
-//         }
-//     });
-//     return result;
-// };
-
-const Title = ({ children }) => <Fragment>{children}</Fragment>;
-const Body = ({ children }) => <Fragment>{children}</Fragment>;
 
 class TopBar extends Component {
     constructor(props) {
@@ -96,7 +63,6 @@ class TopBar extends Component {
                     </TTypography>
                     <Toolbar style={{ flex: "1 auto" }} disableGutters>
                         {title}
-                        {/* {getChildrenOfType(children, Title)} */}
                     </Toolbar>
                     <SimpleMenu
                         label={<AccountCircle className={menuTrigger} />}
@@ -113,14 +79,10 @@ class TopBar extends Component {
                     })}
                 >
                     {body}
-                    {/* {getChildrenOfType(children, Body)} */}
                 </Toolbar>
             </AppBar>
         );
     }
 }
-
-TopBar.Title = Title;
-TopBar.Body = Body;
 
 export default consume({ router: true, styles })(TopBar);
