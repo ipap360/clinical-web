@@ -9,7 +9,7 @@ export default theme => ({
         display: "grid",
         // 14.2857% 1fr
         gridTemplateColumns: "repeat(7, calc(14.2857% - 4px) [column])",
-        gridAutoRows: "30px",
+        gridAutoRows: "22px",
         gridColumnGap: `${theme.spacing.unit / 2}px`,
         gridRowGap: `${theme.spacing.unit / 2}px`,
         gridAutoFlow: "dense"

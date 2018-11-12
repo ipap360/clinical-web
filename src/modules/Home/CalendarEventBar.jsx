@@ -10,7 +10,7 @@ const styles = theme => ({
         padding: "3px 6px",
         backgroundColor: theme.palette.primary.main,
         alignSelf: "flex-start",
-        minHeight: "30px",
+        minHeight: "22px",
         display: "flex",
         alignItems: "center",
         color: theme.palette.getContrastText(theme.palette.primary.main),
@@ -105,7 +105,7 @@ export default withStyles(styles)(({ classes, data, history }) => {
         >
             <Typography
                 color="inherit"
-                variant="body1"
+                variant="caption"
                 style={{ whiteSpace: !span2 ? "nowrap" : null }}
                 title={text}
             >
