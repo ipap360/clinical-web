@@ -1,8 +1,8 @@
 import React from "react";
 import { consume } from "../../context";
-import { TTypography } from "../../components";
+import { ModalFormContainer } from "../../components";
 import { PatientForm } from "../Patient";
-import { AppBar, Toolbar, Paper, Modal, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 class NewCalendarEventSidebar extends React.Component {
     constructor(props) {
@@ -42,34 +42,17 @@ class NewCalendarEventSidebar extends React.Component {
                     >
                         {t("New Patient")}
                     </Button>
-                    <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
+                    <ModalFormContainer
                         open={this.state.modal}
                         onClose={this.closeModal}
+                        title={t("New Patient")}
                     >
-                        <Paper square className={classes.modal}>
-                            <div>
-                                <AppBar position="static">
-                                    <Toolbar>
-                                        <TTypography
-                                            variant="title"
-                                            color="inherit"
-                                        >
-                                            New Patient
-                                        </TTypography>
-                                    </Toolbar>
-                                </AppBar>
-                                <Toolbar>
-                                    <PatientForm
-                                        modal={true}
-                                        className={classes.modalform}
-                                        onSaveSuccess={this.onAddPatient}
-                                    />
-                                </Toolbar>
-                            </div>
-                        </Paper>
-                    </Modal>
+                        <PatientForm
+                            modal={true}
+                            className={classes.modalform}
+                            onSaveSuccess={this.onAddPatient}
+                        />
+                    </ModalFormContainer>
                 </div>
             </>
         );

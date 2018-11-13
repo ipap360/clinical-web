@@ -42,5 +42,9 @@
     "New Patient": "Νέος Ασθενής",
     "New Admission": "Προσθήκη Εισαγωγής",
     "New Calendar Event": "Νέα εισαγωγή",
+    "Are you sure you want to delete this appointment?": "Θέλετε σίγουρα να διαγράψετε αυτό το ραντεβού;",
+    "Delete": "Διαγραφή",
+    "Yes": "Ναι",
+    "No": "Όχι",
     "Did you forget your email or password?": "Ξεχάσατε τα στοιχεία εισόδου σας;"
 }

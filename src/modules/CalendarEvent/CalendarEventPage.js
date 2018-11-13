@@ -1,8 +1,11 @@
 import React from "react";
+import { Redirect } from "react-router";
 import { consume } from "../../context";
 
 import Main from "../Main";
-import { Paper, Button } from "@material-ui/core";
+import { Paper, Button, Divider } from "@material-ui/core";
+
+import { RichButton } from "../../components";
 
 import TopBar from "../TopBar";
 import SideBar from "../SideBar";
@@ -18,6 +21,7 @@ import { fetchPatients } from "../PatientsList";
 import { ROOT } from "../routes";
 
 import styles from "./styles";
+import { getDeleted } from "./store";
 
 class CalendarEventPage extends React.Component {
     ceFrmRef = React.createRef();
@@ -36,7 +40,15 @@ class CalendarEventPage extends React.Component {
     };
 
     render() {
-        const { t, classes, history, location, match } = this.props;
+        const {
+            t,
+            classes,
+            history,
+            location,
+            match,
+            isDeleted,
+            caller = "/"
+        } = this.props;
 
         const {
             params: { id }
@@ -44,6 +56,11 @@ class CalendarEventPage extends React.Component {
 
         // eslint-disable-next-line
         const calendarEventId = parseInt(id, 10);
+
+        if (isDeleted(calendarEventId)) {
+            return <Redirect to={caller} />;
+        }
+
         const isNew = calendarEventId === 0;
 
         const date = location.state && location.state.date;
@@ -57,6 +74,17 @@ class CalendarEventPage extends React.Component {
                 />
                 <SideBar>
                     <div className={classes.sidebar}>
+                        <div>
+                            <RichButton
+                                icon="fas fa-arrow-left"
+                                fullWidth
+                                onClick={() => history.go(-1)}
+                                variant="outlined"
+                            >
+                                {t("Back")}
+                            </RichButton>
+                        </div>
+                        <Divider />
                         {isNew ? (
                             <NewCalendarEventSidebar
                                 classes={classes}
@@ -65,14 +93,10 @@ class CalendarEventPage extends React.Component {
                         ) : (
                             <ExistingCalendarEventSidebar
                                 classes={classes}
+                                calendarEventId={calendarEventId}
                                 mainForm={formName}
                             />
                         )}
-                        <div>
-                            <Button fullWidth onClick={() => history.go(-1)}>
-                                {t("Back")}
-                            </Button>
-                        </div>
                     </div>
                 </SideBar>
                 <Main sidebar={true}>
@@ -97,8 +121,11 @@ class CalendarEventPage extends React.Component {
     }
 }
 
+const s2p = state => ({
+    isDeleted: id => getDeleted(state).indexOf(id) >= 0
+});
 const d2p = { fetchPatients };
 const opts = { withRef: true };
-export default consume({ store: { d2p, opts }, styles, router: true })(
+export default consume({ store: { s2p, d2p, opts }, styles, router: true })(
     CalendarEventPage
 );

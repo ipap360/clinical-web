@@ -25,23 +25,9 @@ export default theme => ({
         lineHeight: "1em",
         margin: "6px 1px"
     },
-    modal: {
-        height: 500,
-        width: 600,
-        overflowY: "auto",
-        marginTop: -250,
-        top: "50%",
-        position: "absolute",
-        left: "50%",
-        marginLeft: -300,
-        "&.short": {
-            height: 300
-        }
-    },
     form: {
         width: 600
     },
-    modalform: {},
     sidebar: {
         display: "flex",
         "flex-direction": "column",
@@ -51,7 +37,7 @@ export default theme => ({
         "margin-top": "32px",
         "margin-left": theme.spacing.unit,
         "& > div": {
-            marginBottom: theme.spacing.unit * 3
+            margin: `${theme.spacing.unit * 1.5}px 0`
         }
     }
 });

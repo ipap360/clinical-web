@@ -4,7 +4,7 @@ export default theme => {
         root: {
             "& > div": {
                 width: drawerWidth - theme.spacing.unit,
-                padding: theme.spacing.unit * 4,
+                padding: `0 ${theme.spacing.unit * 4}px`,
                 // position: "relative",
                 borderRight: "none"
             }

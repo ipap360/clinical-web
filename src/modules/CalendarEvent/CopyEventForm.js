@@ -17,9 +17,20 @@ import DatePickerWithAvailability from "../DatePickerWithAvailability";
 
 class CopyEventForm extends React.Component {
     render() {
-        const { t, save, className, description, gender } = this.props;
+        const {
+            t,
+            save,
+            className,
+            description,
+            gender,
+            onSaveSuccess
+        } = this.props;
         return (
-            <Form save={save} className={className}>
+            <Form
+                save={save}
+                className={className}
+                onSaveSuccess={onSaveSuccess}
+            >
                 <FormRow>
                     <DatePickerWithAvailability
                         name="date"
