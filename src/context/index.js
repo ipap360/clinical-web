@@ -1,9 +1,9 @@
 import { default as DateUtils, withDateUtils } from "./dates";
 import { default as I18n, withI18n } from "./i18n";
 import { default as Store } from "./redux";
-import { default as Theme, withTheme } from "./theme";
+import { default as Theme } from "./theme";
 import { withRouter } from "react-router";
-import { withStyles } from "@material-ui/core";
+import { withStyles, withTheme } from "@material-ui/core";
 import { connect } from "react-redux";
 import { compose } from "redux";
 

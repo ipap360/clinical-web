@@ -1,12 +1,16 @@
 import React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { CssBaseline, colors } from "@material-ui/core";
-export { withTheme } from "@material-ui/core";
 
 const { teal, red } = colors;
 const config = {
     overrides: {
-        MuiToolbar: {}
+        MuiToolbar: {},
+        MuiDivider: {
+            root: {
+                margin: "8px 0"
+            }
+        }
     },
     palette: {
         primary: {
