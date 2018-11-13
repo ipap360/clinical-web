@@ -47,7 +47,7 @@ export const createAsyncAction = (action, api) => (
     meta
 ) => dispatch => {
     const type = typeof action === "object" ? action._ : action;
-    dispatch({ type });
+    dispatch({ type, payload: params });
     api(params)
         .then(response => {
             dispatch({
