@@ -27,7 +27,6 @@ class CalendarEventPage extends React.Component {
     ceFrmRef = React.createRef();
 
     onAddPatient = (patientForm, data) => {
-        // console.log(patientForm, data);
         const ref = this.ceFrmRef.current;
         if (ref != null) {
             const calendarEventForm = ref.getWrappedInstance();
