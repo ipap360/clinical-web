@@ -39,5 +39,15 @@ export default theme => ({
         "& > div": {
             margin: `${theme.spacing.unit * 1.5}px 0`
         }
+    },
+    sideMsg: {
+        fontSize: 24,
+        textAlign: "center"
+    },
+    sideCopied: {
+        color: theme.palette.primary.main
+    },
+    sidePostponed: {
+        color: theme.palette.error.main
     }
 });

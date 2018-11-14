@@ -54,7 +54,7 @@ class Form extends React.Component {
     };
 
     save = values => {
-        const { id, save, onSaveSuccess } = this.props;
+        const { id = 0, save, onSaveSuccess } = this.props;
         const saveValues = this.pack(values);
         const ref = this;
         return new Promise(resolve => {

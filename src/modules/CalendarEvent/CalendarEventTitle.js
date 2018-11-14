@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Toolbar, Typography } from "@material-ui/core";
-import moment from "moment";
+
 import { consume } from "../../context";
-import { getFormValue } from "../FormStateToRedux";
-import { getPatientsById } from "../PatientsList";
+
 import classNames from "classnames";
 import styles from "./styles";
+import { getCalendarEventTitle } from "./store";
 
 class CalendarEventTitle extends Component {
     render() {
@@ -25,17 +25,6 @@ class CalendarEventTitle extends Component {
         );
     }
 }
-
-const getCalendarEventTitle = (state, form) => {
-    const patient = getFormValue(state, form, "patient");
-    const date = getFormValue(state, form, "date") || "";
-    const formattedDate = date ? moment(date).format("dddd DD MMMM") : "";
-    const patients = getPatientsById(state);
-    const p = patient && patients[patient];
-    return p
-        ? [p.name, p.code ? `[${p.code}]` : "", formattedDate].join(" ")
-        : "";
-};
 
 const s2p = (state, { form }) => ({
     title: getCalendarEventTitle(state, form)

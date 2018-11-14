@@ -21,7 +21,7 @@ import { fetchPatients } from "../PatientsList";
 import { ROOT } from "../routes";
 
 import styles from "./styles";
-import { getDeleted } from "./store";
+import { getDeleted, getIsDisabled, getIsMounted } from "./store";
 
 class CalendarEventPage extends React.Component {
     ceFrmRef = React.createRef();
@@ -39,6 +39,17 @@ class CalendarEventPage extends React.Component {
         }
     };
 
+    onCopyOrPostpone = (copyForm, data) => {
+        const ref = this.ceFrmRef.current;
+        if (ref != null) {
+            const calendarEventForm = ref.getWrappedInstance();
+            const innerRef = calendarEventForm.form.current;
+            if (innerRef) {
+                innerRef.load();
+            }
+        }
+    };
+
     render() {
         const {
             t,
@@ -47,6 +58,8 @@ class CalendarEventPage extends React.Component {
             location,
             match,
             isDeleted,
+            isDisabled,
+            isMounted,
             caller = "/"
         } = this.props;
 
@@ -85,18 +98,20 @@ class CalendarEventPage extends React.Component {
                             </RichButton>
                         </div>
                         <Divider />
-                        {isNew ? (
-                            <NewCalendarEventSidebar
-                                classes={classes}
-                                onAddPatient={this.onAddPatient}
-                            />
-                        ) : (
-                            <ExistingCalendarEventSidebar
-                                classes={classes}
-                                calendarEventId={calendarEventId}
-                                mainForm={formName}
-                            />
-                        )}
+                        {isMounted(formName) &&
+                            (isNew ? (
+                                <NewCalendarEventSidebar
+                                    classes={classes}
+                                    onAddPatient={this.onAddPatient}
+                                />
+                            ) : (
+                                <ExistingCalendarEventSidebar
+                                    classes={classes}
+                                    calendarEventId={calendarEventId}
+                                    mainForm={formName}
+                                    onCopyOrPostpone={this.onCopyOrPostpone}
+                                />
+                            ))}
                     </div>
                 </SideBar>
                 <Main sidebar={true}>
@@ -111,6 +126,7 @@ class CalendarEventPage extends React.Component {
                                 ...(date ? { date } : null)
                             }}
                             ref={this.ceFrmRef}
+                            disabled={isDisabled(formName)}
                         >
                             <FormStateToRedux form={formName} />
                         </CalendarEventForm>
@@ -122,7 +138,9 @@ class CalendarEventPage extends React.Component {
 }
 
 const s2p = state => ({
-    isDeleted: id => getDeleted(state).indexOf(id) >= 0
+    isDeleted: id => getDeleted(state).indexOf(id) >= 0,
+    isDisabled: form => getIsDisabled(state, form),
+    isMounted: form => getIsMounted(state, form)
 });
 const d2p = { fetchPatients };
 const opts = { withRef: true };

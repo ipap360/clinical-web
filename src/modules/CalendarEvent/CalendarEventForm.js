@@ -1,5 +1,6 @@
 import React from "react";
 import { FormSpy } from "react-final-form";
+import { Field } from "react-final-form";
 
 import {
     Form,
@@ -19,6 +20,25 @@ import { calendarEvents } from "../../api";
 
 import DatePickerWithAvailability from "../DatePickerWithAvailability";
 import { fetchPatients, getPatients, getGenderInitial } from "../PatientsList";
+
+const FieldValues = ({ names = [], children, values = {} }) => {
+    const [name, ...rest] = names;
+    return name ? (
+        <Field name={name}>
+            {({ input: { value } }) => {
+                return (
+                    <FieldValues
+                        names={rest}
+                        children={children}
+                        values={{ [name]: value, ...values }}
+                    />
+                );
+            }}
+        </Field>
+    ) : (
+        children(values)
+    );
+};
 
 class CalendarEventForm extends React.Component {
     constructor(props) {
@@ -40,10 +60,12 @@ class CalendarEventForm extends React.Component {
             getGender,
             onSaveSuccess,
             children,
+            disabled,
             ...props
         } = this.props;
 
         const isNew = id === 0;
+
         return (
             <Form
                 id={id}
@@ -55,6 +77,10 @@ class CalendarEventForm extends React.Component {
                 ref={this.form}
                 {...props}
             >
+                {/* <FieldValues names={["isPostponed", "isCopied"]}>
+                    {({ isPostponed, isCopied }) => {
+                        return (
+                            <React.Fragment> */}
                 <FormRow>
                     <FormSelect
                         name="patient"
@@ -62,7 +88,7 @@ class CalendarEventForm extends React.Component {
                         label={t("Patient")}
                         fullWidth
                         required
-                        disabled={!isNew}
+                        disabled={!isNew || disabled}
                     />
                 </FormRow>
                 <FormSpy subscription={{ values: true }}>
@@ -74,6 +100,7 @@ class CalendarEventForm extends React.Component {
                                     label={t("Date")}
                                     gender={getGender(values.patient)}
                                     required
+                                    disabled={disabled}
                                 />
                             </FormRow>
                         );
@@ -85,6 +112,7 @@ class CalendarEventForm extends React.Component {
                         fullWidth
                         label={t("Night stay")}
                         valueType="integer"
+                        disabled={disabled}
                     >
                         <FormRadio value="0" label={t("None")} />
                         <FormRadio value="1" label={t("One")} />
@@ -93,18 +121,27 @@ class CalendarEventForm extends React.Component {
                     </FormRadioGroup>
                 </FormRow>
                 <FormRow>
-                    <FormArea name="notes" label={t("Notes")} fullWidth />
+                    <FormArea
+                        name="notes"
+                        label={t("Notes")}
+                        fullWidth
+                        disabled={disabled}
+                    />
                 </FormRow>
                 <FormButtonsContainer>
-                    <FormSubmitButton>
+                    <FormSubmitButton disabled={disabled}>
                         {isNew ? t("Insert") : t("Save")}
                     </FormSubmitButton>
-                    <FormResetButton>
+                    <FormResetButton disabled={disabled}>
                         {isNew ? t("Reset") : t("Undo")}
                     </FormResetButton>
                 </FormButtonsContainer>
                 <FormError />
                 {children}
+                {/* </React.Fragment>
+                        );
+                    }}
+                </FieldValues> */}
             </Form>
         );
     }
