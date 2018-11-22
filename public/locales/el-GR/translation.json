@@ -46,5 +46,8 @@
     "Delete": "Διαγραφή",
     "Yes": "Ναι",
     "No": "Όχι",
+    "Originally scheduled for {{date}}": "Αρχικά προγραμματισμένο για τις {{date}}",
+    "This appointment has been postponed": "Αυτό το ραντεβού έχει αναβληθεί",
+    "The next appointment has been scheduled": "Το επόμενο ραντεβού έχει προγραμματιστεί",
     "Did you forget your email or password?": "Ξεχάσατε τα στοιχεία εισόδου σας;"
 }

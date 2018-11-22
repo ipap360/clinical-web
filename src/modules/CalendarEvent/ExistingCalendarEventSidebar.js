@@ -4,15 +4,18 @@ import { consume } from "../../context";
 import {
     ModalFormContainer,
     ButtonWithAlert,
-    RichButton
+    RichButton,
+    TTypography,
+    Link
 } from "../../components";
-
+import { CALENDAR_EVENT } from "../routes";
 import CopyEventForm from "./CopyEventForm";
 
 import { Divider, Typography } from "@material-ui/core";
 
 import { calendarEvents } from "../../api";
-import { deleteEvent, getIsPostponed, getIsCopied } from "./store";
+import { deleteEvent, getIsPostponed, getIsCopied, getOriginal } from "./store";
+import moment from "moment";
 
 class ExistingCalendarEventSidebar extends React.Component {
     constructor(props) {
@@ -50,7 +53,8 @@ class ExistingCalendarEventSidebar extends React.Component {
             mainForm,
             deleteEvent,
             isPostponed,
-            isCopied
+            isCopied,
+            original
         } = this.props;
         const ref = this;
 
@@ -92,6 +96,8 @@ class ExistingCalendarEventSidebar extends React.Component {
             );
         }
 
+        const date = original.date && moment(original.date).format("L");
+
         return (
             <>
                 <div>
@@ -127,9 +133,17 @@ class ExistingCalendarEventSidebar extends React.Component {
                         onClick={() => this.open("postpone")}
                         variant="contained"
                         fullWidth
+                        disabled={original && original.id}
                     >
                         {t("Postpone")}
                     </RichButton>
+                    {original && original.id && (
+                        <Link to={CALENDAR_EVENT.replace(":id", original.id)}>
+                            <TTypography align="center" color="error">
+                                Originally scheduled for {{ date }}
+                            </TTypography>
+                        </Link>
+                    )}
                     <ModalFormContainer
                         open={this.state.postpone}
                         onClose={this.close}
@@ -169,7 +183,8 @@ class ExistingCalendarEventSidebar extends React.Component {
 
 const s2p = (state, { mainForm }) => ({
     isPostponed: getIsPostponed(state, mainForm),
-    isCopied: getIsCopied(state, mainForm)
+    isCopied: getIsCopied(state, mainForm),
+    original: getOriginal(state, mainForm)
 });
 const d2p = { deleteEvent };
 const store = { s2p, d2p };

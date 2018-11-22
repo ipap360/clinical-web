@@ -13,6 +13,7 @@ const styles = theme => ({
         minHeight: "22px",
         display: "flex",
         alignItems: "center",
+        justifyContent: "space-between",
         color: theme.palette.getContrastText(theme.palette.primary.main),
         "&:hover": {
             opacity: 0.75
@@ -48,6 +49,10 @@ const styles = theme => ({
             "background-color": theme.palette.primary.light,
             color: theme.palette.getContrastText(theme.palette.primary.light)
         },
+        "&.is-completed": {
+            "background-color": "transparent",
+            color: "#777"
+        },
         "& > i": {
             marginRight: 3,
             fontSize: 20,
@@ -57,6 +62,12 @@ const styles = theme => ({
             "&.fa-male": {
                 color: "#81d4fa"
             }
+        },
+        "&.is-completed > .fa-check": {
+            color: theme.palette.primary.main
+        },
+        "&.is-completed > p": {
+            color: "inherit"
         },
         "& > p": {
             maxHeight: 58,
@@ -77,7 +88,19 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(({ classes, data, history }) => {
-    const { id, start, end, patientNotes, name, code, eventNotes } = data;
+    const {
+        id,
+        start,
+        end,
+        patientNotes,
+        name,
+        code,
+        eventNotes,
+        isCompleted,
+        isPostponed
+    } = data;
+
+    if (isPostponed) return null;
 
     const patient = [name, code, patientNotes].join(" ");
     const text = eventNotes ? [patient, eventNotes].join(", ") : patient;
@@ -96,7 +119,8 @@ export default withStyles(styles)(({ classes, data, history }) => {
             className={classNames(classes.root, {
                 "is-continued": end > 8,
                 "is-carryover": start === 0,
-                "is-daily": start === end
+                "is-daily": start === end,
+                "is-completed": isCompleted
             })}
             style={{
                 gridColumn: `${realstart} / ${realend}`,
@@ -111,6 +135,7 @@ export default withStyles(styles)(({ classes, data, history }) => {
             >
                 {text}
             </Typography>
+            {isCompleted && <span className="fas fa-check" />}
         </Paper>
     );
 });

@@ -98,6 +98,12 @@ class Form extends React.Component {
         this.load();
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.id != this.props.id) {
+            this.load();
+        }
+    }
+
     componentWillUnmount() {}
 
     render() {

@@ -59,6 +59,12 @@ export const getIsPostponed = (state, form) =>
 export const getIsCopied = (state, form) =>
     !!getFormValue(state, form, "isCopied");
 
+export const getOriginal = (state, form) => {
+    const id = getFormValue(state, form, "postponeId");
+    const date = getFormValue(state, form, "originalDate");
+    return { id, date };
+};
+
 export const getIsMounted = (state, form) => !!getFormState(state, form).values;
 
 export const getIsDisabled = (state, form) => {
