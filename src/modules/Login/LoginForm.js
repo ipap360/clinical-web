@@ -3,7 +3,7 @@ import {
     Form,
     FormText,
     FormSubmitButton,
-    Link,
+    Anchor,
     TTypography,
     FormRow,
     FormError,
@@ -44,7 +44,7 @@ const LoginForm = ({ t, classes, className }) => (
         </FormButtonsContainer>
         <FormError />
         <TTypography variant="caption" align="right">
-            <Link to={RECOVER_PWD_INIT}>{t("Forgot your password?")}</Link>
+            <Anchor to={RECOVER_PWD_INIT}>{t("Forgot your password?")}</Anchor>
         </TTypography>
     </Form>
 );
