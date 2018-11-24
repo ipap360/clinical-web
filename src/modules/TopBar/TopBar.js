@@ -7,7 +7,7 @@ import {
 } from "@material-ui/icons";
 import classNames from "classnames";
 import { PROFILE, PATIENTS_LIST, SETTINGS, ROOT } from "../routes";
-import { SimpleMenu, NavButton, Link } from "../../components";
+import { SimpleMenu, NavButton, Link, TTypography } from "../../components";
 import { consume } from "../../context";
 import { sessions } from "../../api";
 
@@ -56,12 +56,21 @@ class TopBar extends Component {
     }
 
     render() {
-        const { classes, history, location, title, body, sidebar } = this.props;
+        const {
+            classes,
+            history,
+            location,
+            title,
+            nav,
+            body,
+            sidebar
+        } = this.props;
         const {
             root,
             homeTrigger,
             menuTrigger,
             menuCss,
+            titleCss,
             toolbar2,
             withSidebar
         } = classes;
@@ -75,8 +84,15 @@ class TopBar extends Component {
                         to={ROOT}
                         color="inherit"
                     />
-                    <Toolbar style={{ flex: "1 auto" }} disableGutters>
+                    <TTypography
+                        className={titleCss}
+                        variant="title"
+                        color="inherit"
+                    >
                         {title}
+                    </TTypography>
+                    <Toolbar style={{ flex: "1 auto" }} disableGutters>
+                        {nav}
                     </Toolbar>
                     <SimpleMenu
                         label={<AppsIcon className={menuTrigger} />}

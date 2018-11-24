@@ -6,7 +6,7 @@ import {
     ButtonWithAlert,
     RichButton,
     TTypography,
-    Link
+    Anchor
 } from "../../components";
 import { CALENDAR_EVENT } from "../routes";
 import CopyEventForm from "./CopyEventForm";
@@ -133,16 +133,16 @@ class ExistingCalendarEventSidebar extends React.Component {
                         onClick={() => this.open("postpone")}
                         variant="contained"
                         fullWidth
-                        disabled={original && original.id}
+                        disabled={original && !!original.id}
                     >
                         {t("Postpone")}
                     </RichButton>
                     {original && original.id && (
-                        <Link to={CALENDAR_EVENT.replace(":id", original.id)}>
+                        <Anchor to={CALENDAR_EVENT.replace(":id", original.id)}>
                             <TTypography align="center" color="error">
                                 Originally scheduled for {{ date }}
                             </TTypography>
-                        </Link>
+                        </Anchor>
                     )}
                     <ModalFormContainer
                         open={this.state.postpone}

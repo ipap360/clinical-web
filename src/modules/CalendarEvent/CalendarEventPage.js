@@ -5,7 +5,7 @@ import { consume } from "../../context";
 import Main from "../Main";
 import { Paper, Button, Divider } from "@material-ui/core";
 
-import { RichButton } from "../../components";
+import { RichButton, TTypography } from "../../components";
 
 import TopBar from "../TopBar";
 import SideBar from "../SideBar";
@@ -82,6 +82,7 @@ class CalendarEventPage extends React.Component {
             <React.Fragment>
                 <TopBar
                     sidebar={true}
+                    title="Appointments"
                     body={<CalendarEventTitle form={formName} isNew={isNew} />}
                 />
                 <SideBar>

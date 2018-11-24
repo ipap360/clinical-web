@@ -1,3 +1,5 @@
+import { headerBG } from "../../components";
+
 export default theme => ({
     root: {},
     paper: {
@@ -8,7 +10,7 @@ export default theme => ({
     header: {
         flex: "1 auto",
         position: "relative",
-        backgroundColor: "#e4eb30",
+        backgroundColor: headerBG,
         // color: theme.palette.getContrastText('#e4eb30'),
         padding: `10px ${theme.spacing.unit * 2}px`,
         width: "100%"

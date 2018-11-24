@@ -45,5 +45,8 @@ export default theme => ({
     },
     withSidebar: {
         marginLeft: drawerWidth
+    },
+    titleCss: {
+        marginRight: theme.spacing.unit * 3
     }
 });

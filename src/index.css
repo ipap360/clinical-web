@@ -1,7 +1,7 @@
 #root {
     margin-top: -1px;
     padding-top: 1px;
-    background-color: #FFF;
+    background-color: #fff;
 }
 
 .day-indicator {
@@ -21,7 +21,7 @@
 }
 
 .day-indicator.limited {
-    background-color: #ff5722 ;
+    background-color: #ff5722;
 }
 
 .border-indicator.limited {
@@ -34,4 +34,39 @@
 
 .border-indicator.full {
     border-color: #f44336 !important;
+}
+
+.icon-gender {
+    /* font-size: 22px; */
+    position: relative;
+    display: flex;
+    /* width: 60px; */
+    /* height: 46px; */
+    /* border-right: 1px solid #ccc; */
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-gender .fa-mars {
+    background-color: #2196f3;
+}
+.icon-gender .fa-venus {
+    background-color: #e91e63;
+}
+
+.icon-gender .fas {
+    position: absolute;
+    font-size: 12px;
+    left: -12px;
+    border-radius: 0 50% 50% 0;
+    width: 20px;
+    top: 50%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    color: white;
+    margin-top: -10px;
 }

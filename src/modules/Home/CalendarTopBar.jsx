@@ -24,7 +24,8 @@ class CalendarTopBar extends Component {
         const { topbarBody } = classes;
         return (
             <TopBar
-                title={
+                title="Calendar"
+                nav={
                     <React.Fragment>
                         <IconButton
                             variant="outlined"
