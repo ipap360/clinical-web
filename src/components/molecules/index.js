@@ -1,4 +1,5 @@
 export { default as SimpleMenu } from "./SimpleMenu";
+export { default as SimpleTable } from "./SimpleTable";
 export { default as ModalFormContainer } from "./ModalFormContainer";
 export { default as AlertDialog } from "./AlertDialog";
 export { default as ButtonWithAlert } from "./ButtonWithAlert";
