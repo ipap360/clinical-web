@@ -23,17 +23,17 @@ export default theme => ({
     root: {
         zIndex: theme.zIndex.drawer + 1
     },
-    titleCss: {
-        marginRight: theme.spacing.unit * 3
-    },
     homeTrigger: {
-        margin: "0 8px"
+        margin: `0 ${theme.spacing.unit}px`,
+        padding: `0 ${theme.spacing.unit}px`,
+        minWidth: 0,
+        fontSize: 25
     },
     menuTrigger: {
         fontSize: 32
     },
     menuCss: {
-        margin: "0 8px"
+        // margin: "0 8px 0 0"
     },
     toolbar2: {
         marginRight: sideMargins,

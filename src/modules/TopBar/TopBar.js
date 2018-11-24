@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { AppBar, Toolbar, IconButton } from "@material-ui/core";
-import { AccountCircle, Home as HomeIcon } from "@material-ui/icons";
+import {
+    AccountCircle,
+    // Home as HomeIcon,
+    Apps as AppsIcon
+} from "@material-ui/icons";
 import classNames from "classnames";
-import { PROFILE, ROOT } from "../routes";
-import { TTypography, SimpleMenu, Link } from "../../components";
+import { PROFILE, PATIENTS_LIST, SETTINGS, ROOT } from "../routes";
+import { SimpleMenu, NavButton, Link } from "../../components";
 import { consume } from "../../context";
 import { sessions } from "../../api";
 
@@ -13,7 +17,27 @@ class TopBar extends Component {
     constructor(props) {
         super(props);
         const { t } = props;
-        const items = [
+
+        this.appMenu = [
+            {
+                children: t("Home"),
+                component: Link,
+                to: ROOT,
+                divider: true
+            },
+            {
+                children: t("Patients"),
+                component: Link,
+                to: PATIENTS_LIST
+            },
+            {
+                children: t("Settings"),
+                component: Link,
+                to: SETTINGS
+            }
+        ];
+
+        this.personalMenu = [
             {
                 children: t("Profile"),
                 component: Link,
@@ -28,46 +52,43 @@ class TopBar extends Component {
             }
         ];
 
-        this.state = { items };
+        this.bodyRef = React.createRef();
     }
 
     render() {
-        const { classes, history, title, body, sidebar } = this.props;
+        const { classes, history, location, title, body, sidebar } = this.props;
         const {
             root,
             homeTrigger,
             menuTrigger,
-            titleCss,
             menuCss,
             toolbar2,
             withSidebar
         } = classes;
-        const { items } = this.state;
 
         return (
             <AppBar className={root} position="fixed">
                 <Toolbar disableGutters>
-                    <IconButton
+                    <NavButton
                         className={homeTrigger}
+                        icon="fas fa-home"
+                        to={ROOT}
                         color="inherit"
-                        onClick={() => history.push(ROOT)}
-                    >
-                        <HomeIcon />
-                    </IconButton>
-                    <TTypography
-                        className={titleCss}
-                        variant="title"
-                        color="inherit"
-                    >
-                        Clinic Bed Management
-                    </TTypography>
+                    />
                     <Toolbar style={{ flex: "1 auto" }} disableGutters>
                         {title}
                     </Toolbar>
                     <SimpleMenu
+                        label={<AppsIcon className={menuTrigger} />}
+                        className={menuCss}
+                        items={this.appMenu}
+                        Component={IconButton}
+                        style={{ minWidth: 180 }}
+                    />
+                    <SimpleMenu
                         label={<AccountCircle className={menuTrigger} />}
                         className={menuCss}
-                        items={items}
+                        items={this.personalMenu}
                         Component={IconButton}
                         style={{ minWidth: 180 }}
                     />
@@ -77,6 +98,7 @@ class TopBar extends Component {
                     className={classNames(toolbar2, {
                         [withSidebar]: !!sidebar
                     })}
+                    ref={this.bodyRef}
                 >
                     {body}
                 </Toolbar>
@@ -85,4 +107,4 @@ class TopBar extends Component {
     }
 }
 
-export default consume({ router: true, styles })(TopBar);
+export default consume({ ref: true, router: true, styles })(TopBar);
