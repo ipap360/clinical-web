@@ -81,38 +81,38 @@ export const changeLanguage = lng => {
     i18n.changeLanguage(lng);
 };
 
-// export const withI18n = (namespaces = []) =>
-//     withNamespaces([DEFAULT_NS, ...namespaces]);
+export const withI18n = (namespaces = []) =>
+    withNamespaces([DEFAULT_NS, ...namespaces]);
 
-const d = c => c.displayName || c.name || "Component";
+// const d = c => c.displayName || c.name || "Component";
 
-export const withI18n = (namespaces = []) => WrappedComponent => {
-    class WithI18n extends React.Component {
-        render() {
-            const { forwardedRef, ...rest } = this.props;
+// export const withI18n = (namespaces = []) => WrappedComponent => {
+//     class WithI18n extends React.Component {
+//         render() {
+//             const { forwardedRef, ...rest } = this.props;
 
-            // Assign the custom prop "forwardedRef" as a ref
-            return (
-                <NamespacesConsumer ns={[DEFAULT_NS, ...namespaces]}>
-                    {t => (
-                        <WrappedComponent ref={forwardedRef} t={t} {...rest} />
-                    )}
-                </NamespacesConsumer>
-            );
-        }
-    }
+//             // Assign the custom prop "forwardedRef" as a ref
+//             return (
+//                 <NamespacesConsumer ns={[DEFAULT_NS, ...namespaces]}>
+//                     {t => (
+//                         <WrappedComponent ref={forwardedRef} t={t} {...rest} />
+//                     )}
+//                 </NamespacesConsumer>
+//             );
+//         }
+//     }
 
-    function fwRef(props, ref) {
-        return React.createElement(WithI18n, { forwardedRef: ref, ...props });
-    }
+//     function fwRef(props, ref) {
+//         return React.createElement(WithI18n, { forwardedRef: ref, ...props });
+//     }
 
-    fwRef.displayName = `WithI18n(${d(WrappedComponent)})`;
+//     fwRef.displayName = `WithI18n(${d(WrappedComponent)})`;
 
-    // Note the second param "ref" provided by React.forwardRef.
-    // We can pass it along to LogProps as a regular prop, e.g. "forwardedRef"
-    // And it can then be attached to the Component.
-    return React.forwardRef(fwRef);
-};
+//     // Note the second param "ref" provided by React.forwardRef.
+//     // We can pass it along to LogProps as a regular prop, e.g. "forwardedRef"
+//     // And it can then be attached to the Component.
+//     return React.forwardRef(fwRef);
+// };
 
 // function logProps(Component) {
 //     class LogProps extends React.Component {

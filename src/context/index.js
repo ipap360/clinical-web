@@ -1,3 +1,4 @@
+import React, { forwardRef } from "react";
 import { default as DateUtils, withDateUtils } from "./dates";
 import { default as I18n, withI18n } from "./i18n";
 import { default as Store } from "./redux";
@@ -23,7 +24,8 @@ export const consume = (params = {}) => Component => {
         theme = false,
         router = false,
         i18n = true,
-        date = false
+        date = false,
+        ref = false
     } = params;
 
     let HOCs = [];
@@ -34,7 +36,7 @@ export const consume = (params = {}) => Component => {
                     store.s2p,
                     store.d2p,
                     null,
-                    store.opts
+                    `store`.opts
                 )
             );
         } else {
@@ -64,6 +66,15 @@ export const consume = (params = {}) => Component => {
 
     if (date) {
         HOCs.push(withDateUtils);
+    }
+
+    if (ref) {
+        const HOComponent = compose(...HOCs)(({ ___ref, ...props }) => (
+            <Component ref={___ref} {...props} />
+        ));
+        return forwardRef((props, ref) => (
+            <HOComponent ___ref={ref} {...props} />
+        ));
     }
 
     return compose(...HOCs)(Component);
