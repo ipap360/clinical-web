@@ -19,15 +19,5 @@ export default theme => ({
         top: 0,
         lineHeight: "1em",
         margin: "6px 1px"
-    },
-    sideMsg: {
-        fontSize: 24,
-        textAlign: "center"
-    },
-    sideCopied: {
-        color: theme.palette.primary.main
-    },
-    sidePostponed: {
-        color: theme.palette.error.main
     }
 });

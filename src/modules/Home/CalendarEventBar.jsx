@@ -114,7 +114,9 @@ export default withStyles(styles)(({ classes, data, history }) => {
     return (
         <Paper
             onClick={() => {
-                history.push(CALENDAR_EVENT.replace(":id", id));
+                history.push(CALENDAR_EVENT.replace(":id", id), {
+                    prev: window.location.pathname
+                });
             }}
             className={classNames(classes.root, {
                 "is-continued": end > 8,

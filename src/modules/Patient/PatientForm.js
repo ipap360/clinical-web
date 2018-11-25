@@ -24,6 +24,7 @@ const PatientForm = ({
     className,
     onSaveSuccess
 }) => {
+    const isNew = id === 0;
     return (
         <Form
             id={id}
@@ -72,8 +73,12 @@ const PatientForm = ({
                 />
             </FormRow>
             <FormButtonsContainer>
-                <FormSubmitButton>{t("Insert")}</FormSubmitButton>
-                <FormResetButton>{t("Reset")}</FormResetButton>
+                <FormSubmitButton>
+                    {isNew ? t("Insert") : t("Save")}
+                </FormSubmitButton>
+                <FormResetButton>
+                    {isNew ? t("Reset") : t("Undo")}
+                </FormResetButton>
             </FormButtonsContainer>
             <FormError />
         </Form>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router";
 import { consume } from "../../context";
+import { onSavePage } from "../../utils";
 
 import Main from "../Main";
 import { Paper, Button, Divider } from "@material-ui/core";
@@ -18,13 +19,13 @@ import ExistingCalendarEventSidebar from "./ExistingCalendarEventSidebar";
 
 import { fetchPatients } from "../PatientsList";
 
-import { ROOT } from "../routes";
-
 import styles from "./styles";
 import { getDeleted, getIsDisabled, getIsMounted } from "./store";
 
 class CalendarEventPage extends React.Component {
     ceFrmRef = React.createRef();
+
+    onSaveCalendarEvent = onSavePage.bind(this, this.props.history);
 
     onAddPatient = (patientForm, data) => {
         const ref = this.ceFrmRef.current;
@@ -58,8 +59,7 @@ class CalendarEventPage extends React.Component {
             match,
             isDeleted,
             isDisabled,
-            isMounted,
-            caller = "/"
+            isMounted
         } = this.props;
 
         const {
@@ -70,7 +70,7 @@ class CalendarEventPage extends React.Component {
         const calendarEventId = parseInt(id, 10);
 
         if (isDeleted(calendarEventId)) {
-            return <Redirect to={caller} />;
+            return <Redirect to={location.state.prev} />;
         }
 
         const isNew = calendarEventId === 0;
@@ -118,9 +118,7 @@ class CalendarEventPage extends React.Component {
                     <Paper square className={classes.paper}>
                         <CalendarEventForm
                             className={classes.form}
-                            onSaveSuccess={args => {
-                                history.push(ROOT);
-                            }}
+                            onSaveSuccess={this.onSaveCalendarEvent}
                             id={calendarEventId}
                             suggestedValues={{
                                 ...(date ? { date } : null)

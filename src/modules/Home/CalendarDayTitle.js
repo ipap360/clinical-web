@@ -70,7 +70,8 @@ const CalendarDayTitle = ({ classes, d, history }) => {
             className={classes.root}
             onClick={() =>
                 history.push(CALENDAR_EVENT.replace(":id", "0"), {
-                    date: d.iso
+                    date: d.iso,
+                    prev: window.location.pathname
                 })
             }
         >

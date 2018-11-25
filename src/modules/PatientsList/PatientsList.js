@@ -67,11 +67,6 @@ const styles = theme => ({
 });
 
 class PatientsList extends Component {
-    constructor(props) {
-        super(props);
-        this.topRef = React.createRef();
-    }
-
     componentDidMount() {
         const { fetchPatients } = this.props;
         fetchPatients();
@@ -79,58 +74,45 @@ class PatientsList extends Component {
 
     componentWillUnmount() {}
 
+    handleRowClick = evt => {
+        const { history } = this.props;
+        history.push(PATIENT.replace(":id", evt.currentTarget.dataset["id"]), {
+            prev: window.location.pathname
+        });
+    };
+
     render() {
-        const { patients, t, classes, history } = this.props;
+        const { patients, t, classes } = this.props;
         const { row, col, col1, col2, col3, col4, addBtn } = classes;
-        // console.log(patients);
 
-        // const data = {
-        //     id: "Patients",
-        //     head: [],
-        //     // head: [
-        //     //     [
-        //     //         { t: "", w: 30 },
-        //     //         { t: t("Name") },
-        //     //         { t: t("Code"), w: 80 },
-        //     //         t("Notes")
-        //     //     ]
-        //     // ],
-        //     body:
-        //     })
-        // };
+        const TitleCol = ({ className, children, ...other }) => (
+            <TTypography
+                variant="subtitle2"
+                className={classNames(col, className)}
+                {...other}
+            >
+                {children}
+            </TTypography>
+        );
 
-        let container;
-        const ref = this.topRef.current;
-        if (ref != null) {
-            container = ref.bodyRef && ref.bodyRef.current;
-        }
+        const Row = ({ className, children, ...other }) => (
+            <div className={classNames(row, className)} {...other}>
+                {children}
+            </div>
+        );
+
+        const Col = ({ className, children, ...other }) => (
+            <div className={classNames(col, className)} {...other}>
+                {children}
+            </div>
+        );
 
         const PatientsListTitle = () => (
             <Toolbar className={classes.header} disableGutters>
-                <TTypography
-                    variant="subtitle2"
-                    className={classNames(col, col1)}
-                >
-                    &nbsp;
-                </TTypography>
-                <TTypography
-                    variant="subtitle2"
-                    className={classNames(col, col2)}
-                >
-                    {t("Name")}
-                </TTypography>
-                <TTypography
-                    variant="subtitle2"
-                    className={classNames(col, col3)}
-                >
-                    {t("Code")}
-                </TTypography>
-                <TTypography
-                    variant="subtitle2"
-                    className={classNames(col, col4)}
-                >
-                    {t("Notes")}
-                </TTypography>
+                <TitleCol className={col1}>&nbsp;</TitleCol>
+                <TitleCol className={col2}>Name</TitleCol>
+                <TitleCol className={col3}>Code</TitleCol>
+                <TitleCol className={col4}>Notes</TitleCol>
             </Toolbar>
         );
 
@@ -141,35 +123,26 @@ class PatientsList extends Component {
                     <Paper square>
                         {patients.map((patient, i) => {
                             const { id, name, code, gender, notes } = patient;
+                            const key = "patient-" + id;
                             return (
-                                <div
-                                    className={row}
-                                    key={"patient-" + id}
-                                    onClick={() => {
-                                        history.push(
-                                            PATIENT.replace(":id", id)
-                                        );
-                                    }}
+                                <Row
+                                    key={key}
+                                    data-id={id}
+                                    onClick={this.handleRowClick}
                                 >
-                                    <div className={classNames(col, col1)}>
+                                    <Col className={col1}>
                                         <GenderIcon gender={gender} />
-                                    </div>
-                                    <Typography
-                                        className={classNames(col, col2)}
-                                    >
-                                        {name}
-                                    </Typography>
-                                    <Typography
-                                        className={classNames(col, col3)}
-                                    >
-                                        {code}
-                                    </Typography>
-                                    <Typography
-                                        className={classNames(col, col4)}
-                                    >
-                                        {notes}
-                                    </Typography>
-                                </div>
+                                    </Col>
+                                    <Col className={col2}>
+                                        <Typography>{name}</Typography>
+                                    </Col>
+                                    <Col className={col3}>
+                                        <Typography>{code}</Typography>
+                                    </Col>
+                                    <Col className={col4}>
+                                        <Typography>{notes}</Typography>
+                                    </Col>
+                                </Row>
                             );
                         })}
                     </Paper>
