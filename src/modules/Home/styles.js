@@ -1,4 +1,6 @@
+import { layoutStyles } from "../../components";
 export default theme => ({
+    ...layoutStyles(theme),
     calendarContent: {
         position: "relative",
         marginTop: 64,
@@ -15,11 +17,6 @@ export default theme => ({
         gridAutoFlow: "dense"
         // display: 'flex',
         // flexDirection: 'row'
-    },
-    addBtn: {
-        position: "fixed",
-        bottom: theme.spacing.unit * 4.5,
-        right: theme.spacing.unit * 4.5
     },
     topbarTitle: {
         display: "flex",

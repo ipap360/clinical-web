@@ -9,6 +9,7 @@ import CalendarTopBar from "./CalendarTopBar";
 import CalendarEventBar from "./CalendarEventBar";
 
 import styles from "./styles";
+
 import {
     hasCalendarError,
     isCalendarLoading,
