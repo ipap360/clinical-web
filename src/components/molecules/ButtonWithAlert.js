@@ -30,6 +30,7 @@ class ButtonWithAlert extends Component {
         const {
             alertTitle,
             alertBody,
+            alertBodyProps,
             alertProps = {},
             onClick,
             ...other
@@ -40,6 +41,7 @@ class ButtonWithAlert extends Component {
                 <AlertDialog
                     title={alertTitle}
                     body={alertBody}
+                    bodyProps={alertBodyProps}
                     isOpen={this.state.dialog}
                     onCancel={this.close}
                     onOK={this.onOK}

@@ -2,11 +2,10 @@ import { layoutStyles } from "../../components";
 export default theme => ({
     ...layoutStyles(theme),
     calendarContent: {
+        ...layoutStyles(theme).mainPaper,
         position: "relative",
         marginTop: 64,
         // height: '100%',
-        flex: "1 auto",
-        width: "100%",
         paddingTop: theme.spacing.unit,
         display: "grid",
         // 14.2857% 1fr

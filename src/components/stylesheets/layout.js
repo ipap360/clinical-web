@@ -19,6 +19,10 @@ export default theme => ({
             margin: `${theme.spacing.unit * 1.5}px 0`
         }
     },
+    mainPaper: {
+        flex: "1 auto",
+        width: "100%"
+    },
     form: {
         width: 600
     },

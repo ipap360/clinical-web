@@ -19,6 +19,7 @@ import {
 
 const PatientForm = ({
     t,
+    children,
     id = 0,
     modal = false,
     className,
@@ -81,6 +82,7 @@ const PatientForm = ({
                 </FormResetButton>
             </FormButtonsContainer>
             <FormError />
+            {children}
         </Form>
     );
 };

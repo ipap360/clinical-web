@@ -43,25 +43,35 @@ export const createAsyncNames = (...args) => {
 };
 
 export const createAsyncAction = (action, api) => (
-    params,
-    meta
+    payload,
+    options = {}
 ) => dispatch => {
     const type = typeof action === "object" ? action._ : action;
-    dispatch({ type, payload: params });
-    api(params)
+    const { onOK, onFail, onFin } = options;
+    dispatch({ type, payload: payload });
+    api(payload)
         .then(response => {
+            if (typeof onOK === "function") {
+                onOK.apply(this, [response]);
+            }
             dispatch({
                 type: setOK(type),
                 payload: response
             });
         })
         .catch(e => {
+            if (typeof onFail === "function") {
+                onFail.apply(this, [e]);
+            }
             dispatch({
                 type: setFail(type),
                 payload: e
             });
         })
         .then(() => {
+            if (typeof onFin === "function") {
+                onFin.apply(this, []);
+            }
             dispatch({
                 type: setFin(type)
             });

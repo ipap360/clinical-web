@@ -2,15 +2,29 @@ export { isObject, snakeCase, isFunction } from "lodash/core";
 // export { default as groupBy } from "lodash/groupBy";
 export { keyBy } from "lodash";
 
-export const onSavePage = history => {
-    // const { history } = this.props;
-    if (!history) return;
-    const prev =
+const getPrevious = history => {
+    return (
         history.location &&
         history.location.state &&
-        history.location.state.prev;
+        history.location.state.prev
+    );
+};
+
+export const onSavePage = history => {
+    if (!history) return;
+    const prev = getPrevious(history);
     if (prev) {
         history.push(prev, { prev: window.location.pathname });
+    } else {
+        history.goBack();
+    }
+};
+
+export const onDelete = history => {
+    if (!history) return;
+    const prev = getPrevious(history);
+    if (prev) {
+        history.replace(prev, { prev: window.location.pathname });
     } else {
         history.goBack();
     }

@@ -160,5 +160,5 @@ const d2p = {
     fetchPatients
 };
 
-const store = { s2p, d2p, opts: { withRef: true } };
-export default consume({ store })(CalendarEventForm);
+const store = { s2p, d2p };
+export default consume({ store, ref: true })(CalendarEventForm);

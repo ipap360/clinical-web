@@ -14,4 +14,4 @@ export const save = (id = 0, { ...data }) => {
     return net.post(API_ENDPOINT + "/" + id, data).catch(formErrorHandler);
 };
 
-export const del = id => net.post(API_ENDPOINT + id + "/delete");
+export const del = id => net.post(API_ENDPOINT + "/" + id + "/delete");

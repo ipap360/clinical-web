@@ -7,10 +7,12 @@ import {
     DialogContentText,
     DialogTitle
 } from "@material-ui/core";
+import { Trans } from "react-i18next";
 
 const AlertDialog = ({
     title,
     body,
+    bodyProps,
     okText = "Yes",
     cancelText = "No",
     isOpen,
@@ -29,8 +31,11 @@ const AlertDialog = ({
             )}
             {body && (
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {body}
+                    <DialogContentText
+                        id="alert-dialog-description"
+                        {...bodyProps}
+                    >
+                        <Trans>{body}</Trans>
                     </DialogContentText>
                 </DialogContent>
             )}

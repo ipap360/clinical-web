@@ -83,7 +83,7 @@ class PatientsList extends Component {
 
     render() {
         const { patients, t, classes } = this.props;
-        const { row, col, col1, col2, col3, col4, addBtn } = classes;
+        const { mainPaper, row, col, col1, col2, col3, col4, addBtn } = classes;
 
         const TitleCol = ({ className, children, ...other }) => (
             <TTypography
@@ -120,7 +120,7 @@ class PatientsList extends Component {
             <React.Fragment>
                 <TopBar title="Patients" body={<PatientsListTitle />} />
                 <Main>
-                    <Paper square>
+                    <Paper className={mainPaper} square>
                         {patients.map((patient, i) => {
                             const { id, name, code, gender, notes } = patient;
                             const key = "patient-" + id;

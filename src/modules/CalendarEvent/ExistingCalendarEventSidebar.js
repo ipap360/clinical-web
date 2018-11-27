@@ -6,15 +6,23 @@ import {
     ButtonWithAlert,
     RichButton,
     TTypography,
+    NavButton,
     Anchor
 } from "../../components";
-import { CALENDAR_EVENT } from "../routes";
+import { onDelete } from "../../utils";
+import { CALENDAR_EVENT, PATIENT } from "../routes";
 import CopyEventForm from "./CopyEventForm";
 
 import { Divider, Typography } from "@material-ui/core";
 
 import { calendarEvents } from "../../api";
-import { deleteEvent, getIsPostponed, getIsCopied, getOriginal } from "./store";
+import {
+    deleteEvent,
+    getIsPostponed,
+    getIsCopied,
+    getOriginal,
+    getPatientId
+} from "./store";
 import moment from "moment";
 
 class ExistingCalendarEventSidebar extends React.Component {
@@ -39,6 +47,8 @@ class ExistingCalendarEventSidebar extends React.Component {
         });
     };
 
+    onDelete = onDelete.bind(this, this.props.history);
+
     onCopyOrPostpone = (...args) => {
         this.close();
         const { onCopyOrPostpone } = this.props;
@@ -50,6 +60,7 @@ class ExistingCalendarEventSidebar extends React.Component {
             t,
             classes,
             calendarEventId,
+            patientId,
             mainForm,
             deleteEvent,
             isPostponed,
@@ -100,6 +111,17 @@ class ExistingCalendarEventSidebar extends React.Component {
 
         return (
             <>
+                <div>
+                    <NavButton
+                        variant="contained"
+                        to={PATIENT.replace(":id", patientId)}
+                        fullWidth
+                        iconPosition="right"
+                        icon="fas fa-external-link-alt"
+                    >
+                        {t("Patient Card")}
+                    </NavButton>
+                </div>
                 <div>
                     <RichButton
                         onClick={() => this.open("copy")}
@@ -170,7 +192,9 @@ class ExistingCalendarEventSidebar extends React.Component {
                         color="secondary"
                         fullWidth
                         onClick={() => {
-                            deleteEvent(calendarEventId);
+                            deleteEvent(calendarEventId, {
+                                onOK: this.onDelete
+                            });
                         }}
                     >
                         {t("Delete")}
@@ -184,7 +208,8 @@ class ExistingCalendarEventSidebar extends React.Component {
 const s2p = (state, { mainForm }) => ({
     isPostponed: getIsPostponed(state, mainForm),
     isCopied: getIsCopied(state, mainForm),
-    original: getOriginal(state, mainForm)
+    original: getOriginal(state, mainForm),
+    patientId: getPatientId(state, mainForm)
 });
 const d2p = { deleteEvent };
 const store = { s2p, d2p };

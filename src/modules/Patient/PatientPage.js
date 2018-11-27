@@ -1,43 +1,64 @@
 import React from "react";
-import { Redirect } from "react-router";
 import { consume } from "../../context";
-import { onSavePage } from "../../utils";
+import { onSavePage, onDelete } from "../../utils";
 import Main from "../Main";
 import { Paper, Button, Divider } from "@material-ui/core";
 
-import { RichButton, TTypography, ButtonWithAlert } from "../../components";
+import {
+    RichButton,
+    ModalFormContainer,
+    ButtonWithAlert
+} from "../../components";
 
 import TopBar from "../TopBar";
 import SideBar from "../SideBar";
 
+import { CalendarEventForm } from "../CalendarEvent";
 import PatientForm from "./PatientForm";
 import FormStateToRedux from "../FormStateToRedux";
 import PatientTitle from "./PatientTitle";
 
-import { ROOT } from "../routes";
-
 import styles from "./styles";
-import {
-    getDeleted,
-    // getIsDisabled,
-    getIsMounted,
-    deletePatient
-} from "./store";
+import { getIsMounted, deletePatient } from "./store";
 
 class PatientPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            modal: false
+        };
+    }
+
     patientFrmRef = React.createRef();
+
+    openModal = () => {
+        this.setState({
+            modal: true
+        });
+    };
+
+    closeModal = () => {
+        this.setState({
+            modal: false
+        });
+    };
+
+    onAddAppointment = (...args) => {
+        this.closeModal();
+    };
+
     onSavePatient = onSavePage.bind(this, this.props.history);
+    onDelete = onDelete.bind(this, this.props.history);
+
     render() {
         const {
             t,
             classes,
             history,
-            location,
             match,
-            isDeleted,
-            // isDisabled,
-            isMounted
-            // caller = ROOT
+            isMounted,
+            deletePatient
         } = this.props;
 
         const {
@@ -46,11 +67,6 @@ class PatientPage extends React.Component {
 
         // eslint-disable-next-line
         const patientId = parseInt(id, 10);
-
-        if (isDeleted(patientId)) {
-            console.log(history, location);
-            // return <Redirect to={caller} />;
-        }
 
         const isNew = patientId === 0;
 
@@ -77,28 +93,56 @@ class PatientPage extends React.Component {
                             </RichButton>
                         </div>
                         <Divider />
-                        {isMounted(formName) &&
-                            (isNew ? null : (
+                        {isMounted(formName) && !isNew && (
+                            <>
                                 <div>
                                     <ButtonWithAlert
                                         alertTitle={t(
                                             "Are you sure you want to delete this patient?"
                                         )}
-                                        alertBody={t(
-                                            "This is a non-reversible action! The patient and all related data will be deleted!"
-                                        )}
+                                        alertBody="This is a non-reversible action! The patient and all related data will be deleted!"
+                                        alertBodyProps={{ color: "error" }}
                                         icon="fas fa-trash-alt"
                                         variant="contained"
                                         color="secondary"
                                         fullWidth
                                         onClick={() => {
-                                            deletePatient(patientId);
+                                            deletePatient(patientId, {
+                                                onOK: this.onDelete
+                                            });
                                         }}
                                     >
                                         {t("Delete")}
                                     </ButtonWithAlert>
                                 </div>
-                            ))}
+                                <div>
+                                    <Button
+                                        onClick={this.openModal}
+                                        variant="contained"
+                                        fullWidth
+                                    >
+                                        {t("New Appointment")}
+                                    </Button>
+                                    <ModalFormContainer
+                                        open={this.state.modal}
+                                        onClose={this.closeModal}
+                                        title={t("New Appointment")}
+                                    >
+                                        <CalendarEventForm
+                                            modal={true}
+                                            id={0}
+                                            suggestedValues={{
+                                                patient: patientId
+                                            }}
+                                            // className={classes.modalform}
+                                            onSaveSuccess={
+                                                this.onAddAppointment
+                                            }
+                                        />
+                                    </ModalFormContainer>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </SideBar>
                 <Main sidebar={true}>
@@ -118,11 +162,10 @@ class PatientPage extends React.Component {
 }
 
 const s2p = state => ({
-    isDeleted: id => getDeleted(state).indexOf(id) >= 0,
-    // isDisabled: form => getIsDisabled(state, form),
     isMounted: form => getIsMounted(state, form)
 });
 const d2p = { deletePatient };
+
 export default consume({ store: { s2p, d2p }, styles, router: true })(
     PatientPage
 );
