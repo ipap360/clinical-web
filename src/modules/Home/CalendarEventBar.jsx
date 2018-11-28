@@ -37,9 +37,9 @@ const styles = theme => ({
         "&.is-continued:after": {
             content: '" "',
             position: "absolute",
-            "border-bottom": "15px solid rgba(255, 255, 255, 0.4);",
-            "border-top": "15px solid rgba(255, 255, 255, 0.4);",
-            "border-left": "20px solid transparent",
+            "border-bottom": "11px solid rgba(255, 255, 255, 1);",
+            "border-top": "11px solid rgba(255, 255, 255, 1);",
+            "border-left": "11px solid transparent",
             right: "0px",
             top: "0",
             bottom: "0"

@@ -108,9 +108,7 @@ export const getCalendarEvents = state => dates => {
                 ...e,
                 start: checkin < 0 ? 1 : checkin + 1,
                 end:
-                    checkout > calendarLength + 1
-                        ? calendarLength + 1
-                        : checkout + 1,
+                    (checkout > calendarLength ? calendarLength : checkout) + 1,
                 isDaily,
                 isCarryOver: checkin < 0,
                 isContinued: checkout > calendarLength
