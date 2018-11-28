@@ -9,7 +9,7 @@ export default theme => ({
         paddingTop: theme.spacing.unit,
         display: "grid",
         // 14.2857% 1fr
-        gridTemplateColumns: "repeat(7, calc(14.2857% - 4px) [column])",
+
         gridAutoRows: "22px",
         gridColumnGap: `${theme.spacing.unit / 2}px`,
         gridRowGap: `${theme.spacing.unit / 2}px`,
@@ -17,20 +17,11 @@ export default theme => ({
         // display: 'flex',
         // flexDirection: 'row'
     },
-    topbarTitle: {
-        display: "flex",
-        alignItems: "center",
-        color: theme.palette.getContrastText(theme.palette.primary.main),
-        "& > p": {
-            textAlign: "center",
-            width: 120
-        },
-        "& > button": {
-            fontSize: 36
-        },
-        "& > *": {
-            marginRight: 5
-        }
+    calendarWeek: {
+        gridTemplateColumns: "repeat(7, calc(14.2857% - 4px) [column])"
+    },
+    calendarDay: {
+        gridTemplateColumns: "100%"
     },
     topbarBody: {
         position: "absolute",
@@ -38,5 +29,10 @@ export default theme => ({
         left: 0,
         width: "100%",
         background: "transparent"
+    },
+    modeSwitch: {
+        // border: "none",
+        color: "inherit",
+        marginLeft: theme.spacing.unit
     }
 });

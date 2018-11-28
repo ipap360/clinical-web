@@ -10,6 +10,13 @@ const config = {
             root: {
                 margin: "8px 0"
             }
+        },
+        MuiSelect: {
+            root: {},
+            select: {},
+            icon: {
+                color: "inherit"
+            }
         }
     },
     palette: {

@@ -12,6 +12,7 @@ import Login from "./Login";
 
 import {
     ROOT,
+    CALENDAR,
     CALENDAR_EVENT,
     PROFILE,
     SETTINGS,
@@ -55,6 +56,7 @@ class App extends React.Component {
                         </Switch>
                     ) : (
                         <Switch>
+                            <Route path={CALENDAR} component={Home} />
                             <Route
                                 path={CALENDAR_EVENT}
                                 component={CalendarEvent}

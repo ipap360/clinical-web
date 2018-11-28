@@ -92,6 +92,9 @@ export default withStyles(styles)(({ classes, data, history }) => {
         id,
         start,
         end,
+        isDaily,
+        isCarryOver,
+        isContinued,
         patientNotes,
         name,
         code,
@@ -105,11 +108,7 @@ export default withStyles(styles)(({ classes, data, history }) => {
     const patient = [name, code, patientNotes].join(" ");
     const text = eventNotes ? [patient, eventNotes].join(", ") : patient;
 
-    const realstart = start === 0 ? 1 : start;
-    const realend = end > 8 ? 8 : end;
-    const span2 =
-        (realstart === realend || realstart === realend - 1) &&
-        text.length > 30;
+    const span2 = start === end && text.length > 30;
 
     return (
         <Paper
@@ -119,13 +118,13 @@ export default withStyles(styles)(({ classes, data, history }) => {
                 });
             }}
             className={classNames(classes.root, {
-                "is-continued": end > 8,
-                "is-carryover": start === 0,
-                "is-daily": start === end,
+                "is-continued": isContinued,
+                "is-carryover": isCarryOver,
+                "is-daily": isDaily,
                 "is-completed": isCompleted
             })}
             style={{
-                gridColumn: `${realstart} / ${realend}`,
+                gridColumn: `${start} / ${end + 1}`,
                 gridRowEnd: span2 ? "span 2" : null
             }}
         >

@@ -1,8 +1,9 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import classNames from "classnames";
-import { CALENDAR_EVENT } from "../routes";
+// import { CALENDAR_EVENT } from "../routes";
 import { consume } from "../../context";
+import { NavButton } from "../../components";
 
 const partA = "#eaeaea";
 const partB = "#ffffff";
@@ -63,40 +64,35 @@ const styles = theme => ({
     }
 });
 
-const CalendarDayTitle = ({ classes, d, history }) => {
-    const { m = "", f = "", male, female } = d.availability;
-    return (
-        <div
-            className={classes.root}
-            onClick={() =>
-                history.push(CALENDAR_EVENT.replace(":id", "0"), {
-                    date: d.iso,
-                    prev: window.location.pathname
-                })
-            }
-        >
-            <div className={classes.dayname}>
-                <Typography variant="subheading">{d.short}</Typography>
-            </div>
-            <Typography variant="display3">{d.num}</Typography>
-            <div className={classes.availability}>
-                <div
-                    className={classNames("border-indicator", m.toLowerCase())}
-                >
-                    <Typography>{male + " x"}</Typography>
-                    <i className="fas fa-male" />
-                </div>
-                <div
-                    className={classNames("border-indicator", f.toLowerCase())}
-                >
-                    <Typography>{female + " x"}</Typography>
-                    <i className="fas fa-female" />
-                </div>
-            </div>
+const AvailabilityIndicators = ({ className, male, female, m, f }) => (
+    <div className={className}>
+        <div className={classNames("border-indicator", m.toLowerCase())}>
+            <Typography>{male + " x"}</Typography>
+            <i className="fas fa-male" />
         </div>
+        <div className={classNames("border-indicator", f.toLowerCase())}>
+            <Typography>{female + " x"}</Typography>
+            <i className="fas fa-female" />
+        </div>
+    </div>
+);
+
+const CalendarDayTitle = ({ classes, newURL, d, availability }) => {
+    // const { m = "", f = "", male, female } = availability;
+    return (
+        <NavButton className={classes.root} to={newURL}>
+            <div className={classes.dayname}>
+                <Typography variant="subheading">{d.format("ddd")}</Typography>
+            </div>
+            <Typography variant="display3">{d.format("D")}</Typography>
+            {availability && (
+                <AvailabilityIndicators
+                    className={classes.availability}
+                    {...availability}
+                />
+            )}
+        </NavButton>
     );
 };
 
-export default consume({ styles, router: true, store: false })(
-    CalendarDayTitle
-);
+export default consume({ styles, store: false })(CalendarDayTitle);

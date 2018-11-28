@@ -83,7 +83,17 @@ class PatientsList extends Component {
 
     render() {
         const { patients, t, classes } = this.props;
-        const { mainPaper, row, col, col1, col2, col3, col4, addBtn } = classes;
+        const {
+            mainPaper,
+            notFound,
+            row,
+            col,
+            col1,
+            col2,
+            col3,
+            col4,
+            addBtn
+        } = classes;
 
         const TitleCol = ({ className, children, ...other }) => (
             <TTypography
@@ -121,6 +131,11 @@ class PatientsList extends Component {
                 <TopBar title="Patients" body={<PatientsListTitle />} />
                 <Main>
                     <Paper className={mainPaper} square>
+                        {!patients.length && (
+                            <TTypography className={notFound}>
+                                We didn't find any patients
+                            </TTypography>
+                        )}
                         {patients.map((patient, i) => {
                             const { id, name, code, gender, notes } = patient;
                             const key = "patient-" + id;

@@ -1,4 +1,5 @@
 export const ROOT = "/";
+export const CALENDAR = "/calendar/:mode/:date";
 export const LOGIN = "/login";
 export const RECOVER_PWD_INIT = "/recover/init";
 export const TERMS = "/terms";

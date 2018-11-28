@@ -3,88 +3,116 @@ import { Paper, Icon } from "@material-ui/core";
 import { NavButton } from "../../components";
 
 import Main from "../Main";
-import { CALENDAR_EVENT } from "../routes";
+import { ROOT, CALENDAR_EVENT } from "../routes";
 
 import CalendarTopBar from "./CalendarTopBar";
 import CalendarEventBar from "./CalendarEventBar";
 
 import styles from "./styles";
+import moment from "moment";
+import classNames from "classnames";
 
 import {
     hasCalendarError,
     isCalendarLoading,
-    getCalendarDates,
-    getCalendarEvents,
-    getDatePeriodTitle,
     fetchCalendarEvents,
-    fetchAvailability,
-    prevWeek,
-    nextWeek,
-    thisWeek
+    getCalendarEvents
 } from "./store";
+
+import { fetchRoomAvailability } from "../Rooms";
+
 import { consume } from "../../context";
 
+const getDatePeriod = (mode, date) => {
+    const d0 = moment(date);
+    if (mode === "d") return [d0];
+
+    const d = d0.clone().startOf("week");
+    let week = [];
+    for (let i = 0; i < 7; i++) {
+        week.push(d.clone().add(i, "d"));
+    }
+    return week;
+};
+
+const ISO_FORMAT = "YYYY-MM-DD";
+
 class Home extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    parseLocation = match => {
+        const {
+            params: { mode = "w", date }
+        } = match;
+
+        let m = moment(date);
+        if (!m.isValid()) {
+            m = moment();
+        }
+
+        return [mode, m.format(ISO_FORMAT)];
+    };
+
     componentDidMount() {
-        this.fetch();
+        this.load();
     }
 
-    fetch() {
-        const { dates } = this.props;
-        this.props.fetchAvailability({
-            from: dates[0].iso,
-            to: dates[6].iso
+    load() {
+        const {
+            match,
+            fetchCalendarEvents,
+            fetchRoomAvailability
+        } = this.props;
+        const [mode, date] = this.parseLocation(match);
+        const dates = getDatePeriod(mode, date);
+
+        fetchCalendarEvents({
+            from: dates[0].format(ISO_FORMAT),
+            to: dates[dates.length - 1].format(ISO_FORMAT)
         });
 
-        this.props.fetchCalendarEvents({
-            from: dates[0].iso,
-            to: dates[6].iso
+        fetchRoomAvailability({
+            from: moment()
+                .startOf("week")
+                .format(ISO_FORMAT),
+            to: moment()
+                .add(2, "M")
+                .format(ISO_FORMAT)
         });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        const { dates, events } = this.props;
-        const changedEvents =
-            JSON.stringify(events) !== JSON.stringify(nextProps.events);
-        const changedDates =
-            JSON.stringify(dates) !== JSON.stringify(nextProps.dates);
-        return changedDates || changedEvents;
     }
 
     componentDidUpdate(prevProps) {
-        const { dates } = this.props;
-        if (dates[0].iso !== prevProps.dates[0].iso) {
-            this.fetch();
+        const [mode, date] = this.parseLocation(this.props.match);
+        const [prevMode, prevDate] = this.parseLocation(prevProps.match);
+        if (mode !== prevMode || date !== prevDate) {
+            this.load();
         }
     }
 
-    componentWillUnmount() {}
-
     render() {
-        const {
-            classes,
-            dates,
-            periodTitle,
-            nextWeek,
-            prevWeek,
-            thisWeek,
-            events,
-            history
-        } = this.props;
+        const { classes, getEvents, history, match } = this.props;
 
+        const [mode, date] = this.parseLocation(match);
+        const dates = getDatePeriod(mode, date);
         return (
             <React.Fragment>
                 <CalendarTopBar
                     classes={classes}
                     dates={dates}
-                    periodTitle={periodTitle}
-                    nextWeek={nextWeek}
-                    prevWeek={prevWeek}
-                    thisWeek={thisWeek}
+                    date={date}
+                    mode={mode}
                 />
                 <Main>
-                    <Paper square className={classes.calendarContent}>
-                        {events.map((e, i) => (
+                    <Paper
+                        square
+                        className={classNames(classes.calendarContent, {
+                            [classes.calendarWeek]: mode === "w",
+                            [classes.calendarDay]: mode === "d"
+                        })}
+                    >
+                        {getEvents(dates).map((e, i) => (
                             <CalendarEventBar
                                 key={i}
                                 data={e}
@@ -109,18 +137,13 @@ class Home extends Component {
 const s2p = state => ({
     error: hasCalendarError(state),
     loading: isCalendarLoading(state),
-    dates: getCalendarDates(state),
-    events: getCalendarEvents(state),
-    periodTitle: getDatePeriodTitle(state)
+    getEvents: getCalendarEvents(state)
 });
 
 const d2p = {
     fetchCalendarEvents,
-    fetchAvailability,
-    prevWeek,
-    nextWeek,
-    thisWeek
+    fetchRoomAvailability
 };
 
 const store = { s2p, d2p };
-export default consume({ store, styles })(Home);
+export default consume({ store, styles, router: true })(Home);

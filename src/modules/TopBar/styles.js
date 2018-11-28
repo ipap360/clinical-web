@@ -35,6 +35,25 @@ export default theme => ({
     menuCss: {
         // margin: "0 8px 0 0"
     },
+    topbarNav: {
+        flex: "1 auto",
+        display: "flex",
+        alignItems: "center",
+        color: theme.palette.getContrastText(theme.palette.primary.main),
+        "& > a": {
+            padding: theme.spacing.unit
+        },
+        "& > h2": {
+            textAlign: "center",
+            width: 240
+        },
+        "& > button": {
+            fontSize: 36
+        },
+        "& > *": {
+            marginRight: 5
+        }
+    },
     toolbar2: {
         marginRight: sideMargins,
         marginLeft: sideMargins,

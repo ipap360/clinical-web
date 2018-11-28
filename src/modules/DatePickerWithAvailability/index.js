@@ -2,7 +2,7 @@ import { registerReducer } from "redux-dynamic-config";
 
 import { consume } from "../../context";
 import { createActionName, createAsyncAction, setOK } from "../../utils";
-import { roomAvailability } from "../../api";
+import { rooms } from "../../api";
 
 import DatePickerWithAvailability from "./DatePickerWithAvailability";
 
@@ -17,7 +17,7 @@ export const FETCH_AVAILABILITY_OK = setOK(FETCH_AVAILABILITY);
 
 export const fetchAvailability = createAsyncAction(
     FETCH_AVAILABILITY,
-    roomAvailability.query
+    rooms.availability
 );
 
 const state0 = {

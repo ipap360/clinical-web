@@ -1,63 +1,141 @@
 import React, { Component } from "react";
-import {
-    Paper,
-    Icon,
-    IconButton,
-    Button,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import { TTypography } from "../../components";
+import { Paper, Icon, Toolbar, Typography } from "@material-ui/core";
+import { TTypography, SimpleMenu, Link, NavButton } from "../../components";
 import TopBar from "../TopBar";
 import CalendarDayTitle from "./CalendarDayTitle";
+import styles from "./styles";
+import { consume } from "../../context";
+import moment from "moment";
+import { CALENDAR, CALENDAR_EVENT } from "../routes";
+import { getAvailability } from "../Rooms";
 
+const getDatePeriodTitle = dates => {
+    if (dates.length === 1) return dates[0].format("MMMM YYYY");
+
+    let m1 = dates[0].format("MMM");
+    let m2 = dates[6].format("MMM");
+
+    const y1 = dates[0].format("YYYY");
+    const y2 = dates[6].format("YYYY");
+
+    m1 = y1 !== y2 ? m1 + " " + y1 : m1;
+    m2 = m1 !== m2 ? " - " + m2 : "";
+    m2 = y1 !== y2 ? m2 + " " + y2 : m2 + " " + y1;
+
+    return m1 + m2;
+};
+
+const ISO_FORMAT = "YYYY-MM-DD";
 class CalendarTopBar extends Component {
     render() {
-        const {
-            classes,
-            dates,
-            periodTitle,
-            prevWeek,
-            nextWeek,
-            thisWeek
-        } = this.props;
-        const { topbarBody } = classes;
+        const { classes, t, mode, date, dates, availability } = this.props;
+
+        const { topbarBody, modeSwitch } = classes;
+
+        const modes = [
+            {
+                children: t("Week"),
+                component: Link,
+                to: CALENDAR.replace(":mode", "w").replace(":date", date)
+            },
+            {
+                children: t("Day"),
+                component: Link,
+                to: CALENDAR.replace(":mode", "d").replace(":date", date)
+            }
+        ];
+
+        const previous = CALENDAR.replace(":mode", mode).replace(
+            ":date",
+            moment(date)
+                .subtract(1, mode)
+                .format(ISO_FORMAT)
+        );
+        const next = CALENDAR.replace(":mode", mode).replace(
+            ":date",
+            moment(date)
+                .add(1, mode)
+                .format(ISO_FORMAT)
+        );
+        const today = CALENDAR.replace(":mode", mode).replace(
+            ":date",
+            moment().format(ISO_FORMAT)
+        );
+
         return (
             <TopBar
                 title="Calendar"
                 nav={
                     <React.Fragment>
-                        <IconButton
+                        <NavButton
                             variant="outlined"
                             color="inherit"
-                            onClick={() => prevWeek()}
-                        >
-                            <Icon fontSize="inherit">arrow_left</Icon>
-                        </IconButton>
-                        <Typography color="inherit" variant="title">
-                            {periodTitle}
-                        </Typography>
-                        <IconButton
-                            variant="outlined"
-                            color="inherit"
-                            onClick={() => nextWeek()}
-                        >
-                            <Icon fontSize="inherit">arrow_right</Icon>
-                        </IconButton>
-                        <Button
-                            variant="outlined"
-                            color="inherit"
-                            onClick={() => thisWeek()}
+                            to={today}
                         >
                             <TTypography color="inherit">Today</TTypography>
-                        </Button>
+                        </NavButton>
+                        <NavButton
+                            variant="outlined"
+                            // size="small"
+                            color="inherit"
+                            to={previous}
+                        >
+                            <i
+                                className="fas fa-chevron-left"
+                                style={{ fontSize: 18 }}
+                            />
+                        </NavButton>
+                        <NavButton
+                            // size="small"
+                            variant="outlined"
+                            color="inherit"
+                            to={next}
+                        >
+                            <i
+                                className="fas fa-chevron-right"
+                                style={{ fontSize: 18 }}
+                            />
+                        </NavButton>
+                        <Typography color="inherit" variant="title">
+                            {getDatePeriodTitle(dates)}
+                        </Typography>
+
+                        <SimpleMenu
+                            label={
+                                <TTypography color="inherit">
+                                    {mode === "d" ? "Day" : "Week"}
+                                </TTypography>
+                            }
+                            labelProps={{
+                                color: "inherit",
+                                icon: "fas fa-caret-down",
+                                iconPosition: "right"
+                            }}
+                            className={modeSwitch}
+                            items={modes}
+                        />
                     </React.Fragment>
                 }
                 body={
                     <Paper className={topbarBody} square>
                         <Toolbar disableGutters>
                             {dates.map((d, i) => {
-                                return <CalendarDayTitle key={i} d={d} />;
+                                const iso = d.format(ISO_FORMAT);
+                                const newURL = {
+                                    pathname: CALENDAR_EVENT.replace(":id", 0),
+                                    state: {
+                                        date: iso
+                                    }
+                                };
+                                const dailyAvailability = availability[iso];
+                                return (
+                                    <CalendarDayTitle
+                                        key={"calendar-day-" + i}
+                                        d={d}
+                                        newURL={newURL}
+                                        availability={dailyAvailability}
+                                    />
+                                );
                             })}
                         </Toolbar>
                     </Paper>
@@ -67,4 +145,10 @@ class CalendarTopBar extends Component {
     }
 }
 
-export default CalendarTopBar;
+const s2p = state => ({
+    availability: getAvailability(state)
+});
+
+export default consume({ store: { s2p }, styles, router: true })(
+    CalendarTopBar
+);

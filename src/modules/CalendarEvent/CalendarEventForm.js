@@ -77,10 +77,6 @@ class CalendarEventForm extends React.Component {
                 ref={this.form}
                 {...props}
             >
-                {/* <FieldValues names={["isPostponed", "isCopied"]}>
-                    {({ isPostponed, isCopied }) => {
-                        return (
-                            <React.Fragment> */}
                 <FormRow>
                     <FormSelect
                         name="patient"
@@ -138,17 +134,12 @@ class CalendarEventForm extends React.Component {
                 </FormButtonsContainer>
                 <FormError />
                 {children}
-                {/* </React.Fragment>
-                        );
-                    }}
-                </FieldValues> */}
             </Form>
         );
     }
 }
 
 const s2p = state => ({
-    // title: getCalendarEventTitle(state),
     patients: getPatients(state).map(p => ({
         value: p.id,
         label: [p.name, p.code, p.notes].join(" ")

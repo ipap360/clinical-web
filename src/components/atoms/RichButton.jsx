@@ -22,10 +22,10 @@ const styles = theme => ({
         textAlign: "center"
     },
     iconL: {
-        marginRight: Math.floor(theme.spacing.unit / 2)
+        marginRight: theme.spacing.unit
     },
     iconR: {
-        marginLeft: Math.floor(theme.spacing.unit / 2)
+        marginLeft: theme.spacing.unit
     }
 });
 

@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import { RichButton } from "../atoms";
+import { Menu, MenuItem } from "@material-ui/core";
 import { uuid } from "../../utils";
 
 class SimpleMenu extends React.Component {
@@ -16,15 +17,26 @@ class SimpleMenu extends React.Component {
         this.setState({ anchorEl: null });
     };
 
+    componentWillUnmount() {
+        // this.setState({ anchorEl: null });
+    }
+
     render() {
         const { anchorEl, id } = this.state;
-        const { className, label, items = [], Component = Button } = this.props;
+        const {
+            className,
+            label,
+            labelProps,
+            items = [],
+            Component = RichButton
+        } = this.props;
         return (
             <div className={className}>
                 <Component
                     aria-owns={anchorEl ? id : null}
                     aria-haspopup="true"
                     onClick={this.handleClick}
+                    {...labelProps}
                 >
                     {label}
                 </Component>
@@ -35,7 +47,13 @@ class SimpleMenu extends React.Component {
                     onClose={this.handleClose}
                 >
                     {items.map((item, i) => {
-                        return <MenuItem key={i} {...item} />;
+                        return (
+                            <MenuItem
+                                key={i}
+                                {...item}
+                                onClick={this.handleClose}
+                            />
+                        );
                     })}
                 </Menu>
             </div>

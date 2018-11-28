@@ -71,6 +71,7 @@ class TopBar extends Component {
             menuTrigger,
             menuCss,
             titleCss,
+            topbarNav,
             toolbar2,
             withSidebar
         } = classes;
@@ -91,7 +92,11 @@ class TopBar extends Component {
                     >
                         {title}
                     </TTypography>
-                    <Toolbar style={{ flex: "1 auto" }} disableGutters>
+                    <Toolbar
+                        // style={{  }}
+                        className={topbarNav}
+                        disableGutters
+                    >
                         {nav}
                     </Toolbar>
                     <SimpleMenu

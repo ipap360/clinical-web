@@ -23,6 +23,11 @@ export default theme => ({
         flex: "1 auto",
         width: "100%"
     },
+    notFound: {
+        padding: theme.spacing.unit,
+        color: theme.palette.text.secondary,
+        fontStyle: "italic"
+    },
     form: {
         width: 600
     },
