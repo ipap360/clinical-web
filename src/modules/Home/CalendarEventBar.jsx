@@ -15,6 +15,9 @@ const styles = theme => ({
         alignItems: "center",
         justifyContent: "space-between",
         color: theme.palette.getContrastText(theme.palette.primary.main),
+        // whiteSpace: "nowrap",
+        // overflow: "hidden",
+        // textOverflow: "ellipsis",
         "&:hover": {
             opacity: 0.75
         },
@@ -68,22 +71,12 @@ const styles = theme => ({
         },
         "&.is-completed > p": {
             color: "inherit"
-        },
-        "& > p": {
-            maxHeight: 58,
-            // lineHeight: 1
-            // display: '-webkit-box',
-            // '-webkit-line-clamp': 3,
-            // '-webkit-box-orient': 'vertical',
-            overflow: "hidden",
-            textOverflow: "ellipsis"
-            // position: 'absolute',
-            // color: theme.palette.getContrastText(partA),
-            // padding: '16px',
-            // top: 0,
-            // left: 0,
-            // fontSize: '.8em'
         }
+    },
+    eventText: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
     }
 });
 
@@ -108,7 +101,7 @@ export default withStyles(styles)(({ classes, data, history }) => {
     const patient = [name, code, patientNotes].join(" ");
     const text = eventNotes ? [patient, eventNotes].join(", ") : patient;
 
-    const span2 = start === end && text.length > 30;
+    // const span2 = start === end && text.length > 30;
 
     return (
         <Paper
@@ -124,14 +117,13 @@ export default withStyles(styles)(({ classes, data, history }) => {
                 "is-completed": isCompleted
             })}
             style={{
-                gridColumn: `${start} / ${end + 1}`,
-                gridRowEnd: span2 ? "span 2" : null
+                gridColumn: `${start} / ${end + 1}`
             }}
         >
             <Typography
                 color="inherit"
                 variant="caption"
-                style={{ whiteSpace: !span2 ? "nowrap" : null }}
+                className={classes.eventText}
                 title={text}
             >
                 {text}

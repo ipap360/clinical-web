@@ -72,13 +72,14 @@ const position = (dates, e) => {
     return [checkin, checkout, isDaily];
 };
 
+export const getLength = dates =>
+    moment.duration(dates[dates.length - 1].diff(dates[0])).asDays();
+
 export const getCalendarEvents = state => dates => {
     const events = state[MODULE_NAME].events;
     return events
         .filter(e => {
-            const calendarLength = moment
-                .duration(dates[dates.length - 1].diff(dates[0]))
-                .asDays();
+            const calendarLength = getLength(dates);
 
             const [checkin, checkout] = position(dates, e);
             const isBefore = checkin < 0 && checkout < 0;
@@ -92,9 +93,7 @@ export const getCalendarEvents = state => dates => {
             return true;
         })
         .map(e => {
-            const calendarLength = moment
-                .duration(dates[dates.length - 1].diff(dates[0]))
-                .asDays();
+            const calendarLength = getLength(dates);
 
             const [checkin, checkout, isDaily] = position(dates, e);
             return {

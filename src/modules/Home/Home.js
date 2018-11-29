@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import Media from "react-media";
 import { Paper, Icon } from "@material-ui/core";
 import { NavButton } from "../../components";
 
 import Main from "../Main";
 import { ROOT, CALENDAR_EVENT } from "../routes";
 
+import PrintCalendar from "./PrintCalendar";
 import CalendarTopBar from "./CalendarTopBar";
 import CalendarEventBar from "./CalendarEventBar";
 
@@ -33,6 +35,22 @@ const getDatePeriod = (mode, date) => {
         week.push(d.clone().add(i, "d"));
     }
     return week;
+};
+
+const getDatePeriodTitle = dates => {
+    if (dates.length === 1) return dates[0].format("MMMM YYYY");
+
+    let m1 = dates[0].format("MMM");
+    let m2 = dates[6].format("MMM");
+
+    const y1 = dates[0].format("YYYY");
+    const y2 = dates[6].format("YYYY");
+
+    m1 = y1 !== y2 ? m1 + " " + y1 : m1;
+    m2 = m1 !== m2 ? " - " + m2 : "";
+    m2 = y1 !== y2 ? m2 + " " + y2 : m2 + " " + y1;
+
+    return m1 + m2;
 };
 
 const ISO_FORMAT = "YYYY-MM-DD";
@@ -96,40 +114,62 @@ class Home extends Component {
 
         const [mode, date] = this.parseLocation(match);
         const dates = getDatePeriod(mode, date);
+        const events = getEvents(dates);
+        const title = getDatePeriodTitle(dates);
+
         return (
-            <React.Fragment>
-                <CalendarTopBar
-                    classes={classes}
-                    dates={dates}
-                    date={date}
-                    mode={mode}
-                />
-                <Main>
-                    <Paper
-                        square
-                        className={classNames(classes.calendarContent, {
-                            [classes.calendarWeek]: mode === "w",
-                            [classes.calendarDay]: mode === "d"
-                        })}
-                    >
-                        {getEvents(dates).map((e, i) => (
-                            <CalendarEventBar
-                                key={i}
-                                data={e}
-                                history={history}
+            <Media query="only print">
+                {matches =>
+                    !matches ? (
+                        <React.Fragment>
+                            <CalendarTopBar
+                                classes={classes}
+                                title={title}
+                                dates={dates}
+                                date={date}
+                                mode={mode}
                             />
-                        ))}
-                    </Paper>
-                    <NavButton
-                        variant="fab"
-                        className={classes.addBtn}
-                        color="secondary"
-                        to={CALENDAR_EVENT.replace(":id", "0")}
-                    >
-                        <Icon>add</Icon>
-                    </NavButton>
-                </Main>
-            </React.Fragment>
+                            <Main>
+                                <Paper
+                                    square
+                                    className={classNames(
+                                        classes.calendarContent,
+                                        classes.calendar,
+                                        {
+                                            [classes.calendarWeek]:
+                                                mode === "w",
+                                            [classes.calendarDay]: mode === "d"
+                                        }
+                                    )}
+                                >
+                                    {events.map((e, i) => (
+                                        <CalendarEventBar
+                                            key={i}
+                                            data={e}
+                                            history={history}
+                                        />
+                                    ))}
+                                </Paper>
+                                <NavButton
+                                    variant="fab"
+                                    className={classes.addBtn}
+                                    color="secondary"
+                                    to={CALENDAR_EVENT.replace(":id", "0")}
+                                >
+                                    <Icon>add</Icon>
+                                </NavButton>
+                            </Main>
+                        </React.Fragment>
+                    ) : (
+                        <PrintCalendar
+                            mode={mode}
+                            dates={dates}
+                            events={events}
+                            title={title}
+                        />
+                    )
+                }
+            </Media>
         );
     }
 }

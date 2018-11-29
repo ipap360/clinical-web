@@ -9,26 +9,18 @@ import moment from "moment";
 import { CALENDAR, CALENDAR_EVENT } from "../routes";
 import { getAvailability } from "../Rooms";
 
-const getDatePeriodTitle = dates => {
-    if (dates.length === 1) return dates[0].format("MMMM YYYY");
-
-    let m1 = dates[0].format("MMM");
-    let m2 = dates[6].format("MMM");
-
-    const y1 = dates[0].format("YYYY");
-    const y2 = dates[6].format("YYYY");
-
-    m1 = y1 !== y2 ? m1 + " " + y1 : m1;
-    m2 = m1 !== m2 ? " - " + m2 : "";
-    m2 = y1 !== y2 ? m2 + " " + y2 : m2 + " " + y1;
-
-    return m1 + m2;
-};
-
 const ISO_FORMAT = "YYYY-MM-DD";
 class CalendarTopBar extends Component {
     render() {
-        const { classes, t, mode, date, dates, availability } = this.props;
+        const {
+            classes,
+            t,
+            mode,
+            date,
+            dates,
+            availability,
+            title
+        } = this.props;
 
         const { topbarBody, modeSwitch } = classes;
 
@@ -97,7 +89,7 @@ class CalendarTopBar extends Component {
                             />
                         </NavButton>
                         <Typography color="inherit" variant="title">
-                            {getDatePeriodTitle(dates)}
+                            {title}
                         </Typography>
 
                         <SimpleMenu
