@@ -1,3 +1,2 @@
-import PatientPage from "./PatientPage";
+export { default } from "./PatientPage";
 export { default as PatientForm } from "./PatientForm";
-export default PatientPage;

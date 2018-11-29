@@ -1,3 +1,2 @@
-import CalendarEventPage from "./CalendarEventPage";
-export default CalendarEventPage;
+export { default } from "./CalendarEventPage";
 export { default as CalendarEventForm } from "./CalendarEventForm";

@@ -7,8 +7,7 @@ import {
     ModalFormContainer,
     hoverRowBG
 } from "../../components";
-// import { headerBG,  } from "./colors";
-// import { TTypography, RichButton } from "../../components";
+
 import {
     Paper,
     Icon,
@@ -18,8 +17,8 @@ import {
     Button
 } from "@material-ui/core";
 import { consume } from "../../context";
-import { fetchRooms, getRooms } from "./store";
-import RoomForm from "./RoomForm";
+import { fetchThresholds, getThresholds } from "./store";
+import ThresholdForm from "./ThresholdForm";
 import {
     Table,
     TableHead,
@@ -27,7 +26,6 @@ import {
     TableRow,
     TableCell
 } from "@material-ui/core";
-import classNames from "classnames";
 
 const styles = theme => ({
     ...layoutStyles(theme),
@@ -54,7 +52,7 @@ const styles = theme => ({
     }
 });
 
-class RoomsList extends Component {
+class Thresholds extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,8 +62,8 @@ class RoomsList extends Component {
     }
 
     componentDidMount() {
-        const { fetchRooms } = this.props;
-        fetchRooms();
+        const { fetchThresholds } = this.props;
+        fetchThresholds();
     }
 
     componentWillUnmount() {}
@@ -85,14 +83,14 @@ class RoomsList extends Component {
         });
     };
 
-    onAddRoom = (...args) => {
-        const { fetchRooms } = this.props;
+    onAddThreshold = (...args) => {
+        const { fetchThresholds } = this.props;
         this.handleModalClose();
-        fetchRooms();
+        fetchThresholds();
     };
 
     render() {
-        const { rooms, t, classes } = this.props;
+        const { thresholds, t, classes } = this.props;
         const {
             rowStyle,
             section,
@@ -105,25 +103,33 @@ class RoomsList extends Component {
             <Paper className={section} square>
                 <AppBar position="static" color="default">
                     <Toolbar className={sectionHeader}>
-                        <TTypography variant="subtitle1">Rooms</TTypography>
+                        <TTypography variant="subtitle1">
+                            Availability Indicators
+                        </TTypography>
+                        <TTypography variant="caption">
+                            lowest matched threshold applies
+                        </TTypography>
                     </Toolbar>
                 </AppBar>
                 <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
-                            <TableCell>{t("Room")}</TableCell>
-                            <TableCell numeric>{t("Capacity")}</TableCell>
+                            <TableCell>{t("Description")}</TableCell>
+                            <TableCell>{t("Color")}</TableCell>
+                            <TableCell numeric>{t("Threshold")}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {!rooms.length && (
+                        {!thresholds.length && (
                             <TableRow>
-                                <TableCell colspan={2} className={notFound}>
-                                    {t("There are no rooms registered")}
+                                <TableCell colspan={3} className={notFound}>
+                                    {t(
+                                        "There are no availability indicators registered"
+                                    )}
                                 </TableCell>
                             </TableRow>
                         )}
-                        {rooms.map(row => {
+                        {thresholds.map(row => {
                             return (
                                 <TableRow
                                     key={row.id}
@@ -131,9 +137,10 @@ class RoomsList extends Component {
                                     onClick={this.handleRowClick}
                                     className={rowStyle}
                                 >
-                                    <TableCell>{row.name}</TableCell>
+                                    <TableCell>{row.description}</TableCell>
+                                    <TableCell>{row.indicator}</TableCell>
                                     <TableCell numeric>
-                                        {row.capacity}
+                                        {row.threshold}
                                     </TableCell>
                                 </TableRow>
                             );
@@ -143,12 +150,12 @@ class RoomsList extends Component {
                 <ModalFormContainer
                     open={this.state.modal}
                     onClose={this.handleModalClose}
-                    title={t("Room")}
+                    title={t("Threshold")}
                 >
-                    <RoomForm
+                    <ThresholdForm
                         id={this.state.modalId}
                         className={classes.modalform}
-                        onSaveSuccess={this.onAddRoom}
+                        onSaveSuccess={this.onAddThreshold}
                     />
                 </ModalFormContainer>
                 <Button
@@ -167,12 +174,12 @@ class RoomsList extends Component {
 }
 
 const s2p = state => ({
-    rooms: getRooms(state)
+    thresholds: getThresholds(state)
 });
 
 const d2p = {
-    fetchRooms
+    fetchThresholds
 };
 
 const store = { s2p, d2p };
-export default consume({ store, styles, router: true })(RoomsList);
+export default consume({ store, styles, router: true })(Thresholds);

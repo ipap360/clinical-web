@@ -7,7 +7,8 @@ import Main from "../Main";
 import { ROOT, CALENDAR_EVENT } from "../routes";
 
 import PrintCalendar from "./PrintCalendar";
-import CalendarTopBar from "./CalendarTopBar";
+import CalendarHead from "./CalendarHead";
+import CalendarNav from "./CalendarNav";
 import CalendarEventBar from "./CalendarEventBar";
 
 import styles from "./styles";
@@ -122,14 +123,17 @@ class Home extends Component {
                 {matches =>
                     !matches ? (
                         <React.Fragment>
-                            <CalendarTopBar
-                                classes={classes}
-                                title={title}
-                                dates={dates}
-                                date={date}
-                                mode={mode}
-                            />
-                            <Main>
+                            <Main
+                                title="Calendar"
+                                nav={
+                                    <CalendarNav
+                                        title={title}
+                                        date={date}
+                                        mode={mode}
+                                    />
+                                }
+                                head={<CalendarHead dates={dates} />}
+                            >
                                 <Paper
                                     square
                                     className={classNames(

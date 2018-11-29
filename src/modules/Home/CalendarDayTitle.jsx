@@ -16,6 +16,7 @@ const styles = theme => ({
         height: "128px",
         display: "flex",
         alignItems: "center",
+        borderRadius: 0,
         justifyContent: "center",
         background: `linear-gradient(${partA}, ${partA} 50%, ${partB} 50%)`,
         color: theme.palette.getContrastText(partB),

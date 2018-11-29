@@ -1,14 +1,11 @@
 import React from "react";
-import { Redirect } from "react-router";
 import { consume } from "../../context";
 import { onSavePage } from "../../utils";
 
 import Main from "../Main";
-import { Paper, Button, Divider } from "@material-ui/core";
+import { Paper, Divider } from "@material-ui/core";
 
-import { RichButton, TTypography } from "../../components";
-
-import TopBar from "../TopBar";
+import { RichButton } from "../../components";
 import SideBar from "../SideBar";
 
 import CalendarEventForm from "./CalendarEventForm";
@@ -75,11 +72,6 @@ class CalendarEventPage extends React.Component {
 
         return (
             <React.Fragment>
-                <TopBar
-                    sidebar={true}
-                    title="Appointments"
-                    body={<CalendarEventTitle form={formName} isNew={isNew} />}
-                />
                 <SideBar>
                     <div className={classes.sidebar}>
                         <div>
@@ -109,7 +101,11 @@ class CalendarEventPage extends React.Component {
                             ))}
                     </div>
                 </SideBar>
-                <Main sidebar={true}>
+                <Main
+                    title="Appointments"
+                    sidebar={true}
+                    head={<CalendarEventTitle form={formName} isNew={isNew} />}
+                >
                     <Paper square className={classes.mainPaper}>
                         <CalendarEventForm
                             className={classes.form}

@@ -1,4 +1,4 @@
-import { headerBG } from "./colors";
+import { headerBG, hoverRowBG } from "./colors";
 export default theme => ({
     header: {
         flex: "1 auto",
@@ -35,5 +35,22 @@ export default theme => ({
         position: "fixed",
         bottom: theme.spacing.unit * 4.5,
         right: theme.spacing.unit * 4.5
+    },
+    section: {
+        position: "relative",
+        margin: `${theme.spacing.unit * 3}px 0`,
+        paddingBottom: 40,
+        minHeight: 200
+    },
+    sectionHeader: {
+        justifyContent: "space-between"
+    },
+    sectionContent: {
+        overflow: "auto"
+    },
+    sectionBtn: {
+        position: "absolute",
+        bottom: 10,
+        right: -20
     }
 });

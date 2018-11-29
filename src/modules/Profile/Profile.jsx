@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import {} from "../../components";
 import { consume } from "../../context";
-import TopBar from "../TopBar";
 import Main from "../Main";
 
-class Settings extends Component {
+class Profile extends Component {
     constructor(props) {
         super(props);
     }
@@ -15,15 +14,7 @@ class Settings extends Component {
 
     render() {
         const { t } = this.props;
-
-        return (
-            <React.Fragment>
-                <TopBar title="Settings" />
-                <Main>
-                    {/* <SimpleTable data={data} headerContainer={container} /> */}
-                </Main>
-            </React.Fragment>
-        );
+        return <Main title="Profile">Hello World!</Main>;
     }
 }
 
@@ -36,4 +27,4 @@ const d2p = {
 };
 
 const store = { s2p, d2p };
-export default consume({ store })(Settings);
+export default consume({ store })(Profile);

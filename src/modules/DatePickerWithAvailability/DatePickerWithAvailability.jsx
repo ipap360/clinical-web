@@ -31,12 +31,17 @@ class DatePickerWithAvailability extends React.Component {
     }
 
     render() {
-        const { availability, t, gender, ...props } = this.props;
+        const {
+            availability,
+            t,
+            gender,
+            // here in order to avoid being spread to DatePicker
+            fetchRoomAvailability,
+            ...props
+        } = this.props;
+
         const ga = getAvailabilityForGender(availability, gender);
-        // console.log(
-        //     JSON.stringify(availability, 0, 4),
-        //     JSON.stringify(ga, 0, 4)
-        // );
+
         return (
             <FormDate
                 renderDay={(

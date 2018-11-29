@@ -1,22 +1,39 @@
 import React from "react";
-
-import styles from "./styles";
-import { withStyles } from "@material-ui/core";
-
 import classNames from "classnames";
+import { Toolbar, withStyles } from "@material-ui/core";
+
+import TopBar from "./TopBar";
+import styles from "./styles";
 
 class Main extends React.Component {
     render() {
-        const { classes, children, sidebar, topbar = true } = this.props;
+        const {
+            classes,
+            children,
+            sidebar,
+            topbar = true,
+            title,
+            nav,
+            head
+        } = this.props;
         return (
-            <div
-                className={classNames(classes.root, {
-                    [classes.withSidebar]: !!sidebar,
-                    [classes.withTopbar]: !!topbar
-                })}
-            >
-                {children}
-            </div>
+            <React.Fragment>
+                <TopBar
+                    title={title}
+                    nav={nav}
+                    body={head}
+                    sidebar={!!sidebar}
+                />
+                <div
+                    className={classNames(classes.main, {
+                        [classes.withSidebar]: !!sidebar
+                    })}
+                >
+                    {topbar && <Toolbar disableGutters />}
+                    {topbar && head && <Toolbar disableGutters />}
+                    {children}
+                </div>
+            </React.Fragment>
         );
     }
 }

@@ -15,10 +15,15 @@ export const fetchRoomAvailability = createAsyncAction(
     rooms.availability
 );
 
-const state0 = { availability: [] };
+const state0 = { availability: [], rooms: [] };
 
 const reducer = (state = state0, { type, payload }) => {
     switch (type) {
+        case FETCH_ROOMS.OK:
+            return {
+                ...state,
+                rooms: payload
+            };
         case FETCH_ROOM_AVAILABILITY.OK:
             return {
                 ...state,
@@ -31,4 +36,5 @@ const reducer = (state = state0, { type, payload }) => {
 
 registerReducer(MODULE_NAME, reducer);
 
+export const getRooms = state => state[MODULE_NAME].rooms;
 export const getAvailability = state => state[MODULE_NAME].availability;

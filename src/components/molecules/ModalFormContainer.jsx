@@ -11,19 +11,21 @@ import classNames from "classnames";
 
 const styles = theme => ({
     root: {
-        height: 500,
+        height: "auto",
+        maxHeight: "calc(100vh - 120px)",
         width: 600,
         overflowY: "auto",
         marginTop: -250,
         top: "50%",
         position: "absolute",
         left: "50%",
-        marginLeft: -300,
-        "&.short": {
-            height: 300
-        }
+        marginLeft: -300
     },
-    form: {}
+    form: {
+        "& > form": {
+            width: "100%"
+        }
+    }
 });
 
 const ModalFormContainer = ({
@@ -51,7 +53,7 @@ const ModalFormContainer = ({
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Toolbar>{children}</Toolbar>
+                <Toolbar className={classes.form}>{children}</Toolbar>
             </div>
         </Paper>
     </Modal>

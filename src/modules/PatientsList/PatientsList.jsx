@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import {
     TTypography,
-    SimpleTable,
     tableStyles,
     layoutStyles,
     headerBG,
     NavButton
 } from "../../components";
 import { consume } from "../../context";
-import TopBar from "../TopBar";
 import Main from "../Main";
 import { fetchPatients, getPatients } from "./store";
 import { Paper, Typography, Toolbar, Icon } from "@material-ui/core";
@@ -32,21 +30,6 @@ const styles = theme => ({
     header: {
         backgroundColor: headerBG,
         width: "100%"
-    },
-    row: {
-        display: "flex",
-        alignItems: "center",
-        padding: `${theme.spacing.unit * 1.5}px 0`,
-        cursor: "pointer",
-        "&:hover": {
-            backgroundColor: "#EFEFEF"
-        },
-        "&:not(:last-child)": {
-            borderBottom: `1px solid ${theme.palette.divider}`
-        }
-    },
-    col: {
-        padding: `0 ${theme.spacing.unit / 2}px`
     },
     col1: {
         width: 30,
@@ -128,8 +111,7 @@ class PatientsList extends Component {
 
         return (
             <React.Fragment>
-                <TopBar title="Patients" body={<PatientsListTitle />} />
-                <Main>
+                <Main title="Patients" head={<PatientsListTitle />}>
                     <Paper className={mainPaper} square>
                         {!patients.length && (
                             <TTypography className={notFound}>

@@ -1,7 +1,6 @@
 import React from "react";
-import { rooms } from "../../api";
+import { thresholds } from "../../api";
 import { consume } from "../../context";
-// import { data } from "../../utils";
 
 import {
     Form,
@@ -9,30 +8,26 @@ import {
     FormText,
     FormSubmitButton,
     FormResetButton,
-    // FormRadioGroup,
     FormButtonsContainer,
-    // FormRadio,
     FormError
-    // FormSelect,
-    // FormArea
 } from "../../components";
 
-const RoomForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
+const ThresholdForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
     const isNew = id === 0;
     return (
         <Form
             id={id}
-            load={rooms.view}
-            save={rooms.save}
+            load={thresholds.view}
+            save={thresholds.save}
             className={className}
             onSaveSuccess={onSaveSuccess}
             formProps={{ noValidate: "novalidate" }}
         >
             <FormRow>
                 <FormText
-                    name="name"
+                    name="description"
                     inputProps={{ maxLength: "255" }}
-                    label={t("Name")}
+                    label={t("Description")}
                     fullWidth
                     required
                 />
@@ -40,8 +35,17 @@ const RoomForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
             <FormRow>
                 <FormText
                     type="number"
-                    name="capacity"
-                    label={t("Capacity")}
+                    name="threshold"
+                    label={t("Threshold")}
+                    fullWidth
+                    required
+                />
+            </FormRow>
+            <FormRow>
+                <FormText
+                    type="number"
+                    name="indicator"
+                    label={t("Indicator")}
                     fullWidth
                     required
                 />
@@ -60,4 +64,4 @@ const RoomForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
     );
 };
 
-export default consume()(RoomForm);
+export default consume()(ThresholdForm);
