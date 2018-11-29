@@ -66,9 +66,6 @@ const position = (dates, e) => {
         isDaily = false;
     }
 
-    console.log(start.format("YYYY-MM-DD"));
-    console.log(end.format("YYYY-MM-DD"));
-
     const checkin = moment.duration(start.diff(calendarStart)).asDays();
     const checkout = moment.duration(end.diff(calendarStart)).asDays();
 
@@ -99,11 +96,7 @@ export const getCalendarEvents = state => dates => {
                 .duration(dates[dates.length - 1].diff(dates[0]))
                 .asDays();
 
-            console.log(calendarLength);
-
             const [checkin, checkout, isDaily] = position(dates, e);
-            console.log(checkin, checkout, isDaily);
-
             return {
                 ...e,
                 start: checkin < 0 ? 1 : checkin + 1,
