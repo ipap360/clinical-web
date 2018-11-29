@@ -4,10 +4,6 @@ import { consume } from "../../context";
 import Main from "../Main";
 
 class Profile extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {}
 
     componentWillUnmount() {}

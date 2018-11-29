@@ -67,7 +67,6 @@ class ExistingCalendarEventSidebar extends React.Component {
             isCopied,
             original
         } = this.props;
-        const ref = this;
 
         if (isCopied) {
             return (

@@ -10,12 +10,6 @@ import appMenu from "./appMenu";
 import userMenu from "./userMenu";
 
 class TopBar extends Component {
-    constructor(props) {
-        super(props);
-        const { t } = props;
-        // this.bodyRef = React.createRef();
-    }
-
     render() {
         const { t, classes, title, nav, body, sidebar } = this.props;
         const {

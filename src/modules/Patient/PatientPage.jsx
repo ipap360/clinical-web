@@ -1,8 +1,8 @@
 import React from "react";
 import { consume } from "../../context";
-import { onSavePage, onDelete } from "../../utils";
+import { onSavePage } from "../../utils";
 import Main from "../Main";
-import { Paper, Button, Divider } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 
 import FormStateToRedux from "../FormStateToRedux";
 

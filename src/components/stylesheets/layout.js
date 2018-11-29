@@ -1,4 +1,4 @@
-import { headerBG, hoverRowBG } from "./colors";
+import { headerBG } from "./colors";
 export default theme => ({
     header: {
         flex: "1 auto",

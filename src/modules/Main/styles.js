@@ -1,5 +1,5 @@
 const drawerWidth = 300;
-const topbarHeight = 128;
+// const topbarHeight = 128;
 const sideMargins = 64;
 const marginBottom = 16;
 

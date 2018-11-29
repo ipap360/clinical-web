@@ -1,4 +1,4 @@
-import { headerBG, hoverRowBG } from "./colors";
+import { hoverRowBG } from "./colors";
 export default theme => {
     return {
         root: {

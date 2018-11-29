@@ -1,17 +1,8 @@
 import React from "react";
-import { Typography, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import classNames from "classnames";
 import styles from "./styles";
 import Dotdotdot from "react-dotdotdot";
-
-// const styles = theme => ({
-
-//     root: {
-//         color: theme.palette.text.primary,
-//         fontFamily: theme.typography.fontFamily,
-//         textAlign: "center"
-//     }
-// });
 
 const PrintCalendar = ({ classes, title, dates, events, mode }) => (
     <div
@@ -38,19 +29,7 @@ const PrintCalendar = ({ classes, title, dates, events, mode }) => (
             </div>
         ))}
         {events.map((data, i) => {
-            const {
-                id,
-                start,
-                end,
-                isDaily,
-                isCarryOver,
-                isContinued,
-                patientNotes,
-                name,
-                code,
-                eventNotes,
-                isCompleted
-            } = data;
+            const { start, end, patientNotes, name, code, eventNotes } = data;
 
             const patient = [name, code, patientNotes].join(" ");
             const text = eventNotes

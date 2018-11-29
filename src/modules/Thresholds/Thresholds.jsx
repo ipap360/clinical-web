@@ -8,14 +8,7 @@ import {
     hoverRowBG
 } from "../../components";
 
-import {
-    Paper,
-    Icon,
-    IconButton,
-    AppBar,
-    Toolbar,
-    Button
-} from "@material-ui/core";
+import { Paper, Icon, AppBar, Toolbar, Button } from "@material-ui/core";
 import { consume } from "../../context";
 import { fetchThresholds, getThresholds } from "./store";
 import ThresholdForm from "./ThresholdForm";

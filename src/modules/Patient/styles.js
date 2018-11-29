@@ -1,4 +1,4 @@
-import { headerBG, layoutStyles } from "../../components";
+import { layoutStyles } from "../../components";
 
 export default theme => ({
     ...layoutStyles(theme),

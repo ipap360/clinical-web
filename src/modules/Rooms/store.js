@@ -1,5 +1,5 @@
 import { registerReducer } from "redux-dynamic-config";
-import { createAsyncNames, createAsyncAction, setOK } from "../../utils";
+import { createAsyncNames, createAsyncAction } from "../../utils";
 import { rooms } from "../../api";
 const MODULE_NAME = "Rooms";
 

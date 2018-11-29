@@ -1,4 +1,4 @@
-import { registerReducer } from "redux-dynamic-config";
+// import { registerReducer } from "redux-dynamic-config";
 import { patients } from "../../api";
 import { createAsyncNames, createAsyncAction } from "../../utils";
 import { getFormValue, getFormState } from "../FormStateToRedux";

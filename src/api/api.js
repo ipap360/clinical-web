@@ -103,6 +103,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
 
     net.interceptors.response.use(
         function(response) {
+            // eslint-disable-next-line
             const { data, status, statusText, config } = response;
 
             if (isSessionEndpoint(config)) {
@@ -141,6 +142,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
 };
 
 export const formErrorHandler = data => {
+    // eslint-disable-next-line
     if (data.errors) throw { ...data.errors };
     throw data.message;
 };

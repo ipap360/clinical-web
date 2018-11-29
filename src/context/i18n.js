@@ -2,7 +2,7 @@ import React from "react";
 import i18n from "i18next";
 import {
     I18nextProvider,
-    withNamespaces,
+    // withNamespaces,
     NamespacesConsumer
 } from "react-i18next";
 import XHR from "i18next-xhr-backend";

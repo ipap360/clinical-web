@@ -99,6 +99,7 @@ class Form extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        // eslint-disable-next-line
         if (prevProps.id != this.props.id) {
             this.load();
         }

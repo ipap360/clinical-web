@@ -1,10 +1,5 @@
 import { registerReducer } from "redux-dynamic-config";
-import {
-    createAction,
-    createAsyncNames,
-    createAsyncAction,
-    createActionName
-} from "../../utils";
+import { createAsyncNames, createAsyncAction } from "../../utils";
 import moment from "moment";
 import { calendarEvents, rooms } from "../../api";
 

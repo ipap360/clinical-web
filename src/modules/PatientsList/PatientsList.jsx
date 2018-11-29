@@ -65,7 +65,7 @@ class PatientsList extends Component {
     };
 
     render() {
-        const { patients, t, classes } = this.props;
+        const { patients, classes } = this.props;
         const {
             mainPaper,
             notFound,

@@ -4,7 +4,7 @@ import { Paper, Icon } from "@material-ui/core";
 import { NavButton } from "../../components";
 
 import Main from "../Main";
-import { ROOT, CALENDAR_EVENT } from "../routes";
+import { CALENDAR_EVENT } from "../routes";
 
 import PrintCalendar from "./PrintCalendar";
 import CalendarHead from "./CalendarHead";
@@ -57,10 +57,6 @@ const getDatePeriodTitle = dates => {
 const ISO_FORMAT = "YYYY-MM-DD";
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     parseLocation = match => {
         const {
             params: { mode = "w", date }

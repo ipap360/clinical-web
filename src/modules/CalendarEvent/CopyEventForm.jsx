@@ -61,4 +61,4 @@ const s2p = (state, { mainForm }) => ({
     gender: getGenderInitial(state, getFormValue(state, mainForm, "patient"))
 });
 
-export default consume()(CopyEventForm);
+export default consume({ store: { s2p } })(CopyEventForm);

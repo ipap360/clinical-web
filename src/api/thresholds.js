@@ -1,4 +1,4 @@
-import net, { toQueryParams, formErrorHandler } from "./api";
+import net, { formErrorHandler } from "./api";
 
 const API_ENDPOINT = "/thresholds";
 
