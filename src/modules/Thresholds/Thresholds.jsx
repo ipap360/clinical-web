@@ -5,12 +5,14 @@ import {
     layoutStyles,
     headerBG,
     ModalFormContainer,
-    hoverRowBG
+    hoverRowBG,
+    ButtonWithAlert
 } from "../../components";
 
-import { Paper, Icon, AppBar, Toolbar, Button } from "@material-ui/core";
+import { Paper, AppBar, Toolbar, Button } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
 import { consume } from "../../context";
-import { fetchThresholds, getThresholds } from "./store";
+import { fetchThresholds, deleteThreshold, getThresholds } from "./store";
 import ThresholdForm from "./ThresholdForm";
 import {
     Table,
@@ -42,8 +44,29 @@ const styles = theme => ({
     col2: {
         width: 100,
         flex: "none"
+    },
+    colorPreview: {
+        width: 24,
+        height: 24,
+        borderRadius: "50%"
     }
 });
+
+const DeleteThreshold = ({ t, onClick }) => (
+    <ButtonWithAlert
+        alertTitle={t("Are you sure you want to delete this indicator?")}
+        // icon="fas fa-trash-alt"
+        // variant="contained"
+        color="inherit"
+        // size="small"
+        variant="outlined"
+        // mini
+        onClick={onClick}
+    >
+        <i className="fas fa-trash-alt" />
+        {/* {t("Delete")} */}
+    </ButtonWithAlert>
+);
 
 class Thresholds extends Component {
     constructor(props) {
@@ -82,13 +105,20 @@ class Thresholds extends Component {
         fetchThresholds();
     };
 
+    onDelete = () => {
+        const { fetchThresholds } = this.props;
+        this.handleModalClose();
+        fetchThresholds();
+    };
+
     render() {
-        const { thresholds, t, classes } = this.props;
+        const { thresholds, t, classes, deleteThreshold } = this.props;
         const {
             rowStyle,
             section,
             sectionHeader,
             sectionBtn,
+            colorPreview,
             notFound
         } = classes;
 
@@ -115,7 +145,7 @@ class Thresholds extends Component {
                     <TableBody>
                         {!thresholds.length && (
                             <TableRow>
-                                <TableCell colspan={3} className={notFound}>
+                                <TableCell colSpan={3} className={notFound}>
                                     {t(
                                         "There are no availability indicators registered"
                                     )}
@@ -123,6 +153,9 @@ class Thresholds extends Component {
                             </TableRow>
                         )}
                         {thresholds.map(row => {
+                            const style = row.indicator
+                                ? { backgroundColor: row.indicator }
+                                : {};
                             return (
                                 <TableRow
                                     key={row.id}
@@ -131,7 +164,14 @@ class Thresholds extends Component {
                                     className={rowStyle}
                                 >
                                     <TableCell>{row.description}</TableCell>
-                                    <TableCell>{row.indicator}</TableCell>
+                                    <TableCell>
+                                        <div
+                                            className={colorPreview}
+                                            style={{
+                                                ...style
+                                            }}
+                                        />
+                                    </TableCell>
                                     <TableCell numeric>
                                         {row.threshold}
                                     </TableCell>
@@ -143,7 +183,17 @@ class Thresholds extends Component {
                 <ModalFormContainer
                     open={this.state.modal}
                     onClose={this.handleModalClose}
-                    title={t("Threshold")}
+                    title={t("Indicator")}
+                    actions={
+                        <DeleteThreshold
+                            t={t}
+                            onClick={() => {
+                                deleteThreshold(this.state.modalId, {
+                                    onOK: this.onDelete
+                                });
+                            }}
+                        />
+                    }
                 >
                     <ThresholdForm
                         id={this.state.modalId}
@@ -159,7 +209,7 @@ class Thresholds extends Component {
                     data-id={0}
                     onClick={this.handleRowClick}
                 >
-                    <Icon>add</Icon>
+                    <AddIcon />
                 </Button>
             </Paper>
         );
@@ -171,7 +221,8 @@ const s2p = state => ({
 });
 
 const d2p = {
-    fetchThresholds
+    fetchThresholds,
+    deleteThreshold
 };
 
 const store = { s2p, d2p };

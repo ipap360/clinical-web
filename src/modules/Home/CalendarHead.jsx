@@ -5,7 +5,7 @@ import CalendarDayTitle from "./CalendarDayTitle";
 import styles from "./styles";
 import { consume } from "../../context";
 import { CALENDAR_EVENT } from "../routes";
-import { getAvailability } from "../Rooms";
+import { getAvailabilityWithIndicators } from "../Rooms";
 
 const ISO_FORMAT = "YYYY-MM-DD";
 class CalendarHead extends Component {
@@ -39,7 +39,7 @@ class CalendarHead extends Component {
 }
 
 const s2p = state => ({
-    availability: getAvailability(state)
+    availability: getAvailabilityWithIndicators(state)
 });
 
 export default consume({ store: { s2p }, styles, router: true })(CalendarHead);

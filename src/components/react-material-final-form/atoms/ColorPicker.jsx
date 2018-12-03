@@ -4,9 +4,10 @@ import {
     FormGroup,
     FormLabel,
     FormHelperText,
-    Checkbox,
     withStyles
 } from "@material-ui/core";
+
+import ColorPickerAdapter from "./ColorPickerAdapter";
 
 const styles = theme => ({
     root: {
@@ -20,7 +21,7 @@ const styles = theme => ({
     }
 });
 
-class CheckboxField extends React.Component {
+class ColorPicker extends React.Component {
     render() {
         const {
             classes,
@@ -40,7 +41,9 @@ class CheckboxField extends React.Component {
             placeholder,
             required,
             disabled,
-            checked,
+            value,
+            disableAlpha,
+            presetColors,
             ...other
         } = this.props;
 
@@ -67,10 +70,12 @@ class CheckboxField extends React.Component {
                             {label}
                         </FormLabel>
                     )}
-                    <Checkbox
+                    <ColorPickerAdapter
                         name={name}
                         onChange={onChange}
-                        checked={checked}
+                        value={value}
+                        disableAlpha={disableAlpha}
+                        presetColors={presetColors}
                     />
                 </FormGroup>
                 {helperText && (
@@ -87,4 +92,4 @@ class CheckboxField extends React.Component {
     }
 }
 
-export default withStyles(styles)(CheckboxField);
+export default withStyles(styles)(ColorPicker);

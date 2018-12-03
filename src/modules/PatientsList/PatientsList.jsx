@@ -9,9 +9,11 @@ import {
 import { consume } from "../../context";
 import Main from "../Main";
 import { fetchPatients, getPatients } from "./store";
-import { Paper, Typography, Toolbar, Icon } from "@material-ui/core";
+import { Paper, Typography, Toolbar } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PATIENT } from "../routes";
+import PatientsNavBar from "./PatientsNavBar";
 
 const GenderIcon = ({ gender }) => {
     if (!gender) return null;
@@ -52,6 +54,7 @@ const styles = theme => ({
 class PatientsList extends Component {
     componentDidMount() {
         const { fetchPatients } = this.props;
+        console.log(this.props);
         fetchPatients();
     }
 
@@ -111,7 +114,11 @@ class PatientsList extends Component {
 
         return (
             <React.Fragment>
-                <Main title="Patients" head={<PatientsListTitle />}>
+                <Main
+                    title="Patients"
+                    head={<PatientsListTitle />}
+                    nav={<PatientsNavBar />}
+                >
                     <Paper className={mainPaper} square>
                         {!patients.length && (
                             <TTypography className={notFound}>
@@ -149,7 +156,7 @@ class PatientsList extends Component {
                         color="secondary"
                         to={PATIENT.replace(":id", "0")}
                     >
-                        <Icon>add</Icon>
+                        <AddIcon />
                     </NavButton>
                 </Main>
             </React.Fragment>

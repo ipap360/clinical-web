@@ -36,6 +36,7 @@ const ModalFormContainer = ({
     onClose,
     children,
     title,
+    actions,
     titleProps = {},
     ...props
 }) => (
@@ -43,7 +44,7 @@ const ModalFormContainer = ({
         <Paper square className={classNames(classes.root, className, variant)}>
             <div>
                 <AppBar position="static">
-                    <Toolbar>
+                    <Toolbar style={{ justifyContent: "space-between" }}>
                         <Typography
                             variant="title"
                             color="inherit"
@@ -51,6 +52,7 @@ const ModalFormContainer = ({
                         >
                             {title}
                         </Typography>
+                        <Toolbar disableGutters>{actions}</Toolbar>
                     </Toolbar>
                 </AppBar>
                 <Toolbar className={classes.form}>{children}</Toolbar>

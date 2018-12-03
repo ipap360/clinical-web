@@ -6,6 +6,7 @@ import {
     Form,
     FormRow,
     FormText,
+    FormColorPicker,
     FormSubmitButton,
     FormResetButton,
     FormButtonsContainer,
@@ -37,17 +38,29 @@ const ThresholdForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
                     type="number"
                     name="threshold"
                     label={t("Threshold")}
-                    fullWidth
                     required
                 />
             </FormRow>
             <FormRow>
-                <FormText
-                    type="number"
+                <FormColorPicker
                     name="indicator"
-                    label={t("Indicator")}
-                    fullWidth
+                    label={t("Color")}
                     required
+                    disableAlpha={true}
+                    presetColors={[
+                        "#F44336",
+                        "#E91E63",
+                        "#9C27B0",
+                        "#673AB7",
+                        "#3F51B5",
+                        "#2196F3",
+                        "#FFEB3B",
+                        "#FFC107",
+                        "#FF9800",
+                        "#FF5722",
+                        "#4CAF50",
+                        "#607D8B"
+                    ]}
                 />
             </FormRow>
             <FormButtonsContainer>

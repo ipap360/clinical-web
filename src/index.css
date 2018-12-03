@@ -4,38 +4,6 @@
     background-color: #fff;
 }
 
-.day-indicator {
-    border-radius: 5px;
-}
-
-.day-indicator.warning {
-    background-color: #ffc107;
-}
-
-.border-indicator {
-    border-bottom: 4px solid transparent;
-}
-
-.border-indicator.warning {
-    border-color: #ffc107 !important;
-}
-
-.day-indicator.limited {
-    background-color: #ff5722;
-}
-
-.border-indicator.limited {
-    border-color: #ff5722 !important;
-}
-
-.day-indicator.full {
-    background-color: #f44336;
-}
-
-.border-indicator.full {
-    border-color: #f44336 !important;
-}
-
 .icon-gender {
     /* font-size: 22px; */
     position: relative;

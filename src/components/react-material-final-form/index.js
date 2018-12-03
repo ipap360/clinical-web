@@ -14,6 +14,7 @@ export {
     FormRadioGroup,
     FormSelect,
     FormText,
+    FormColorPicker,
     FormCheckbox
 } from "./input";
 export { FormError, FormDebug } from "./output";

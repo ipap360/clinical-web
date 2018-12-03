@@ -3,14 +3,14 @@ import { FormDate } from "../../components";
 import { consume } from "../../context";
 import moment from "moment";
 import classNames from "classnames";
-import { fetchRoomAvailability, getAvailability } from "../Rooms";
+import { fetchRoomAvailability, getAvailabilityWithIndicators } from "../Rooms";
 
 const getAvailabilityForGender = (availability, gender) => {
     const ga = {};
 
     // eslint-disable-next-line
     Object.keys(availability).map(function(key, index) {
-        ga[key] = gender ? availability[key][gender].toLowerCase() : "";
+        ga[key] = gender ? availability[key][gender] : {};
     });
 
     return ga;
@@ -34,6 +34,8 @@ class DatePickerWithAvailability extends React.Component {
         const {
             availability,
             t,
+            classes,
+            theme,
             gender,
             // here in order to avoid being spread to DatePicker
             fetchRoomAvailability,
@@ -44,6 +46,7 @@ class DatePickerWithAvailability extends React.Component {
 
         return (
             <FormDate
+                disablePast={true}
                 renderDay={(
                     day,
                     selectedDate,
@@ -52,11 +55,32 @@ class DatePickerWithAvailability extends React.Component {
                 ) => {
                     const date = day.format("YYYY-MM-DD");
                     const gi = ga[date];
+                    const style =
+                        gi && gi.color
+                            ? {
+                                  backgroundColor: gi.color,
+                                  "& > *": {
+                                      color: theme.palette.getContrastText(
+                                          gi.color
+                                      )
+                                  }
+                              }
+                            : {};
+
                     return (
                         <div
-                            className={classNames("day-indicator", {
-                                [gi]: !!gi
+                            className={classNames({
+                                [classes.dayIndicator]: gi && gi.color
                             })}
+                            style={{
+                                borderRadius: 5,
+                                ...style
+                            }}
+                            title={
+                                gi && gi.text
+                                    ? gi.text + " (" + gi.number + ")"
+                                    : ""
+                            }
                         >
                             {dayComponent}
                         </div>
@@ -69,10 +93,20 @@ class DatePickerWithAvailability extends React.Component {
 }
 
 const s2p = state => ({
-    availability: getAvailability(state)
+    availability: getAvailabilityWithIndicators(state)
 });
 
 const d2p = { fetchRoomAvailability };
 const store = { s2p, d2p };
 
-export default consume({ store })(DatePickerWithAvailability);
+const styles = theme => ({
+    dayIndicator: {
+        "& > *": {
+            color: "inherit !important"
+        }
+    }
+});
+
+export default consume({ store, theme: true, styles })(
+    DatePickerWithAvailability
+);

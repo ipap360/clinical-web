@@ -49,7 +49,7 @@ export const consume = (params = {}) => Component => {
     }
 
     if (theme) {
-        HOCs.push(withTheme);
+        HOCs.push(withTheme());
     }
 
     if (i18n) {

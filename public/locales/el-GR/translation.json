@@ -59,6 +59,8 @@
     "Threshold": "Κατώφλι",
     "Color": "Χρώμα",
     "Indicator": "Δείκτης",
+    "Are you sure you want to delete this indicator?": "Θέλετε σίγουρα να διαγράψετε αυτόν τον δείκτη;",
+    "Are you sure you want to delete this room?": "Θέλετε σίγουρα να διαγράψετε αυτόν τον θάλαμο;",
     "lowest matched threshold applies": "υπερισχύει η χαμηλότερη τιμή",
     "Capacity": "Χωρητικότητα",
     "There are no rooms registered": "Δεν έχουν καταχωρηθεί θάλαμοι",

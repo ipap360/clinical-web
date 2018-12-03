@@ -109,6 +109,7 @@ class CalendarEventForm extends React.Component {
                         label={t("Night stay")}
                         valueType="integer"
                         disabled={disabled}
+                        required
                     >
                         <FormRadio value="0" label={t("None")} />
                         <FormRadio value="1" label={t("One")} />

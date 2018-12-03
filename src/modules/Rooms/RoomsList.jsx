@@ -5,12 +5,14 @@ import {
     layoutStyles,
     headerBG,
     ModalFormContainer,
-    hoverRowBG
+    hoverRowBG,
+    ButtonWithAlert
 } from "../../components";
 
-import { Paper, Icon, AppBar, Toolbar, Button } from "@material-ui/core";
+import { Paper, AppBar, Toolbar, Button } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
 import { consume } from "../../context";
-import { fetchRooms, getRooms } from "./store";
+import { fetchRooms, getRooms, deleteRoom } from "./store";
 import RoomForm from "./RoomForm";
 import {
     Table,
@@ -44,6 +46,22 @@ const styles = theme => ({
         flex: "none"
     }
 });
+
+const DeleteRoom = ({ t, onClick }) => (
+    <ButtonWithAlert
+        alertTitle={t("Are you sure you want to delete this room?")}
+        // icon="fas fa-trash-alt"
+        // variant="contained"
+        color="inherit"
+        // size="small"
+        variant="outlined"
+        // mini
+        onClick={onClick}
+    >
+        <i className="fas fa-trash-alt" />
+        {/* {t("Delete")} */}
+    </ButtonWithAlert>
+);
 
 class RoomsList extends Component {
     constructor(props) {
@@ -82,8 +100,14 @@ class RoomsList extends Component {
         fetchRooms();
     };
 
+    onDelete = () => {
+        const { fetchRooms } = this.props;
+        this.handleModalClose();
+        fetchRooms();
+    };
+
     render() {
-        const { rooms, t, classes } = this.props;
+        const { rooms, t, classes, deleteRoom } = this.props;
         const {
             rowStyle,
             section,
@@ -109,7 +133,7 @@ class RoomsList extends Component {
                     <TableBody>
                         {!rooms.length && (
                             <TableRow>
-                                <TableCell colspan={2} className={notFound}>
+                                <TableCell colSpan={2} className={notFound}>
                                     {t("There are no rooms registered")}
                                 </TableCell>
                             </TableRow>
@@ -135,6 +159,16 @@ class RoomsList extends Component {
                     open={this.state.modal}
                     onClose={this.handleModalClose}
                     title={t("Room")}
+                    actions={
+                        <DeleteRoom
+                            t={t}
+                            onClick={() => {
+                                deleteRoom(this.state.modalId, {
+                                    onOK: this.onDelete
+                                });
+                            }}
+                        />
+                    }
                 >
                     <RoomForm
                         id={this.state.modalId}
@@ -150,7 +184,7 @@ class RoomsList extends Component {
                     data-id={0}
                     onClick={this.handleRowClick}
                 >
-                    <Icon>add</Icon>
+                    <AddIcon />
                 </Button>
             </Paper>
         );
@@ -162,7 +196,8 @@ const s2p = state => ({
 });
 
 const d2p = {
-    fetchRooms
+    fetchRooms,
+    deleteRoom
 };
 
 const store = { s2p, d2p };

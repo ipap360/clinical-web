@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import classNames from "classnames";
+// import classNames from "classnames";
 // import { CALENDAR_EVENT } from "../routes";
 import { consume } from "../../context";
 import { NavButton } from "../../components";
@@ -58,28 +58,37 @@ const styles = theme => ({
         }
     },
     indicator: {
-        borderRadius: "50%",
-        width: 16,
-        height: 16,
-        backgroundColor: "#4caf50"
+        borderBottom: "4px solid transparent"
     }
 });
 
-const AvailabilityIndicators = ({ className, male, female, m, f }) => (
-    <div className={className}>
-        <div className={classNames("border-indicator", m.toLowerCase())}>
-            <Typography>{male + " x"}</Typography>
-            <i className="fas fa-male" />
+const AvailabilityIndicators = ({ classes, male, female, m, f }) => {
+    const mStyle = m.color ? { borderColor: m.color } : {};
+    const fStyle = f.color ? { borderColor: f.color } : {};
+
+    return (
+        <div className={classes.availability}>
+            <div
+                className={classes.indicator}
+                style={{ ...mStyle }}
+                title={m.text ? m.text + " (" + m.number + ")" : ""}
+            >
+                <Typography>{male}</Typography>
+                <i className="fas fa-male" />
+            </div>
+            <div
+                className={classes.indicator}
+                style={{ ...fStyle }}
+                title={f.text ? f.text + " (" + f.number + ")" : ""}
+            >
+                <Typography>{female}</Typography>
+                <i className="fas fa-female" />
+            </div>
         </div>
-        <div className={classNames("border-indicator", f.toLowerCase())}>
-            <Typography>{female + " x"}</Typography>
-            <i className="fas fa-female" />
-        </div>
-    </div>
-);
+    );
+};
 
 const CalendarDayTitle = ({ classes, newURL, d, availability }) => {
-    // const { m = "", f = "", male, female } = availability;
     return (
         <NavButton className={classes.root} to={newURL}>
             <div className={classes.dayname}>
@@ -87,10 +96,7 @@ const CalendarDayTitle = ({ classes, newURL, d, availability }) => {
             </div>
             <Typography variant="display3">{d.format("D")}</Typography>
             {availability && (
-                <AvailabilityIndicators
-                    className={classes.availability}
-                    {...availability}
-                />
+                <AvailabilityIndicators classes={classes} {...availability} />
             )}
         </NavButton>
     );

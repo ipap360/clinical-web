@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Media from "react-media";
-import { Paper, Icon } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
 import { NavButton } from "../../components";
 
 import Main from "../Main";
@@ -156,7 +157,7 @@ class Home extends Component {
                                     color="secondary"
                                     to={CALENDAR_EVENT.replace(":id", "0")}
                                 >
-                                    <Icon>add</Icon>
+                                    <AddIcon />
                                 </NavButton>
                             </Main>
                         </React.Fragment>

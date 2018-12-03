@@ -9,6 +9,7 @@ import PatientsList from "./PatientsList";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import Login from "./Login";
+import { fetchThresholds } from "./Thresholds";
 
 import {
     ROOT,
@@ -20,6 +21,7 @@ import {
     PATIENTS_LIST
 } from "./routes";
 
+import { consume } from "../context";
 import { sessions, addAuthInterceptor } from "../api";
 
 const SessionContext = React.createContext("session");
@@ -40,14 +42,21 @@ class App extends React.Component {
 
     componentDidMount() {
         sessions.query();
+        const { fetchThresholds } = this.props;
+        fetchThresholds();
     }
 
     render() {
         const { name, language = "en" } = this.state;
         const isSignedIn = name !== null;
+        const { classes } = this.props;
+        const className = "class";
         return (
             <SessionContext.Provider value={this.state}>
-                <Helmet htmlAttributes={{ lang: language }} />
+                <Helmet
+                    htmlAttributes={{ lang: language }}
+                    bodyAttributes={{ [className]: classes.body }}
+                />
                 <Router>
                     {!isSignedIn ? (
                         <Switch>
@@ -76,4 +85,13 @@ class App extends React.Component {
         );
     }
 }
-export default App;
+
+const d2p = { fetchThresholds };
+const store = { d2p };
+const styles = theme => ({
+    body: {
+        fontFamily: theme.typography.fontFamily
+    }
+});
+
+export default consume({ store, styles })(App);

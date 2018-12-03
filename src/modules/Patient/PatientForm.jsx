@@ -49,14 +49,15 @@ const PatientForm = ({
                     name="code"
                     inputProps={{ maxLength: "255" }}
                     label={t("Code")}
-                    fullWidth
                 />
             </FormRow>
             <FormRow>
-                <FormArea name="notes" label={t("Notes")} fullWidth />
-            </FormRow>
-            <FormRow>
-                <FormRadioGroup name="gender" fullWidth label={t("Gender")}>
+                <FormRadioGroup
+                    name="gender"
+                    fullWidth
+                    label={t("Gender")}
+                    required
+                >
                     <FormRadio value="MALE" label={t("Male")} />
                     <FormRadio value="FEMALE" label={t("Female")} />
                     {/* <FormRadio value="UNKNOWN" label={t("Other")} /> */}
@@ -70,8 +71,10 @@ const PatientForm = ({
                         .range2array(1910, new Date().getFullYear())
                         .map(y => ({ value: y, label: y }))}
                     label={t("Year of birth")}
-                    fullWidth
                 />
+            </FormRow>
+            <FormRow>
+                <FormArea name="notes" label={t("Notes")} fullWidth />
             </FormRow>
             <FormButtonsContainer>
                 <FormSubmitButton>
