@@ -41,30 +41,23 @@ const styles = theme => ({
             backgroundColor: hoverRowBG
         }
     },
-    col2: {
-        width: 100,
-        flex: "none"
-    },
+    col2: { width: 130, textAlign: "center" },
     colorPreview: {
         width: 24,
         height: 24,
-        borderRadius: "50%"
+        borderRadius: "50%",
+        display: "inline-block"
     }
 });
 
 const DeleteThreshold = ({ t, onClick }) => (
     <ButtonWithAlert
         alertTitle={t("Are you sure you want to delete this indicator?")}
-        // icon="fas fa-trash-alt"
-        // variant="contained"
         color="inherit"
-        // size="small"
         variant="outlined"
-        // mini
         onClick={onClick}
     >
         <i className="fas fa-trash-alt" />
-        {/* {t("Delete")} */}
     </ButtonWithAlert>
 );
 
@@ -116,6 +109,7 @@ class Thresholds extends Component {
         const {
             rowStyle,
             section,
+            col2,
             sectionHeader,
             sectionBtn,
             colorPreview,
@@ -138,7 +132,7 @@ class Thresholds extends Component {
                     <TableHead>
                         <TableRow>
                             <TableCell>{t("Description")}</TableCell>
-                            <TableCell>{t("Color")}</TableCell>
+                            <TableCell className={col2}>{t("Color")}</TableCell>
                             <TableCell numeric>{t("Threshold")}</TableCell>
                         </TableRow>
                     </TableHead>
@@ -164,7 +158,7 @@ class Thresholds extends Component {
                                     className={rowStyle}
                                 >
                                     <TableCell>{row.description}</TableCell>
-                                    <TableCell>
+                                    <TableCell className={col2}>
                                         <div
                                             className={colorPreview}
                                             style={{

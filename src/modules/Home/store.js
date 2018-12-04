@@ -2,6 +2,7 @@ import { registerReducer } from "redux-dynamic-config";
 import { createAsyncNames, createAsyncAction } from "../../utils";
 import moment from "moment";
 import { calendarEvents, rooms } from "../../api";
+import { getQueryParam, contains } from "../../utils";
 
 const MODULE_NAME = "calendar";
 
@@ -70,8 +71,9 @@ const position = (dates, e) => {
 export const getLength = dates =>
     moment.duration(dates[dates.length - 1].diff(dates[0])).asDays();
 
-export const getCalendarEvents = state => dates => {
+export const getCalendarEvents = (state, ownProps) => dates => {
     const events = state[MODULE_NAME].events;
+    const q = getQueryParam(ownProps.history, "q");
     return events
         .filter(e => {
             const calendarLength = getLength(dates);
@@ -83,6 +85,13 @@ export const getCalendarEvents = state => dates => {
 
             if (isBefore || isAfter) {
                 return false;
+            }
+
+            if (q) {
+                const matchName = contains(e.name, q);
+                const matchCode = contains(e.code, q);
+                const matchNotes = contains(e.patientNotes, q);
+                return matchName || matchCode || matchNotes;
             }
 
             return true;

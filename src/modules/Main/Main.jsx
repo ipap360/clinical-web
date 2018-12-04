@@ -13,6 +13,7 @@ class Main extends React.Component {
             sidebar,
             topbar = true,
             title,
+            search,
             nav,
             head
         } = this.props;
@@ -22,6 +23,7 @@ class Main extends React.Component {
                     title={title}
                     nav={nav}
                     body={head}
+                    search={search}
                     sidebar={!!sidebar}
                 />
                 <div

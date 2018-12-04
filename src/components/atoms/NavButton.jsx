@@ -7,6 +7,6 @@ const BLink = ({ to, replace = false, ...props }) => {
         <Link to={to} replace={window.location.pathname === to} {...props} />
     );
 };
-export default ({ to, ...props }) => (
-    <RichButton component={BLink} to={to} {...props} />
+export default ({ to, Component = RichButton, ...props }) => (
+    <Component component={BLink} to={to} {...props} />
 );

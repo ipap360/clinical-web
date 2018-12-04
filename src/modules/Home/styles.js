@@ -32,6 +32,11 @@ export default theme => ({
         color: "inherit",
         marginLeft: theme.spacing.unit
     },
+    periodTitle: {
+        marginLeft: theme.spacing.unit,
+        flex: "1 auto"
+        // textAlign: "center"
+    },
     printCalendar: {
         textAlign: "center",
         fontFamily: theme.typography.fontFamily,

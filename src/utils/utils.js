@@ -96,6 +96,17 @@ export const toQueryParams = (json = {}) => {
                   .join("&");
 };
 
+export const getQueryParam = (history, name) => {
+    const search = history.location.search;
+    return search ? new URLSearchParams(history.location.search).get(name) : "";
+};
+
+export const unAccentize = str =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+export const contains = (a = "", b = "") =>
+    unAccentize(a.toUpperCase()).includes(unAccentize(b.toUpperCase()));
+
 export const date = {
     midnight: function(d) {
         let da = new Date(d);

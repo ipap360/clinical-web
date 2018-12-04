@@ -81,6 +81,7 @@ class Home extends Component {
             fetchCalendarEvents,
             fetchRoomAvailability
         } = this.props;
+
         const [mode, date] = this.parseLocation(match);
         const dates = getDatePeriod(mode, date);
 
@@ -129,6 +130,7 @@ class Home extends Component {
                                         mode={mode}
                                     />
                                 }
+                                search={true}
                                 head={<CalendarHead dates={dates} />}
                             >
                                 <Paper
@@ -175,10 +177,10 @@ class Home extends Component {
     }
 }
 
-const s2p = state => ({
+const s2p = (state, ownProps) => ({
     error: hasCalendarError(state),
     loading: isCalendarLoading(state),
-    getEvents: getCalendarEvents(state)
+    getEvents: getCalendarEvents(state, ownProps)
 });
 
 const d2p = {

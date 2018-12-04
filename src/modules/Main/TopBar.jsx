@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { AppBar, Toolbar, IconButton } from "@material-ui/core";
-import { AccountCircle, Apps as AppsIcon } from "@material-ui/icons";
+import {
+    AccountCircle,
+    Apps as AppsIcon,
+    Home as HomeIcon
+} from "@material-ui/icons";
 import classNames from "classnames";
 import { ROOT } from "../routes";
 import { SimpleMenu, NavButton, TTypography } from "../../components";
@@ -8,10 +12,11 @@ import { consume } from "../../context";
 import styles from "./styles";
 import appMenu from "./appMenu";
 import userMenu from "./userMenu";
+import TopbarSearch from "./TopbarSearch";
 
 class TopBar extends Component {
     render() {
-        const { t, classes, title, nav, body, sidebar } = this.props;
+        const { t, classes, title, nav, body, search, sidebar } = this.props;
         const {
             topbarCss,
             homeTrigger,
@@ -27,11 +32,14 @@ class TopBar extends Component {
             <AppBar className={topbarCss} position="fixed">
                 <Toolbar disableGutters>
                     <NavButton
+                        Component={IconButton}
                         className={homeTrigger}
-                        icon="fas fa-home"
+                        // icon="fas fa-home"
                         to={ROOT}
                         color="inherit"
-                    />
+                    >
+                        <HomeIcon />
+                    </NavButton>
                     <TTypography
                         className={titleCss}
                         variant="title"
@@ -42,8 +50,10 @@ class TopBar extends Component {
                     <Toolbar className={topbarNav} disableGutters>
                         {nav}
                     </Toolbar>
+                    {search && <TopbarSearch />}
                     <SimpleMenu
                         label={<AppsIcon className={menuTrigger} />}
+                        labelProps={{ color: "inherit" }}
                         className={menuCss}
                         items={appMenu({ t })}
                         Component={IconButton}
@@ -51,6 +61,7 @@ class TopBar extends Component {
                     />
                     <SimpleMenu
                         label={<AccountCircle className={menuTrigger} />}
+                        labelProps={{ color: "inherit" }}
                         className={menuCss}
                         items={userMenu({ t })}
                         Component={IconButton}

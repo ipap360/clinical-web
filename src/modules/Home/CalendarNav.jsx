@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import { TTypography, SimpleMenu, Link, NavButton } from "../../components";
 import styles from "./styles";
 import { consume } from "../../context";
@@ -9,20 +10,34 @@ import { CALENDAR } from "../routes";
 const ISO_FORMAT = "YYYY-MM-DD";
 class CalendarTopBar extends Component {
     render() {
-        const { classes, t, mode, date, title } = this.props;
+        const { classes, t, mode, date, title, history } = this.props;
 
-        const { modeSwitch } = classes;
+        const { modeSwitch, periodTitle } = classes;
+
+        const search = history.location.search;
 
         const modes = [
             {
                 children: t("Week"),
                 component: Link,
-                to: CALENDAR.replace(":mode", "w").replace(":date", date)
+                to: {
+                    pathname: CALENDAR.replace(":mode", "w").replace(
+                        ":date",
+                        date
+                    ),
+                    search
+                }
             },
             {
                 children: t("Day"),
                 component: Link,
-                to: CALENDAR.replace(":mode", "d").replace(":date", date)
+                to: {
+                    pathname: CALENDAR.replace(":mode", "d").replace(
+                        ":date",
+                        date
+                    ),
+                    search
+                }
             }
         ];
 
@@ -32,12 +47,14 @@ class CalendarTopBar extends Component {
                 .subtract(1, mode)
                 .format(ISO_FORMAT)
         );
+
         const next = CALENDAR.replace(":mode", mode).replace(
             ":date",
             moment(date)
                 .add(1, mode)
                 .format(ISO_FORMAT)
         );
+
         const today = CALENDAR.replace(":mode", mode).replace(
             ":date",
             moment().format(ISO_FORMAT)
@@ -45,40 +62,42 @@ class CalendarTopBar extends Component {
 
         return (
             <React.Fragment>
-                <NavButton variant="outlined" color="inherit" to={today}>
-                    <TTypography color="inherit">Today</TTypography>
+                <NavButton
+                    // variant="outlined"
+                    color="inherit"
+                    to={{ pathname: today, search }}
+                >
+                    {t("Today")}
+                    {/* <TTypography color="inherit"></TTypography> */}
                 </NavButton>
                 <NavButton
-                    variant="outlined"
+                    Component={IconButton}
+                    // variant="outlined"
                     // size="small"
                     color="inherit"
-                    to={previous}
+                    to={{ pathname: previous, search }}
                 >
-                    <i
+                    <KeyboardArrowLeft />
+                    {/* <i
                         className="fas fa-chevron-left"
                         style={{ fontSize: 18 }}
-                    />
+                    /> */}
                 </NavButton>
                 <NavButton
+                    Component={IconButton}
                     // size="small"
-                    variant="outlined"
+                    // variant="outlined"
                     color="inherit"
-                    to={next}
+                    to={{ pathname: next, search }}
                 >
-                    <i
+                    <KeyboardArrowRight />
+                    {/* <i
                         className="fas fa-chevron-right"
                         style={{ fontSize: 18 }}
-                    />
+                    /> */}
                 </NavButton>
-                <Typography color="inherit" variant="title">
-                    {title}
-                </Typography>
                 <SimpleMenu
-                    label={
-                        <TTypography color="inherit">
-                            {mode === "d" ? "Day" : "Week"}
-                        </TTypography>
-                    }
+                    label={mode === "d" ? t("Day") : t("Week")}
                     labelProps={{
                         color: "inherit",
                         icon: "fas fa-caret-down",
@@ -87,9 +106,16 @@ class CalendarTopBar extends Component {
                     className={modeSwitch}
                     items={modes}
                 />
+                <Typography
+                    className={periodTitle}
+                    color="inherit"
+                    variant="title"
+                >
+                    {title}
+                </Typography>
             </React.Fragment>
         );
     }
 }
 
-export default consume({ store: false, styles })(CalendarTopBar);
+export default consume({ store: false, styles, router: true })(CalendarTopBar);

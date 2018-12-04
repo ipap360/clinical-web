@@ -4,6 +4,10 @@
     background-color: #fff;
 }
 
+input {
+    font: inherit;
+}
+
 .icon-gender {
     /* font-size: 22px; */
     position: relative;

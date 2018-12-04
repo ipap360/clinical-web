@@ -13,7 +13,7 @@ import { Paper, Typography, Toolbar } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PATIENT } from "../routes";
-import PatientsNavBar from "./PatientsNavBar";
+import { TopbarSearch } from "../Main";
 
 const GenderIcon = ({ gender }) => {
     if (!gender) return null;
@@ -53,10 +53,13 @@ const styles = theme => ({
 
 class PatientsList extends Component {
     componentDidMount() {
-        const { fetchPatients } = this.props;
-        console.log(this.props);
-        fetchPatients();
+        this.fetch();
     }
+
+    fetch = () => {
+        const { fetchPatients } = this.props;
+        fetchPatients();
+    };
 
     componentWillUnmount() {}
 
@@ -113,59 +116,53 @@ class PatientsList extends Component {
         );
 
         return (
-            <React.Fragment>
-                <Main
-                    title="Patients"
-                    head={<PatientsListTitle />}
-                    nav={<PatientsNavBar />}
+            <Main title="Patients" head={<PatientsListTitle />} search={true}>
+                <Paper className={mainPaper} square>
+                    {!patients.length && (
+                        <TTypography className={notFound}>
+                            We didn't find any patients
+                        </TTypography>
+                    )}
+                    {patients.map((patient, i) => {
+                        const { id, name, code, gender, notes } = patient;
+                        const key = "patient-" + id;
+                        return (
+                            <Row
+                                key={key}
+                                data-id={id}
+                                onClick={this.handleRowClick}
+                            >
+                                <Col className={col1}>
+                                    <GenderIcon gender={gender} />
+                                </Col>
+                                <Col className={col2}>
+                                    <Typography>{name}</Typography>
+                                </Col>
+                                <Col className={col3}>
+                                    <Typography>{code}</Typography>
+                                </Col>
+                                <Col className={col4}>
+                                    <Typography>{notes}</Typography>
+                                </Col>
+                            </Row>
+                        );
+                    })}
+                </Paper>
+                <NavButton
+                    variant="fab"
+                    className={addBtn}
+                    color="secondary"
+                    to={PATIENT.replace(":id", "0")}
                 >
-                    <Paper className={mainPaper} square>
-                        {!patients.length && (
-                            <TTypography className={notFound}>
-                                We didn't find any patients
-                            </TTypography>
-                        )}
-                        {patients.map((patient, i) => {
-                            const { id, name, code, gender, notes } = patient;
-                            const key = "patient-" + id;
-                            return (
-                                <Row
-                                    key={key}
-                                    data-id={id}
-                                    onClick={this.handleRowClick}
-                                >
-                                    <Col className={col1}>
-                                        <GenderIcon gender={gender} />
-                                    </Col>
-                                    <Col className={col2}>
-                                        <Typography>{name}</Typography>
-                                    </Col>
-                                    <Col className={col3}>
-                                        <Typography>{code}</Typography>
-                                    </Col>
-                                    <Col className={col4}>
-                                        <Typography>{notes}</Typography>
-                                    </Col>
-                                </Row>
-                            );
-                        })}
-                    </Paper>
-                    <NavButton
-                        variant="fab"
-                        className={addBtn}
-                        color="secondary"
-                        to={PATIENT.replace(":id", "0")}
-                    >
-                        <AddIcon />
-                    </NavButton>
-                </Main>
-            </React.Fragment>
+                    <AddIcon />
+                </NavButton>
+            </Main>
         );
     }
 }
 
-const s2p = state => ({
-    patients: getPatients(state)
+const s2p = (state, ownProps) => ({
+    patients: getPatients(state, ownProps)
 });
 
 const d2p = {

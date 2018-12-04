@@ -30,10 +30,10 @@ export default theme => ({
         zIndex: theme.zIndex.drawer + 1
     },
     homeTrigger: {
-        margin: `0 ${theme.spacing.unit}px`,
-        padding: `0 ${theme.spacing.unit}px`,
-        minWidth: 0,
-        fontSize: 25
+        margin: theme.spacing.unit
+        // padding: `0 ${theme.spacing.unit}px`,
+        // minWidth: 0,
+        // fontSize: 25
     },
     menuTrigger: {
         fontSize: 32
@@ -45,20 +45,20 @@ export default theme => ({
         flex: "1 auto",
         display: "flex",
         alignItems: "center",
-        color: theme.palette.getContrastText(theme.palette.primary.main),
-        "& > a": {
-            padding: theme.spacing.unit
-        },
-        "& > h2": {
-            textAlign: "center",
-            width: 240
-        },
-        "& > button": {
-            fontSize: 36
-        },
-        "& > *": {
-            marginRight: 5
-        }
+        color: theme.palette.getContrastText(theme.palette.primary.main)
+        // "& > a": {
+        //     padding: theme.spacing.unit
+        // },
+        // "& > h2": {
+        //     textAlign: "center",
+        //     flex: "1 auto"
+        // },
+        // "& > button": {
+        //     fontSize: 36
+        // },
+        // "& > *": {
+        //     marginRight: 5
+        // }
     },
     topbar2Css: {
         marginRight: sideMargins,

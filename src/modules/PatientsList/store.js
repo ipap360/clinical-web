@@ -2,6 +2,7 @@ import { registerReducer } from "redux-dynamic-config";
 import { createAsyncNames, createAsyncAction } from "../../utils";
 import keyBy from "lodash/keyBy";
 import { patients } from "../../api";
+import { getQueryParam, contains } from "../../utils";
 
 export const MODULE_NAME = "patients";
 
@@ -27,7 +28,19 @@ const reducer = (state = state0, { type, payload }) => {
 registerReducer(MODULE_NAME, reducer);
 
 // selectors
-export const getPatients = state => state[MODULE_NAME].patients;
+export const getPatients = (state, ownProps) =>
+    state[MODULE_NAME].patients.filter(e => {
+        if (ownProps && ownProps.history) {
+            const q = getQueryParam(ownProps.history, "q");
+            if (q) {
+                const matchName = contains(e.name, q);
+                const matchCode = contains(e.code, q);
+                const matchNotes = contains(e.notes, q);
+                return matchName || matchCode || matchNotes;
+            }
+        }
+        return true;
+    });
 
 export const getPatientsById = state => {
     return keyBy(getPatients(state), "id");
