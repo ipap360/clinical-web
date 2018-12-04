@@ -46,12 +46,17 @@ class SimpleMenu extends React.Component {
                     open={Boolean(anchorEl)}
                     onClose={this.handleClose}
                 >
-                    {items.map((item, i) => {
+                    {items.map(({ onClick, ...item }, i) => {
                         return (
                             <MenuItem
-                                key={i}
+                                key={id + "-" + i}
                                 {...item}
-                                onClick={this.handleClose}
+                                onClick={evt => {
+                                    this.handleClose();
+                                    if (typeof onClick === "function") {
+                                        onClick(evt);
+                                    }
+                                }}
                             />
                         );
                     })}

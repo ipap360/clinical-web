@@ -33,7 +33,7 @@ export default theme => ({
         marginLeft: theme.spacing.unit
     },
     periodTitle: {
-        marginLeft: theme.spacing.unit,
+        margin: `0 ${theme.spacing.unit}px`,
         flex: "1 auto"
         // textAlign: "center"
     },
