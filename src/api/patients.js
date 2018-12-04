@@ -15,3 +15,5 @@ export const save = (id = 0, { ...data }) => {
 };
 
 export const del = id => net.post(API_ENDPOINT + "/" + id + "/delete");
+
+export const events = id => net.get(API_ENDPOINT + "/" + id + "/events");

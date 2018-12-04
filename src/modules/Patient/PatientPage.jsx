@@ -10,6 +10,7 @@ import PatientSideBar from "./PatientSideBar";
 import PatientForm from "./PatientForm";
 
 import PatientTitle from "./PatientTitle";
+import PatientEvents from "./PatientEvents";
 
 import styles from "./styles";
 
@@ -47,6 +48,7 @@ class PatientPage extends React.Component {
                         >
                             <FormStateToRedux form={formName} />
                         </PatientForm>
+                        {!isNew && <PatientEvents patientId={patientId} />}
                     </Paper>
                 </Main>
             </React.Fragment>
