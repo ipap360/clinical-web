@@ -1,7 +1,8 @@
 export const ROOT = "/";
 export const CALENDAR = "/calendar/:mode/:date";
 export const LOGIN = "/login";
-export const RECOVER_PWD_INIT = "/recover/init";
+export const FORGOT_PASSWORD = "/reset/init";
+export const RESET_PASSWORD = "/reset/token/:token";
 export const TERMS = "/terms";
 export const CALENDAR_EVENT = "/calendar-event/:id";
 export const CALENDAR_EVENTS_LIST = "/calendar-events";

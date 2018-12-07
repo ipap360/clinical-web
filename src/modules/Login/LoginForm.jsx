@@ -9,7 +9,7 @@ import {
     FormError,
     FormButtonsContainer
 } from "../../components";
-import { RECOVER_PWD_INIT } from "../routes";
+import { FORGOT_PASSWORD } from "../routes";
 import { sessions } from "../../api";
 import { consume } from "../../context";
 import classNames from "classnames";
@@ -44,7 +44,7 @@ const LoginForm = ({ t, classes, className }) => (
         </FormButtonsContainer>
         <FormError />
         <TTypography variant="caption" align="right">
-            <Anchor to={RECOVER_PWD_INIT}>{t("Forgot your password?")}</Anchor>
+            <Anchor to={FORGOT_PASSWORD}>{t("Forgot your password?")}</Anchor>
         </TTypography>
     </Form>
 );

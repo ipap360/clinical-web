@@ -1,7 +1,6 @@
 import React from "react";
 import { rooms } from "../../api";
 import { consume } from "../../context";
-// import { data } from "../../utils";
 
 import {
     Form,
@@ -9,12 +8,8 @@ import {
     FormText,
     FormSubmitButton,
     FormResetButton,
-    // FormRadioGroup,
     FormButtonsContainer,
-    // FormRadio,
     FormError
-    // FormSelect,
-    // FormArea
 } from "../../components";
 
 const RoomForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
@@ -42,7 +37,6 @@ const RoomForm = ({ t, children, id = 0, className, onSaveSuccess }) => {
                     type="number"
                     name="capacity"
                     label={t("Capacity")}
-                    fullWidth
                     required
                 />
             </FormRow>

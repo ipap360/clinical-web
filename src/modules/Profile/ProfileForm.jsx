@@ -12,12 +12,12 @@ import { profile } from "../../api";
 import { consume } from "../../context";
 import classNames from "classnames";
 import { formStyles as styles } from "../../components";
-import moment from "moment";
+// import moment from "moment";
 
-const timezones = moment.tz.names().map(tz => ({
-    value: tz,
-    label: tz
-}));
+// const timezones = moment.tz.names().map(tz => ({
+//     value: tz,
+//     label: tz
+// }));
 
 const ProfileForm = ({ t, classes, className }) => (
     <Form
@@ -38,7 +38,7 @@ const ProfileForm = ({ t, classes, className }) => (
                 <FormSelect.Option value="el-GR">Ελλάδα</FormSelect.Option>
             </FormSelect>
         </FormRow>
-        <FormRow>
+        {/* <FormRow>
             <FormSelect
                 name="timezone"
                 options={timezones}
@@ -46,7 +46,7 @@ const ProfileForm = ({ t, classes, className }) => (
                 fullWidth
                 required
             />
-        </FormRow>
+        </FormRow> */}
         <FormButtonsContainer>
             <FormSubmitButton>{t("Save")}</FormSubmitButton>
             <FormResetButton>{t("Undo")}</FormResetButton>

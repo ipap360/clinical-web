@@ -9,8 +9,8 @@ import {
     ButtonWithAlert
 } from "../../components";
 
-import { Paper, AppBar, Toolbar, Button } from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
+import { Paper, AppBar, Toolbar, Button, IconButton } from "@material-ui/core";
+import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { fetchRooms, getRooms, deleteRoom } from "./store";
 import RoomForm from "./RoomForm";
@@ -44,22 +44,32 @@ const styles = theme => ({
     col2: {
         width: 100,
         flex: "none"
+    },
+    modalFormWrap: {
+        display: "flex",
+        width: "100%"
+    },
+    modalForm: {
+        flex: "1 auto"
+    },
+    modalSideActions: {
+        justifyContent: "flex-end",
+        flexDirection: "column",
+        flex: "none",
+        display: "flex",
+        margin: `${theme.spacing.unit * 2}px -${theme.spacing.unit *
+            3}px ${theme.spacing.unit * 2}px 0px`
     }
 });
 
 const DeleteRoom = ({ t, onClick }) => (
     <ButtonWithAlert
+        Component={IconButton}
         alertTitle={t("Are you sure you want to delete this room?")}
-        // icon="fas fa-trash-alt"
-        // variant="contained"
-        color="inherit"
-        // size="small"
-        variant="outlined"
-        // mini
+        // color="secondary"
         onClick={onClick}
     >
-        <i className="fas fa-trash-alt" />
-        {/* {t("Delete")} */}
+        <DeleteIcon />
     </ButtonWithAlert>
 );
 
@@ -159,22 +169,26 @@ class RoomsList extends Component {
                     open={this.state.modal}
                     onClose={this.handleModalClose}
                     title={t("Room")}
-                    actions={
-                        <DeleteRoom
-                            t={t}
-                            onClick={() => {
-                                deleteRoom(this.state.modalId, {
-                                    onOK: this.onDelete
-                                });
-                            }}
-                        />
-                    }
                 >
-                    <RoomForm
-                        id={this.state.modalId}
-                        className={classes.modalform}
-                        onSaveSuccess={this.onAddRoom}
-                    />
+                    <div className={classes.modalFormWrap}>
+                        <RoomForm
+                            id={this.state.modalId}
+                            className={classes.modalForm}
+                            onSaveSuccess={this.onAddRoom}
+                        />
+                        {this.state.modalId !== 0 && (
+                            <div className={classes.modalSideActions}>
+                                <DeleteRoom
+                                    t={t}
+                                    onClick={() => {
+                                        deleteRoom(this.state.modalId, {
+                                            onOK: this.onDelete
+                                        });
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </ModalFormContainer>
                 <Button
                     variant="fab"

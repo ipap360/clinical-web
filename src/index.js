@@ -5,6 +5,7 @@ import { render } from "react-dom";
 // import 'typeface-roboto';
 import "./index.css";
 import "moment/locale/el";
+import "moment/locale/en-gb";
 
 import registerServiceWorker from "./registerServiceWorker";
 

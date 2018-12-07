@@ -9,8 +9,8 @@ import {
     ButtonWithAlert
 } from "../../components";
 
-import { Paper, AppBar, Toolbar, Button } from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
+import { Paper, AppBar, Toolbar, Button, IconButton } from "@material-ui/core";
+import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { fetchThresholds, deleteThreshold, getThresholds } from "./store";
 import ThresholdForm from "./ThresholdForm";
@@ -47,17 +47,33 @@ const styles = theme => ({
         height: 24,
         borderRadius: "50%",
         display: "inline-block"
+    },
+    // needs refactoring (remove code duplication)
+    modalFormWrap: {
+        display: "flex",
+        width: "100%"
+    },
+    modalForm: {
+        flex: "1 auto"
+    },
+    modalSideActions: {
+        justifyContent: "flex-end",
+        flexDirection: "column",
+        flex: "none",
+        display: "flex",
+        margin: `${theme.spacing.unit * 2}px -${theme.spacing.unit *
+            3}px ${theme.spacing.unit * 2}px 0px`
     }
 });
 
 const DeleteThreshold = ({ t, onClick }) => (
     <ButtonWithAlert
+        Component={IconButton}
         alertTitle={t("Are you sure you want to delete this indicator?")}
         color="inherit"
-        variant="outlined"
         onClick={onClick}
     >
-        <i className="fas fa-trash-alt" />
+        <DeleteIcon />
     </ButtonWithAlert>
 );
 
@@ -178,22 +194,26 @@ class Thresholds extends Component {
                     open={this.state.modal}
                     onClose={this.handleModalClose}
                     title={t("Indicator")}
-                    actions={
-                        <DeleteThreshold
-                            t={t}
-                            onClick={() => {
-                                deleteThreshold(this.state.modalId, {
-                                    onOK: this.onDelete
-                                });
-                            }}
-                        />
-                    }
                 >
-                    <ThresholdForm
-                        id={this.state.modalId}
-                        className={classes.modalform}
-                        onSaveSuccess={this.onAddThreshold}
-                    />
+                    <div className={classes.modalFormWrap}>
+                        <ThresholdForm
+                            id={this.state.modalId}
+                            className={classes.modalForm}
+                            onSaveSuccess={this.onAddThreshold}
+                        />
+                        {this.state.modalId !== 0 && (
+                            <div className={classes.modalSideActions}>
+                                <DeleteThreshold
+                                    t={t}
+                                    onClick={() => {
+                                        deleteThreshold(this.state.modalId, {
+                                            onOK: this.onDelete
+                                        });
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </ModalFormContainer>
                 <Button
                     variant="fab"
