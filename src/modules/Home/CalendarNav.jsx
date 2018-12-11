@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Typography, IconButton } from "@material-ui/core";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
-import { TTypography, SimpleMenu, Link, NavButton } from "../../components";
+import { SimpleMenu, Link, NavButton } from "../../components";
 import styles from "./styles";
 import { consume } from "../../context";
 import moment from "moment";

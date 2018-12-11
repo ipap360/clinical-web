@@ -9,7 +9,8 @@ const HTTP_STATUS = {
     BAD_REQUEST: 400,
     NOT_AUTHORIZED: 401,
     FORBIDDEN: 403,
-    NOT_FOUND: 404
+    NOT_FOUND: 404,
+    GATEWAY_TIMEOUT: 504
 };
 
 const API_STATUS = -101;
@@ -91,7 +92,7 @@ const isLogout = config => {
 //     return isSessionEndpoint(config) && url.endsWith("/refresh");
 // };
 
-export const addAuthInterceptor = ({ onSessionUpdated }) => {
+export const addAuthInterceptor = ({ onSessionUpdated, onStatusUnknown }) => {
     const __onSessionUpdated = function() {
         const ref = this;
         setTimeout(function() {
@@ -118,12 +119,12 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
             return data;
         },
         function(error) {
+            const { config, response } = error;
             const { reAuth, reLogin, data } = normalizeError(error);
             if (reAuth) {
                 if (RequestsQueue.length === 0) {
                     refresh();
                 }
-                const { config } = error;
                 return new Promise((resolve, reject) => {
                     RequestsQueue.push({
                         config,
@@ -136,6 +137,15 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
                 cookie.clear();
                 __onSessionUpdated.apply(this);
             }
+            if (
+                response === undefined ||
+                response.status === HTTP_STATUS.GATEWAY_TIMEOUT
+            ) {
+                if (typeof onStatusUnknown === "function") {
+                    const retry = { ...config, baseURL: "" };
+                    onStatusUnknown(net.bind(null, retry));
+                }
+            }
             return Promise.reject(data);
         }
     );
@@ -143,8 +153,7 @@ export const addAuthInterceptor = ({ onSessionUpdated }) => {
 
 export const formErrorHandler = data => {
     // eslint-disable-next-line
-    if (data.errors) throw { ...data.errors };
-    throw data.message;
+    throw { ...data };
 };
 
 export const toQueryParams = (json = {}) => {

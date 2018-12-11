@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
-import { Checkbox } from "../atoms";
+import { Checkbox } from "../../atoms";
 import withAdapter from "./adapter";
 
 // const CheckboxAdapter = ({

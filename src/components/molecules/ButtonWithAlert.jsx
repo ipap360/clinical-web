@@ -40,13 +40,14 @@ class ButtonWithAlert extends Component {
                 <RichButton {...other} onClick={this.ask} />
                 <AlertDialog
                     title={alertTitle}
-                    body={alertBody}
-                    bodyProps={alertBodyProps}
+                    contentProps={alertBodyProps}
                     isOpen={this.state.dialog}
                     onCancel={this.close}
                     onOK={this.onOK}
                     {...alertProps}
-                />
+                >
+                    {alertBody}
+                </AlertDialog>
             </React.Fragment>
         );
     }

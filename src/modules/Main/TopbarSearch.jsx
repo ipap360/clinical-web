@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { IconButton, Collapse, Paper } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { Search as SearchIcon, Close as CloseIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { getQueryParam } from "../../utils";

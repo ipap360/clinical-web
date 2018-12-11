@@ -1,5 +1,4 @@
 import net, { formErrorHandler } from "./api";
-import cookie from "./cookie";
 
 const API_ENDPOINT = "/profile";
 

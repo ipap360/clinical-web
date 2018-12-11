@@ -1,5 +1,5 @@
-import React from 'react'
-import { FormControlLabel, Radio } from '@material-ui/core'
+import React from "react";
+import { FormControlLabel, Radio } from "@material-ui/core";
 
 export default ({ value, label, ...props }) => {
     return (
@@ -9,5 +9,5 @@ export default ({ value, label, ...props }) => {
             label={label}
             {...props}
         />
-    )
-}
+    );
+};

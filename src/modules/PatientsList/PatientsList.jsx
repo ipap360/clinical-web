@@ -13,7 +13,6 @@ import { Paper, Typography, Toolbar } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PATIENT } from "../routes";
-import { TopbarSearch } from "../Main";
 
 const GenderIcon = ({ gender }) => {
     if (!gender) return null;

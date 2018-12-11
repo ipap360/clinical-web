@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
-import { DatePicker } from "../atoms";
+import { DatePicker } from "../../atoms";
 import withAdapter from "./adapter";
 
 const DatePickerAdapter = withAdapter(DatePicker);

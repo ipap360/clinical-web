@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
-import { RadioGroup } from "../atoms";
+import { RadioGroup } from "../../atoms";
 import withAdapter from "./adapter";
 
 const RadioGroupAdapter = withAdapter(RadioGroup);

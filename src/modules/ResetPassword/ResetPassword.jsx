@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ResetPasswordForm from "./ResetPasswordForm";
 import loginPhoto from "../../assets/images/login.jpg";
-import { PageImgWrapper, TTypography, Snackbar } from "../../components";
+import { PageImgWrapper, TTypography } from "../../components";
 import { consume } from "../../context";
 import { Paper, AppBar } from "@material-ui/core";
 import { notify } from "../store";

@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { Snackbar } from "../components";
+import { Paper, Modal, Typography } from "@material-ui/core";
+import { Snackbar, AsyncButton } from "../components";
 
 import Home from "./Home";
 import CalendarEvent from "./CalendarEvent";
@@ -37,12 +38,21 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...sessions.init
+            session: sessions.init,
+            retry: false
         };
         const ref = this;
         addAuthInterceptor({
             onSessionUpdated: data => {
-                ref.setState(state => data);
+                ref.setState(state => ({
+                    session: data,
+                    retry: false
+                }));
+            },
+            onStatusUnknown: retry => {
+                ref.setState({
+                    retry: true
+                });
             }
         });
     }
@@ -52,6 +62,12 @@ class App extends React.Component {
         const { fetchThresholds } = this.props;
         fetchThresholds();
     }
+
+    handleModalClose = () => {
+        this.setState({
+            retry: []
+        });
+    };
 
     handleNotificationClose = () => {
         const { stopNotify } = this.props;
@@ -64,9 +80,10 @@ class App extends React.Component {
     };
 
     render() {
-        const { name, language = "en" } = this.state;
+        const { session, retry } = this.state;
+        const { name, language = "en" } = session;
         const isSignedIn = name !== null;
-        const { classes, notification } = this.props;
+        const { t, classes, notification } = this.props;
         const className = "class";
         return (
             <SessionContext.Provider value={this.state}>
@@ -110,6 +127,40 @@ class App extends React.Component {
                     onExited={this.handleNotificationExit}
                     {...notification}
                 />
+                <Modal
+                    aria-labelledby="simple-modal-title"
+                    open={retry}
+                    onClose={this.handleModalClose}
+                    disableBackdropClick={true}
+                    disableEscapeKeyDown={true}
+                >
+                    <Paper
+                        style={{
+                            width: 400,
+                            margin: "200px auto 0",
+                            textAlign: "center",
+                            padding: 16
+                        }}
+                    >
+                        <Typography
+                            color="error"
+                            variant="subtitle"
+                            id="modal-title"
+                        >
+                            {t("There is no connection to the server")}
+                        </Typography>
+                        <br />
+                        <AsyncButton
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => {
+                                window.location.reload();
+                            }}
+                        >
+                            {t("Reload")}
+                        </AsyncButton>
+                    </Paper>
+                </Modal>
             </SessionContext.Provider>
         );
     }

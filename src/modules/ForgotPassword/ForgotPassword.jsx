@@ -59,7 +59,6 @@ class ForgotPassword extends Component {
                 </Paper>
             </PageImgWrapper>
         );
-        return;
     }
 }
 

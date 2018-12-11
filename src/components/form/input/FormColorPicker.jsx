@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "react-final-form";
-import { ColorPicker } from "../atoms";
+import { ColorPicker } from "../../atoms";
 import withAdapter from "./adapter";
 
 const ColorPickerAdapter = withAdapter(ColorPicker);

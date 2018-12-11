@@ -1,11 +1,4 @@
-export {
-    AsyncButton,
-    DatePicker,
-    RadioGroup,
-    Select,
-    Retry,
-    Loader
-} from "./atoms";
+export { default as Form } from "./Form";
 export { FormSubmitButton, FormResetButton } from "./control";
 export {
     FormArea,
@@ -19,4 +12,3 @@ export {
 } from "./input";
 export { FormError, FormDebug } from "./output";
 export { FormButtonsContainer, FormRow } from "./layout";
-export { Form } from "./form";

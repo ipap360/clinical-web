@@ -17,14 +17,7 @@ import DatePickerWithAvailability from "../DatePickerWithAvailability";
 
 class CopyEventForm extends React.Component {
     render() {
-        const {
-            t,
-            save,
-            className,
-            description,
-            gender,
-            onSaveSuccess
-        } = this.props;
+        const { t, save, className, gender, onSaveSuccess } = this.props;
         return (
             <Form
                 save={save}
@@ -40,10 +33,9 @@ class CopyEventForm extends React.Component {
                 </FormRow>
                 <FormRow>
                     <FormArea
-                        name="description"
+                        name="notes"
                         inputProps={{ maxLength: "255" }}
                         label={t("Notes")}
-                        placeholder={description}
                         fullWidth
                     />
                 </FormRow>
