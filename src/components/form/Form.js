@@ -48,7 +48,7 @@ class Form extends React.Component {
             .catch(error => {
                 ref.setState({
                     isLoading: false,
-                    failedToLoad: error,
+                    failedToLoad: error.message,
                     originalValues: {},
                     initialValues: {}
                 });
