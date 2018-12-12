@@ -127,7 +127,7 @@ class App extends React.Component {
                     onExited={this.handleNotificationExit}
                     {...notification}
                 />
-                <Modal
+                {/* <Modal
                     aria-labelledby="simple-modal-title"
                     open={retry}
                     onClose={this.handleModalClose}
@@ -160,7 +160,7 @@ class App extends React.Component {
                             {t("Reload")}
                         </AsyncButton>
                     </Paper>
-                </Modal>
+                </Modal> */}
             </SessionContext.Provider>
         );
     }
