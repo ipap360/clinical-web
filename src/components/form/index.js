@@ -1,9 +1,11 @@
 export { default as Form } from "./Form";
-export { FormSubmitButton, FormResetButton } from "./control";
+export { FormSubmitButton, FormResetButton, FormCondition } from "./control";
 export {
     FormArea,
     FormDate,
     FormRadio,
+    FormSimpleRadio,
+    FormDynamicRadio,
     FormRadioGroup,
     FormSelect,
     FormText,

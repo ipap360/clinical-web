@@ -4,5 +4,7 @@ export { default as FormColorPicker } from "./FormColorPicker";
 export { default as FormDate } from "./FormDate";
 export { default as FormRadio } from "./FormRadio";
 export { default as FormRadioGroup } from "./FormRadioGroup";
+export { default as FormSimpleRadio } from "./FormSimpleRadio";
+export { default as FormDynamicRadio } from "./FormDynamicRadio";
 export { default as FormSelect } from "./FormSelect";
 export { default as FormText } from "./FormText";

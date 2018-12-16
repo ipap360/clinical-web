@@ -1,7 +1,7 @@
 import React from "react";
-import { FormSpy } from "react-final-form";
-import { Field } from "react-final-form";
-
+import { FormSpy, Field } from "react-final-form";
+// import { Field } from "react-final-form";
+import { FormGroup, FormLabel } from "@material-ui/core";
 import {
     Form,
     FormRow,
@@ -10,8 +10,11 @@ import {
     FormRadioGroup,
     FormButtonsContainer,
     FormRadio,
+    FormSimpleRadio,
+    FormDynamicRadio,
     FormError,
     FormSelect,
+    FormDebug,
     FormArea
 } from "../../components";
 
@@ -103,7 +106,52 @@ class CalendarEventForm extends React.Component {
                     }}
                 </FormSpy>
                 <FormRow>
-                    <FormRadioGroup
+                    <FormGroup row>
+                        <FormLabel
+                        // htmlFor={id}
+                        // ref={this.labelRef}
+                        // className={classes.inline}
+                        // {...InputLabelProps}
+                        >
+                            {t("Night stay")}
+                        </FormLabel>
+                        <FormGroup row>
+                            <FormSimpleRadio
+                                name="duration"
+                                value={0}
+                                label={t("None")}
+                            />
+                            <FormSimpleRadio
+                                name="duration"
+                                value={1}
+                                label={t("One")}
+                            />
+                            <FormSimpleRadio
+                                name="duration"
+                                value={2}
+                                label={t("Two")}
+                            />
+                            <FormSimpleRadio
+                                name="duration"
+                                value={3}
+                                label={t("Three")}
+                            />
+                            <FormDynamicRadio
+                                name="duration"
+                                initialValue={4}
+                                otherValues={[0, 1, 2, 3]}
+                                InputProps={{
+                                    inputProps: {
+                                        size: "2",
+                                        step: "1",
+                                        min: "4",
+                                        max: "99"
+                                    }
+                                }}
+                            />
+                        </FormGroup>
+                    </FormGroup>
+                    {/* <FormRadioGroup
                         name="duration"
                         fullWidth
                         label={t("Night stay")}
@@ -115,7 +163,11 @@ class CalendarEventForm extends React.Component {
                         <FormRadio value="1" label={t("One")} />
                         <FormRadio value="2" label={t("Two")} />
                         <FormRadio value="3" label={t("Three")} />
-                    </FormRadioGroup>
+                        <FormRadio
+                            value="4"
+
+                        />
+                    </FormRadioGroup> */}
                 </FormRow>
                 <FormRow>
                     <FormArea
@@ -134,6 +186,7 @@ class CalendarEventForm extends React.Component {
                     </FormResetButton>
                 </FormButtonsContainer>
                 <FormError />
+                <FormDebug />
                 {children}
             </Form>
         );

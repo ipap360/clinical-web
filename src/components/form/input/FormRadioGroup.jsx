@@ -5,6 +5,8 @@ import withAdapter from "./adapter";
 
 const RadioGroupAdapter = withAdapter(RadioGroup);
 
-export default ({ name, ...props }) => (
+const FormRadioGroup = ({ name, ...props }) => (
     <Field name={name} component={RadioGroupAdapter} {...props} />
 );
+
+export default FormRadioGroup;
