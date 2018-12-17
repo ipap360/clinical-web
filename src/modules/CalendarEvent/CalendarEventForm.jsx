@@ -7,6 +7,7 @@ import {
     FormRow,
     FormSubmitButton,
     FormResetButton,
+    FormField,
     FormRadioGroup,
     FormButtonsContainer,
     FormRadio,
@@ -106,51 +107,41 @@ class CalendarEventForm extends React.Component {
                     }}
                 </FormSpy>
                 <FormRow>
-                    <FormGroup row>
-                        <FormLabel
-                        // htmlFor={id}
-                        // ref={this.labelRef}
-                        // className={classes.inline}
-                        // {...InputLabelProps}
-                        >
-                            {t("Night stay")}
-                        </FormLabel>
-                        <FormGroup row>
-                            <FormSimpleRadio
-                                name="duration"
-                                value={0}
-                                label={t("None")}
-                            />
-                            <FormSimpleRadio
-                                name="duration"
-                                value={1}
-                                label={t("One")}
-                            />
-                            <FormSimpleRadio
-                                name="duration"
-                                value={2}
-                                label={t("Two")}
-                            />
-                            <FormSimpleRadio
-                                name="duration"
-                                value={3}
-                                label={t("Three")}
-                            />
-                            <FormDynamicRadio
-                                name="duration"
-                                initialValue={4}
-                                otherValues={[0, 1, 2, 3]}
-                                InputProps={{
-                                    inputProps: {
-                                        size: "2",
-                                        step: "1",
-                                        min: "4",
-                                        max: "99"
-                                    }
-                                }}
-                            />
-                        </FormGroup>
-                    </FormGroup>
+                    <FormField name="duration" label={t("Night stay")}>
+                        <FormSimpleRadio
+                            name="duration"
+                            value={0}
+                            label={t("None")}
+                        />
+                        <FormSimpleRadio
+                            name="duration"
+                            value={1}
+                            label={t("One")}
+                        />
+                        <FormSimpleRadio
+                            name="duration"
+                            value={2}
+                            label={t("Two")}
+                        />
+                        <FormSimpleRadio
+                            name="duration"
+                            value={3}
+                            label={t("Three")}
+                        />
+                        <FormDynamicRadio
+                            name="duration"
+                            initialValue={4}
+                            otherValues={[0, 1, 2, 3]}
+                            InputProps={{
+                                inputProps: {
+                                    size: "2",
+                                    step: "1",
+                                    min: "4",
+                                    max: "99"
+                                }
+                            }}
+                        />
+                    </FormField>
                     {/* <FormRadioGroup
                         name="duration"
                         fullWidth

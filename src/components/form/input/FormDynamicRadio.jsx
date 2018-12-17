@@ -15,11 +15,10 @@ class FormDynamicRadio extends React.Component {
             isNumber: typeof initialValue === "number"
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        // this.parseValue = this.parseValue.bind(this);
+        this.handleInputClick = this.handleInputClick.bind(this);
     }
 
     parseValue(value) {
-        // console.log(value);
         const { isNumber } = this.state;
         const { initialValue, otherValues } = this.props;
         if (isNumber) {
@@ -33,8 +32,7 @@ class FormDynamicRadio extends React.Component {
     }
 
     handleInputChange(evt) {
-        const { isNumber } = this.state;
-        const { name, form, otherValues } = this.props;
+        const { name, form } = this.props;
         this.setState(
             {
                 value: this.parseValue(evt.target.value)
@@ -43,6 +41,14 @@ class FormDynamicRadio extends React.Component {
                 form.change(name, this.state.value);
             }
         );
+    }
+
+    handleInputClick() {
+        const { formValue, form, name } = this.props;
+        const { value } = this.state;
+        if (formValue !== value) {
+            form.change(name, value);
+        }
     }
 
     render() {
@@ -67,6 +73,7 @@ class FormDynamicRadio extends React.Component {
                         disabled={isInputDisabled}
                         value={value}
                         onChange={this.handleInputChange}
+                        onClick={this.handleInputClick}
                     />
                 }
             />
