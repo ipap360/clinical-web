@@ -18,3 +18,5 @@ export {
     password,
     profile
 };
+
+export { default as cookie } from "./cookie";

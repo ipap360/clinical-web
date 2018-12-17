@@ -14,7 +14,6 @@ const REFRESH_TOKEN_COOKIE_NAME = process.env.REACT_APP_COOKIE || "cli3ntRT";
 // default session details based on client's system settings
 const session0 = {
     uuid: "",
-    language: locale2,
     locale: locale2,
     name: null,
     timezone: momentTimezone.tz.guess(),
@@ -34,16 +33,15 @@ const cookie = {
         }
 
         const lang = Cookies.get(LANG_COOKIE_NAME) || locale2;
-        return { ...session0, language: lang, locale: lang };
+        return { ...session0, locale: lang };
     },
     set: obj => {
         const expires = obj.expiresAt ? new Date(obj.expiresAt) : 0;
         Cookies.set(SESSION_COOKIE_NAME, base64.encode(JSON.stringify(obj)), {
             expires
         });
-        const lang = obj.language || locale2;
-        cookie.setLanguage(lang);
-        // Cookies.set(LANG_COOKIE_NAME, lang);
+        const locale = obj.locale || locale2;
+        cookie.setLanguage(locale);
     },
     clear: () => {
         console.trace("Cleared Cookie!");
@@ -52,10 +50,18 @@ const cookie = {
         Cookies.remove(REFRESH_TOKEN_COOKIE_NAME);
     },
     setLanguage: (lang = Cookies.get(LANG_COOKIE_NAME)) => {
+        const c = cookie.get();
+        if (c.locale !== lang) {
+            cookie.set({
+                ...c,
+                locale: lang
+            });
+            return;
+        }
         const language = lang || locale2;
         Cookies.set(LANG_COOKIE_NAME, language);
         const momentLanguage = language.split("-")[0];
-        moment.locale(momentLanguage);
+        moment.locale(language);
         changeLanguage(language);
     }
 };

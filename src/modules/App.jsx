@@ -30,7 +30,13 @@ import {
 
 import { consume } from "../context";
 import { sessions, addAuthInterceptor } from "../api";
-import { getNotification, stopNotify, rmNotify } from "./store";
+import {
+    getNotification,
+    stopNotify,
+    rmNotify,
+    getLocale,
+    setLocale
+} from "./store";
 
 const SessionContext = React.createContext("session");
 
@@ -41,6 +47,7 @@ class App extends React.Component {
             session: sessions.init,
             retry: false
         };
+        const { setLocale } = this.props;
         const ref = this;
         addAuthInterceptor({
             onSessionUpdated: data => {
@@ -48,6 +55,7 @@ class App extends React.Component {
                     session: data,
                     retry: false
                 }));
+                setLocale(data.locale);
             },
             onStatusUnknown: retry => {
                 ref.setState({
@@ -81,14 +89,14 @@ class App extends React.Component {
 
     render() {
         const { session, retry } = this.state;
-        const { name, language = "en" } = session;
+        const { name } = session;
         const isSignedIn = name !== null;
-        const { t, classes, notification } = this.props;
+        const { t, classes, notification, locale } = this.props;
         const className = "class";
         return (
             <SessionContext.Provider value={this.state}>
                 <Helmet
-                    htmlAttributes={{ lang: language }}
+                    htmlAttributes={{ lang: locale }}
                     bodyAttributes={{ [className]: classes.body }}
                 />
                 <Router>
@@ -167,10 +175,11 @@ class App extends React.Component {
 }
 
 const s2p = state => ({
-    notification: getNotification(state)
+    notification: getNotification(state),
+    locale: getLocale(state)
 });
 
-const d2p = { fetchThresholds, stopNotify, rmNotify };
+const d2p = { fetchThresholds, stopNotify, rmNotify, setLocale };
 const store = { s2p, d2p };
 
 const styles = theme => ({

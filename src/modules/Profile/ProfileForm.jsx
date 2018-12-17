@@ -12,6 +12,7 @@ import { profile } from "../../api";
 import { consume } from "../../context";
 import classNames from "classnames";
 import { formStyles as styles } from "../../components";
+import { setLocale } from "../store";
 // import moment from "moment";
 
 // const timezones = moment.tz.names().map(tz => ({
@@ -19,13 +20,16 @@ import { formStyles as styles } from "../../components";
 //     label: tz
 // }));
 
-const ProfileForm = ({ t, classes, className }) => (
+const ProfileForm = ({ t, classes, className, setLocale }) => (
     <Form
         id={1}
         save={(id, values) => profile.save(values)}
         load={profile.view}
         className={classNames(classes.form, className)}
         formProps={{ noValidate: "novalidate" }}
+        onSaveSuccess={(form, response) => {
+            setLocale(response.locale);
+        }}
     >
         <FormRow>
             <FormSelect name="locale" label={t("Locale")} fullWidth required>
@@ -55,4 +59,6 @@ const ProfileForm = ({ t, classes, className }) => (
     </Form>
 );
 
-export default consume({ styles })(ProfileForm);
+const d2p = { setLocale };
+const store = { d2p };
+export default consume({ styles, store })(ProfileForm);
