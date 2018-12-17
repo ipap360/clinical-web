@@ -9,7 +9,7 @@ import {
 import { consume } from "../../context";
 import Main from "../Main";
 import { fetchPatients, getPatients } from "./store";
-import { Paper, Typography, Toolbar } from "@material-ui/core";
+import { Paper, Typography, Toolbar, Fab } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import classNames from "classnames";
 import { PATIENT } from "../routes";
@@ -148,7 +148,7 @@ class PatientsList extends Component {
                     })}
                 </Paper>
                 <NavButton
-                    variant="fab"
+                    Component={Fab}
                     className={addBtn}
                     color="secondary"
                     to={PATIENT.replace(":id", "0")}

@@ -9,7 +9,14 @@ import {
     ButtonWithAlert
 } from "../../components";
 
-import { Paper, AppBar, Toolbar, Button, IconButton } from "@material-ui/core";
+import {
+    Paper,
+    AppBar,
+    Toolbar,
+    Button,
+    IconButton,
+    Fab
+} from "@material-ui/core";
 import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { fetchThresholds, deleteThreshold, getThresholds } from "./store";
@@ -215,16 +222,15 @@ class Thresholds extends Component {
                         )}
                     </div>
                 </ModalFormContainer>
-                <Button
-                    variant="fab"
-                    mini
+                <Fab
+                    size="small"
                     className={sectionBtn}
                     color="secondary"
                     data-id={0}
                     onClick={this.handleRowClick}
                 >
                     <AddIcon />
-                </Button>
+                </Fab>
             </Paper>
         );
     }

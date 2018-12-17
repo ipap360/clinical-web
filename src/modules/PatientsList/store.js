@@ -1,8 +1,12 @@
-import { registerReducer } from "redux-dynamic-config";
-import { createAsyncNames, createAsyncAction } from "../../utils";
+import { registerReducer } from "../../context";
+import {
+    createAsyncNames,
+    createAsyncAction,
+    getQueryParam,
+    contains
+} from "../../utils";
 import keyBy from "lodash/keyBy";
 import { patients } from "../../api";
-import { getQueryParam, contains } from "../../utils";
 
 export const MODULE_NAME = "patients";
 

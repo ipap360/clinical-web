@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { registerReducer } from "redux-dynamic-config";
+import { registerReducer } from "../../context";
 import { createActionName } from "../../utils";
 import FormStateToRedux from "./FormStateToRedux";
 

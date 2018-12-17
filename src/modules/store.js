@@ -1,4 +1,4 @@
-import { registerReducer } from "redux-dynamic-config";
+import { registerReducer } from "../context";
 import { createActionName, createAction } from "../utils";
 import { sessions, cookie } from "../api";
 

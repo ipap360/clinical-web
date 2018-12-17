@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Media from "react-media";
-import { Paper } from "@material-ui/core";
+import { Paper, Fab } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { NavButton } from "../../components";
 
@@ -154,7 +154,7 @@ class Home extends Component {
                                     ))}
                                 </Paper>
                                 <NavButton
-                                    variant="fab"
+                                    Component={Fab}
                                     className={classes.addBtn}
                                     color="secondary"
                                     to={CALENDAR_EVENT.replace(":id", "0")}

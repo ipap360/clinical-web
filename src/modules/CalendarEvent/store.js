@@ -1,4 +1,3 @@
-// import { registerReducer } from "redux-dynamic-config";
 import { calendarEvents } from "../../api";
 import { createAsyncNames, createAsyncAction } from "../../utils";
 import moment from "moment";

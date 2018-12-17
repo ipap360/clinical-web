@@ -81,3 +81,4 @@ export const consume = (params = {}) => Component => {
 };
 
 export { changeLanguage } from "./i18n";
+export { registerReducer } from "./redux";

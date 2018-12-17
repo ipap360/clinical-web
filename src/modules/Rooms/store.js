@@ -1,4 +1,4 @@
-import { registerReducer } from "redux-dynamic-config";
+import { registerReducer } from "../../context";
 import { createAsyncNames, createAsyncAction } from "../../utils";
 import { rooms } from "../../api";
 import { getThresholds } from "../Thresholds";
