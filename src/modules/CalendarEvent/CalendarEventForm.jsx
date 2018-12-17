@@ -142,23 +142,6 @@ class CalendarEventForm extends React.Component {
                             }}
                         />
                     </FormField>
-                    {/* <FormRadioGroup
-                        name="duration"
-                        fullWidth
-                        label={t("Night stay")}
-                        valueType="integer"
-                        disabled={disabled}
-                        required
-                    >
-                        <FormRadio value="0" label={t("None")} />
-                        <FormRadio value="1" label={t("One")} />
-                        <FormRadio value="2" label={t("Two")} />
-                        <FormRadio value="3" label={t("Three")} />
-                        <FormRadio
-                            value="4"
-
-                        />
-                    </FormRadioGroup> */}
                 </FormRow>
                 <FormRow>
                     <FormArea
@@ -177,7 +160,7 @@ class CalendarEventForm extends React.Component {
                     </FormResetButton>
                 </FormButtonsContainer>
                 <FormError />
-                <FormDebug />
+                {/* <FormDebug /> */}
                 {children}
             </Form>
         );
