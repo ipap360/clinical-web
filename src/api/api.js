@@ -2,15 +2,15 @@ import axios from "axios";
 import cookie from "./cookie";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "";
-const URL_PREFIX = "/api/v1";
-const URL = BASE_URL + URL_PREFIX || URL_PREFIX;
+const URL_SUFFIX = process.env.REACT_APP_API_CONTEXT || "/api/v1";
+const URL = BASE_URL + URL_SUFFIX || URL_SUFFIX;
 
 const HTTP_STATUS = {
     BAD_REQUEST: 400,
     NOT_AUTHORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
-    GATEWAY_TIMEOUT: 504
+    GATEWAY_TIMEOUT: 504,
 };
 
 const API_STATUS = -101;
@@ -21,9 +21,9 @@ const net = axios.create({
     headers: {
         common: {
             "Content-Type": "application/json",
-            Accept: "application/json"
-        }
-    }
+            Accept: "application/json",
+        },
+    },
 });
 
 export default net;
@@ -63,14 +63,14 @@ const normalizeError = error => {
             return {
                 ...response,
                 reAuth,
-                reLogin: noAuth && !reAuth
+                reLogin: noAuth && !reAuth,
             };
         }
         return {
             ...response,
             data: { message: statusText },
             ...re,
-            reLogin: noAuth
+            reLogin: noAuth,
         };
     }
     const message = error.message || error;
@@ -129,7 +129,7 @@ export const addAuthInterceptor = ({ onSessionUpdated, onStatusUnknown }) => {
                     RequestsQueue.push({
                         config,
                         resolve,
-                        reject
+                        reject,
                     });
                 });
             }

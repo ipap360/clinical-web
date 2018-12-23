@@ -17,7 +17,7 @@ const session0 = {
     locale: locale2,
     name: null,
     timezone: momentTimezone.tz.guess(),
-    expiresAt: null
+    expiresAt: null,
 };
 
 // cookie session storage
@@ -38,7 +38,7 @@ const cookie = {
     set: obj => {
         const expires = obj.expiresAt ? new Date(obj.expiresAt) : 0;
         Cookies.set(SESSION_COOKIE_NAME, base64.encode(JSON.stringify(obj)), {
-            expires
+            expires,
         });
         const locale = obj.locale || locale2;
         cookie.setLanguage(locale);
@@ -54,7 +54,7 @@ const cookie = {
         if (c.locale !== lang) {
             cookie.set({
                 ...c,
-                locale: lang
+                locale: lang,
             });
             return;
         }
@@ -63,7 +63,7 @@ const cookie = {
         const momentLanguage = language.split("-")[0];
         moment.locale(language);
         changeLanguage(language);
-    }
+    },
 };
 
 cookie.setLanguage();
