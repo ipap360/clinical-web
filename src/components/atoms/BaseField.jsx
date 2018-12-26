@@ -4,19 +4,19 @@ import {
     FormGroup,
     FormLabel,
     FormHelperText,
-    withStyles
+    withStyles,
 } from "@material-ui/core";
 
 const styles = theme => ({
     root: {
-        alignItems: "center"
+        alignItems: "center",
     },
     inline: {
-        marginRight: theme.spacing.unit * 3
+        marginRight: theme.spacing.unit * 3,
     },
     helperText: {
-        marginTop: -8
-    }
+        marginTop: -8,
+    },
 });
 
 class BaseField extends React.Component {
@@ -36,8 +36,6 @@ class BaseField extends React.Component {
             disabled,
             ...other
         } = this.props;
-
-        console.log(this.props);
 
         const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
         const labelId = label && id ? `${id}-label` : undefined;
