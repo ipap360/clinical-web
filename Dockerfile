@@ -17,6 +17,16 @@ RUN npm run build
 
 # production environment
 FROM nginx:1.15
+
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY clinical-web.conf.template /etc/nginx/conf.d/clinical-web.conf.template
+RUN rm /etc/nginx/conf.d/default.conf
+
+ARG DEFAULT_PORT=80
+
+ENV LISTEN_PORT=$DEFAULT_PORT
+
+EXPOSE $DEFAULT_PORT
+
+CMD /bin/sh -c "envsubst '\$API_CONTEXT \$API_URL \$LISTEN_PORT' < /etc/nginx/conf.d/clinical-web.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;' || cat /etc/nginx/nginx.conf"
