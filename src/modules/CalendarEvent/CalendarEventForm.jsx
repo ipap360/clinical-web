@@ -1,22 +1,22 @@
 import React from "react";
 import { FormSpy, Field } from "react-final-form";
 // import { Field } from "react-final-form";
-import { FormGroup, FormLabel } from "@material-ui/core";
+// import { FormGroup, FormLabel } from "@material-ui/core";
 import {
     Form,
     FormRow,
     FormSubmitButton,
     FormResetButton,
     FormField,
-    FormRadioGroup,
+    // FormRadioGroup,
     FormButtonsContainer,
-    FormRadio,
+    // FormRadio,
     FormSimpleRadio,
     FormDynamicRadio,
     FormError,
     FormSelect,
-    FormDebug,
-    FormArea
+    // FormDebug,
+    FormArea,
 } from "../../components";
 
 import { consume } from "../../context";
@@ -137,8 +137,8 @@ class CalendarEventForm extends React.Component {
                                     size: "2",
                                     step: "1",
                                     min: "4",
-                                    max: "99"
-                                }
+                                    max: "99",
+                                },
                             }}
                         />
                     </FormField>
@@ -170,13 +170,13 @@ class CalendarEventForm extends React.Component {
 const s2p = state => ({
     patients: getPatients(state).map(p => ({
         value: p.id,
-        label: [p.name, p.code, p.notes].join(" ")
+        label: [p.name, p.code, p.notes].join(" "),
     })),
-    getGender: id => getGenderInitial(state, id)
+    getGender: id => getGenderInitial(state, id),
 });
 
 const d2p = {
-    fetchPatients
+    fetchPatients,
 };
 
 const store = { s2p, d2p };

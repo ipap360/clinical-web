@@ -4,11 +4,11 @@ import {
     tableStyles,
     layoutStyles,
     headerBG,
-    hoverRowBG
+    hoverRowBG,
 } from "../../components";
 
-import { Paper, AppBar, Toolbar, Button } from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
+import { Paper, AppBar, Toolbar } from "@material-ui/core";
+// import { Add as AddIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { CALENDAR_EVENT } from "../routes";
 import { fetchEvents, getEvents } from "./store";
@@ -20,7 +20,7 @@ import {
     TableHead,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
 } from "@material-ui/core";
 
 const styles = theme => ({
@@ -30,29 +30,29 @@ const styles = theme => ({
         minHeight: 100,
         tableLayout: "fixed",
         borderCollapse: "collapse",
-        borderSpacing: 0
+        borderSpacing: 0,
     },
     header: {
         backgroundColor: headerBG,
-        width: "100%"
+        width: "100%",
     },
     rowStyle: {
         cursor: "pointer",
         "&:hover": {
-            backgroundColor: hoverRowBG
-        }
+            backgroundColor: hoverRowBG,
+        },
     },
     currentRow: {
-        borderLeft: "4px solid " + headerBG
+        borderLeft: "4px solid " + headerBG,
     },
     futureRow: {
-        borderLeft: "4px solid " + theme.palette.primary.main
+        borderLeft: "4px solid " + theme.palette.primary.main,
     },
     colorPreview: {
         width: 24,
         height: 24,
         borderRadius: "50%",
-        display: "inline-block"
+        display: "inline-block",
     },
     legend: {
         height: 32,
@@ -62,9 +62,9 @@ const styles = theme => ({
         justifyContent: "space-between",
         color: theme.palette.text.secondary,
         "& > div": {
-            paddingLeft: 4
-        }
-    }
+            paddingLeft: 4,
+        },
+    },
 });
 
 class PatientEvents extends Component {
@@ -84,11 +84,11 @@ class PatientEvents extends Component {
         const {
             rowStyle,
             section,
-            col2,
+            // col2,
             sectionHeader,
-            sectionBtn,
-            colorPreview,
-            notFound
+            // sectionBtn,
+            // colorPreview,
+            notFound,
         } = classes;
 
         return (
@@ -137,7 +137,7 @@ class PatientEvents extends Component {
                                         [classes.currentRow]:
                                             e.isAfter(today) &&
                                             !s.isAfter(today),
-                                        [classes.futureRow]: s.isAfter(today)
+                                        [classes.futureRow]: s.isAfter(today),
                                     })}
                                 >
                                     <TableCell>{s.format("L")}</TableCell>
@@ -154,11 +154,11 @@ class PatientEvents extends Component {
 }
 
 const s2p = state => ({
-    events: getEvents(state)
+    events: getEvents(state),
 });
 
 const d2p = {
-    fetchEvents
+    fetchEvents,
 };
 
 const store = { s2p, d2p };

@@ -2,8 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { Paper, Modal, Typography } from "@material-ui/core";
-import { Snackbar, AsyncButton } from "../components";
+// import { Paper, Modal, Typography } from "@material-ui/core";
+import {
+    Snackbar,
+    // AsyncButton
+} from "../components";
 
 import Home from "./Home";
 import CalendarEvent from "./CalendarEvent";
@@ -25,7 +28,7 @@ import {
     PROFILE,
     SETTINGS,
     PATIENT,
-    PATIENTS_LIST
+    PATIENTS_LIST,
 } from "./routes";
 
 import { consume } from "../context";
@@ -35,7 +38,7 @@ import {
     stopNotify,
     rmNotify,
     getLocale,
-    setLocale
+    setLocale,
 } from "./store";
 
 const SessionContext = React.createContext("session");
@@ -45,7 +48,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             session: sessions.init,
-            retry: false
+            retry: false,
         };
         const { setLocale } = this.props;
         const ref = this;
@@ -53,15 +56,15 @@ class App extends React.Component {
             onSessionUpdated: data => {
                 ref.setState(state => ({
                     session: data,
-                    retry: false
+                    retry: false,
                 }));
                 setLocale(data.locale);
             },
             onStatusUnknown: retry => {
                 ref.setState({
-                    retry: true
+                    retry: true,
                 });
-            }
+            },
         });
     }
 
@@ -73,7 +76,7 @@ class App extends React.Component {
 
     handleModalClose = () => {
         this.setState({
-            retry: []
+            retry: [],
         });
     };
 
@@ -176,7 +179,7 @@ class App extends React.Component {
 
 const s2p = state => ({
     notification: getNotification(state),
-    locale: getLocale(state)
+    locale: getLocale(state),
 });
 
 const d2p = { fetchThresholds, stopNotify, rmNotify, setLocale };
@@ -184,8 +187,8 @@ const store = { s2p, d2p };
 
 const styles = theme => ({
     body: {
-        fontFamily: theme.typography.fontFamily
-    }
+        fontFamily: theme.typography.fontFamily,
+    },
 });
 
 export default consume({ store, styles })(App);

@@ -3,6 +3,8 @@ import { patients } from "../../api";
 import { consume } from "../../context";
 import { data } from "../../utils";
 
+import { Button } from "@material-ui/core";
+
 import {
     Form,
     FormRow,
@@ -14,7 +16,7 @@ import {
     FormRadio,
     FormError,
     FormSelect,
-    FormArea
+    FormArea,
 } from "../../components";
 
 const PatientForm = ({
@@ -23,7 +25,8 @@ const PatientForm = ({
     id = 0,
     modal = false,
     className,
-    onSaveSuccess
+    onSaveSuccess,
+    onCancel,
 }) => {
     const isNew = id === 0;
     return (
@@ -80,9 +83,13 @@ const PatientForm = ({
                 <FormSubmitButton>
                     {isNew ? t("Insert") : t("Save")}
                 </FormSubmitButton>
-                <FormResetButton>
-                    {isNew ? t("Reset") : t("Undo")}
-                </FormResetButton>
+                {modal ? (
+                    <Button onClick={onCancel}>{t("Cancel")}</Button>
+                ) : (
+                    <FormResetButton>
+                        {isNew ? t("Reset") : t("Undo")}
+                    </FormResetButton>
+                )}
             </FormButtonsContainer>
             <FormError />
             {children}

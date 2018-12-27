@@ -4,10 +4,10 @@ import { consume } from "../../context";
 import {
     ModalFormContainer,
     RichButton,
-    layoutStyles as styles
+    layoutStyles as styles,
 } from "../../components";
 
-import { Divider, Typography } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import SideBar from "../SideBar";
 import ChangePasswordForm from "./ChangePasswordForm";
 
@@ -15,19 +15,19 @@ class ProfileSidebar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pwd: false
+            pwd: false,
         };
     }
 
     open = () => {
         this.setState({
-            pwd: true
+            pwd: true,
         });
     };
 
     close = () => {
         this.setState({
-            pwd: false
+            pwd: false,
         });
     };
 

@@ -21,7 +21,7 @@ class PatientPage extends React.Component {
         const { classes, match } = this.props;
 
         const {
-            params: { id }
+            params: { id },
         } = match;
 
         // eslint-disable-next-line

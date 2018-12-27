@@ -10,37 +10,33 @@ import { ROOT } from "../routes";
 const styles = theme => {
     return {
         container: {
-            margin: "0 auto"
+            margin: "0 auto",
         },
         pad: {
-            padding: theme.spacing.unit * 1
+            padding: theme.spacing.unit * 1,
         },
         form: {
-            width: 350
-        }
+            width: 350,
+        },
     };
 };
 
 class ResetPassword extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onSaveSuccess = (form, response) => {
         const { notify, history } = this.props;
         notify({
             message: response.message,
-            variant: "success"
+            variant: "success",
         });
         history.push(ROOT, {
-            prev: window.location.pathname
+            prev: window.location.pathname,
         });
     };
 
     render() {
         const { classes, match } = this.props;
         const {
-            params: { token }
+            params: { token },
         } = match;
 
         return (

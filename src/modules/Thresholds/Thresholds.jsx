@@ -6,17 +6,10 @@ import {
     headerBG,
     ModalFormContainer,
     hoverRowBG,
-    ButtonWithAlert
+    ButtonWithAlert,
 } from "../../components";
 
-import {
-    Paper,
-    AppBar,
-    Toolbar,
-    Button,
-    IconButton,
-    Fab
-} from "@material-ui/core";
+import { Paper, AppBar, Toolbar, IconButton, Fab } from "@material-ui/core";
 import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import { consume } from "../../context";
 import { fetchThresholds, deleteThreshold, getThresholds } from "./store";
@@ -26,7 +19,7 @@ import {
     TableHead,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
 } from "@material-ui/core";
 
 const styles = theme => ({
@@ -36,32 +29,32 @@ const styles = theme => ({
         minHeight: 100,
         tableLayout: "fixed",
         borderCollapse: "collapse",
-        borderSpacing: 0
+        borderSpacing: 0,
     },
     header: {
         backgroundColor: headerBG,
-        width: "100%"
+        width: "100%",
     },
     rowStyle: {
         cursor: "pointer",
         "&:hover": {
-            backgroundColor: hoverRowBG
-        }
+            backgroundColor: hoverRowBG,
+        },
     },
     col2: { width: 130, textAlign: "center" },
     colorPreview: {
         width: 24,
         height: 24,
         borderRadius: "50%",
-        display: "inline-block"
+        display: "inline-block",
     },
     // needs refactoring (remove code duplication)
     modalFormWrap: {
         display: "flex",
-        width: "100%"
+        width: "100%",
     },
     modalForm: {
-        flex: "1 auto"
+        flex: "1 auto",
     },
     modalSideActions: {
         justifyContent: "flex-end",
@@ -69,8 +62,8 @@ const styles = theme => ({
         flex: "none",
         display: "flex",
         margin: `${theme.spacing.unit * 2}px -${theme.spacing.unit *
-            3}px ${theme.spacing.unit * 2}px 0px`
-    }
+            3}px ${theme.spacing.unit * 2}px 0px`,
+    },
 });
 
 const DeleteThreshold = ({ t, onClick }) => (
@@ -89,7 +82,7 @@ class Thresholds extends Component {
         super(props);
         this.state = {
             modal: false,
-            modalId: null
+            modalId: null,
         };
     }
 
@@ -104,14 +97,14 @@ class Thresholds extends Component {
         const id = evt.currentTarget.dataset["id"];
         this.setState({
             modal: true,
-            modalId: parseInt(id, 10)
+            modalId: parseInt(id, 10),
         });
     };
 
     handleModalClose = () => {
         this.setState({
             modal: false,
-            modalId: null
+            modalId: null,
         });
     };
 
@@ -136,7 +129,7 @@ class Thresholds extends Component {
             sectionHeader,
             sectionBtn,
             colorPreview,
-            notFound
+            notFound,
         } = classes;
 
         return (
@@ -185,7 +178,7 @@ class Thresholds extends Component {
                                         <div
                                             className={colorPreview}
                                             style={{
-                                                ...style
+                                                ...style,
                                             }}
                                         />
                                     </TableCell>
@@ -214,7 +207,7 @@ class Thresholds extends Component {
                                     t={t}
                                     onClick={() => {
                                         deleteThreshold(this.state.modalId, {
-                                            onOK: this.onDelete
+                                            onOK: this.onDelete,
                                         });
                                     }}
                                 />
@@ -237,12 +230,12 @@ class Thresholds extends Component {
 }
 
 const s2p = state => ({
-    thresholds: getThresholds(state)
+    thresholds: getThresholds(state),
 });
 
 const d2p = {
     fetchThresholds,
-    deleteThreshold
+    deleteThreshold,
 };
 
 const store = { s2p, d2p };

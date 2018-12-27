@@ -8,19 +8,19 @@ class NewCalendarEventSidebar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false
+            modal: false,
         };
     }
 
     openModal = () => {
         this.setState({
-            modal: true
+            modal: true,
         });
     };
 
     closeModal = () => {
         this.setState({
-            modal: false
+            modal: false,
         });
     };
 
@@ -51,6 +51,7 @@ class NewCalendarEventSidebar extends React.Component {
                             modal={true}
                             className={classes.modalform}
                             onSaveSuccess={this.onAddPatient}
+                            onCancel={this.closeModal}
                         />
                     </ModalFormContainer>
                 </div>

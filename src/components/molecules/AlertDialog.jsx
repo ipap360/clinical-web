@@ -5,9 +5,9 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle
+    DialogTitle,
 } from "@material-ui/core";
-import { Trans } from "react-i18next";
+// import { Trans } from "react-i18next";
 
 const AlertDialog = ({
     title,
@@ -18,7 +18,7 @@ const AlertDialog = ({
     cancelText = "No",
     isOpen,
     onOK,
-    onCancel
+    onCancel,
 }) => {
     const content = children || body;
     return (

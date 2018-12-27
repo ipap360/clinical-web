@@ -60,7 +60,6 @@ const cookie = {
         }
         const language = lang || locale2;
         Cookies.set(LANG_COOKIE_NAME, language);
-        const momentLanguage = language.split("-")[0];
         moment.locale(language);
         changeLanguage(language);
     },
