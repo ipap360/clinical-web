@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Media from "react-media";
-import { Paper, Fab } from "@material-ui/core";
+import { Paper, Fab, CircularProgress } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
 import { NavButton } from "../../components";
 
@@ -20,7 +20,7 @@ import {
     hasCalendarError,
     isCalendarLoading,
     fetchCalendarEvents,
-    getCalendarEvents
+    getCalendarEvents,
 } from "./store";
 
 import { fetchRoomAvailability } from "../Rooms";
@@ -60,7 +60,7 @@ const ISO_FORMAT = "YYYY-MM-DD";
 class Home extends Component {
     parseLocation = match => {
         const {
-            params: { mode = "w", date }
+            params: { mode = "w", date },
         } = match;
 
         let m = moment(date);
@@ -79,7 +79,7 @@ class Home extends Component {
         const {
             match,
             fetchCalendarEvents,
-            fetchRoomAvailability
+            fetchRoomAvailability,
         } = this.props;
 
         const [mode, date] = this.parseLocation(match);
@@ -87,7 +87,7 @@ class Home extends Component {
 
         fetchCalendarEvents({
             from: dates[0].format(ISO_FORMAT),
-            to: dates[dates.length - 1].format(ISO_FORMAT)
+            to: dates[dates.length - 1].format(ISO_FORMAT),
         });
 
         fetchRoomAvailability({
@@ -96,7 +96,7 @@ class Home extends Component {
                 .format(ISO_FORMAT),
             to: moment()
                 .add(2, "M")
-                .format(ISO_FORMAT)
+                .format(ISO_FORMAT),
         });
     }
 
@@ -109,7 +109,7 @@ class Home extends Component {
     }
 
     render() {
-        const { classes, getEvents, history, match } = this.props;
+        const { classes, getEvents, history, loading, match } = this.props;
 
         const [mode, date] = this.parseLocation(match);
         const dates = getDatePeriod(mode, date);
@@ -140,18 +140,25 @@ class Home extends Component {
                                         classes.calendar,
                                         {
                                             [classes.calendarWeek]:
-                                                mode === "w",
-                                            [classes.calendarDay]: mode === "d"
+                                                mode === "w" && !loading,
+                                            [classes.calendarDay]:
+                                                mode === "d" || loading,
                                         }
                                     )}
                                 >
-                                    {events.map((e, i) => (
-                                        <CalendarEventBar
-                                            key={i}
-                                            data={e}
-                                            history={history}
+                                    {loading ? (
+                                        <CircularProgress
+                                            style={{ margin: "10px auto" }}
                                         />
-                                    ))}
+                                    ) : (
+                                        events.map((e, i) => (
+                                            <CalendarEventBar
+                                                key={i}
+                                                data={e}
+                                                history={history}
+                                            />
+                                        ))
+                                    )}
                                 </Paper>
                                 <NavButton
                                     Component={Fab}
@@ -180,12 +187,12 @@ class Home extends Component {
 const s2p = (state, ownProps) => ({
     error: hasCalendarError(state),
     loading: isCalendarLoading(state),
-    getEvents: getCalendarEvents(state, ownProps)
+    getEvents: getCalendarEvents(state, ownProps),
 });
 
 const d2p = {
     fetchCalendarEvents,
-    fetchRoomAvailability
+    fetchRoomAvailability,
 };
 
 const store = { s2p, d2p };

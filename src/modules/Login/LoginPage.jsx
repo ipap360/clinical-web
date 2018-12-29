@@ -4,14 +4,14 @@ import LoginForm from "./LoginForm";
 import styles from "./styles";
 // import { SIGNUP } from '../paths';
 
-import { TTypography, PageImgWrapper } from "../../components";
+import { TTypography, PageWrapper } from "../../components";
 import { Paper, AppBar, withStyles } from "@material-ui/core";
 
 class Login extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <PageImgWrapper src={loginPhoto}>
+            <PageWrapper className={classes.wrapper}>
                 <Paper square={true} className={classes.container}>
                     <AppBar position="static" elevation={0}>
                         <TTypography
@@ -31,7 +31,7 @@ class Login extends React.Component {
                             </Typography>
                         </Pad>                     */}
                 </Paper>
-            </PageImgWrapper>
+            </PageWrapper>
         );
     }
 }

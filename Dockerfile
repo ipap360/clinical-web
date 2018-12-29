@@ -17,9 +17,11 @@ RUN npm run build
 # production environment
 FROM nginx:1.15
 
-COPY --from=builder /usr/src/app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY clinical-web.conf.template /etc/nginx/conf.d/clinical-web.conf.template
+# RUN mkdir /etc/nginx/html
+COPY --from=builder /usr/src/app/build /etc/nginx/html
+# COPY server/nginx.conf /etc/nginx/nginx.conf
+COPY server/clinical-web.conf.template /etc/nginx/conf.d/clinical-web.conf.template
+COPY server/basic.conf /etc/nginx/conf.d/default
 RUN rm /etc/nginx/conf.d/default.conf
 
 ARG DEFAULT_PORT=80

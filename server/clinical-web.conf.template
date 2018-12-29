@@ -4,6 +4,8 @@ server {
     #charset koi8-r;
     #access_log  /var/log/nginx/host.access.log  main;
 
+    include /etc/nginx/conf.d/default;
+
 	location ${API_CONTEXT} {
 		proxy_pass ${API_URL};	
 	}	
