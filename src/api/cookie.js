@@ -1,5 +1,4 @@
 import moment from "moment";
-import momentTimezone from "moment-timezone";
 import locale2 from "locale2";
 import Cookies from "js-cookie";
 import { base64 } from "../utils";
@@ -16,7 +15,7 @@ const session0 = {
     uuid: "",
     locale: locale2,
     name: null,
-    timezone: momentTimezone.tz.guess(),
+    timezone: "Europe/London",
     expiresAt: null,
 };
 
