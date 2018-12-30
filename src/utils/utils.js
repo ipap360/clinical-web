@@ -1,6 +1,4 @@
 export { isObject, snakeCase, isFunction } from "lodash/core";
-// export { default as groupBy } from "lodash/groupBy";
-export { keyBy } from "lodash";
 
 const getPrevious = history => {
     return (
@@ -51,7 +49,7 @@ export const base64 = {
                 return String.fromCharCode("0x" + p1);
             })
         );
-    }
+    },
 };
 
 export const log = {
@@ -64,7 +62,7 @@ export const log = {
         if (typeof console.warn === "function") {
             console.warn(...args);
         }
-    }
+    },
 };
 
 export const fromQueryParams = a => {
@@ -115,23 +113,23 @@ export const date = {
         da.setUTCSeconds(0);
         da.setUTCMilliseconds(0);
         return da;
-    }
+    },
 };
 
 export const data = {
     genders: [
         {
             value: "MALE",
-            label: "Male"
+            label: "Male",
         },
         {
             value: "FEMALE",
-            label: "Female"
+            label: "Female",
         },
         {
             value: "UNKNOWN",
-            label: "Unknown"
-        }
+            label: "Unknown",
+        },
     ],
     range2array: (start, end, step = 1) => {
         let arr = [];
@@ -139,7 +137,7 @@ export const data = {
             arr.push(i);
         }
         return arr;
-    }
+    },
 };
 
 export const uuid = a =>
