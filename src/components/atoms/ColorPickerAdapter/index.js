@@ -1,12 +1,12 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
-import { SketchPicker } from "react-color";
+import SketchPicker from "react-color/lib/components/sketch/Sketch";
 
 const styles = theme => ({
     color: {
         width: "36px",
         height: "14px",
-        borderRadius: "2px"
+        borderRadius: "2px",
     },
     swatch: {
         padding: "5px",
@@ -14,24 +14,24 @@ const styles = theme => ({
         borderRadius: "1px",
         boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
         display: "inline-block",
-        cursor: "pointer"
+        cursor: "pointer",
     },
     popover: {
         position: "fixed",
-        zIndex: "2"
+        zIndex: "2",
     },
     cover: {
         position: "fixed",
         top: "0px",
         right: "0px",
         bottom: "0px",
-        left: "0px"
-    }
+        left: "0px",
+    },
 });
 
 class ColorPickerAdapter extends React.Component {
     state = {
-        displayColorPicker: false
+        displayColorPicker: false,
     };
 
     handleClick = () => {
