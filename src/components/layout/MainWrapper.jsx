@@ -1,18 +1,18 @@
-// import React from "react";
-import styled from "styled-components";
-import { withTheme } from "@material-ui/core";
+import React from "react";
+import { withStyles } from "@material-ui/core";
+import classNames from "classnames";
 
- const W = styled.div`
-    position: relative;
-    padding-top: 128px;
-    flex: 1 auto;
-    width: 100%;
-    ${props => {console.log(props); return "";}}
-`;
+const styles = theme => ({
+    root: {
+        position: "relative",
+        paddingTop: "128px",
+        flex: "1 auto",
+        width: "100%",
+    },
+});
 
-export default withTheme()(W);
+const MainWrapper = ({ classes, className, ...props }) => (
+    <div className={classNames(classes.root, className)} {...props} />
+);
 
-// min-height: calc(100vh);
-// display: flex;
-// justify-content: center;
-// align-items: center;
+export default withStyles(styles)(MainWrapper);
