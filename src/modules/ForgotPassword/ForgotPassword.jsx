@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ForgotPasswordForm from "./ForgotPasswordForm";
-import loginPhoto from "../../assets/images/login.jpg";
-import { PageImgWrapper, TTypography } from "../../components";
+// import loginPhoto from "../../assets/images/login.jpg";
+import { PageWrapper, TTypography } from "../../components";
 import { consume } from "../../context";
 import EmailSent from "../EmailSent";
 import { Paper, AppBar } from "@material-ui/core";
@@ -9,14 +9,14 @@ import { Paper, AppBar } from "@material-ui/core";
 const styles = theme => {
     return {
         container: {
-            margin: "0 auto"
+            margin: "0 auto",
         },
         pad: {
-            padding: theme.spacing.unit * 1
+            padding: theme.spacing.unit * 1,
         },
         form: {
-            width: 350
-        }
+            width: 350,
+        },
     };
 };
 
@@ -28,7 +28,7 @@ class ForgotPassword extends Component {
 
     onSaveSuccess = (form, response) => {
         this.setState({
-            msg: response.message
+            msg: response.message,
         });
     };
 
@@ -40,7 +40,7 @@ class ForgotPassword extends Component {
         }
 
         return (
-            <PageImgWrapper src={loginPhoto}>
+            <PageWrapper>
                 <Paper square={true} className={classes.container}>
                     <AppBar position="static" elevation={0}>
                         <TTypography
@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
                         className={classes.form}
                     />
                 </Paper>
-            </PageImgWrapper>
+            </PageWrapper>
         );
     }
 }

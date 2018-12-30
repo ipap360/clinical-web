@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ResetPasswordForm from "./ResetPasswordForm";
-import loginPhoto from "../../assets/images/login.jpg";
-import { PageImgWrapper, TTypography } from "../../components";
+// import loginPhoto from "../../assets/images/login.jpg";
+import { PageWrapper, TTypography } from "../../components";
 import { consume } from "../../context";
 import { Paper, AppBar } from "@material-ui/core";
 import { notify } from "../store";
@@ -40,7 +40,7 @@ class ResetPassword extends Component {
         } = match;
 
         return (
-            <PageImgWrapper src={loginPhoto}>
+            <PageWrapper>
                 <Paper square={true} className={classes.container}>
                     <AppBar position="static" elevation={0}>
                         <TTypography
@@ -58,7 +58,7 @@ class ResetPassword extends Component {
                         token={token}
                     />
                 </Paper>
-            </PageImgWrapper>
+            </PageWrapper>
         );
     }
 }
