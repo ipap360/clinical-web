@@ -107,7 +107,7 @@ class CalendarEventForm extends React.Component {
                     }}
                 </FormSpy>
                 <FormRow>
-                    <FormField name="duration" label={t("Night stay")}>
+                    <FormField name="duration" label={t("Overnight stays")}>
                         <FormSimpleRadio
                             name="duration"
                             value={0}
